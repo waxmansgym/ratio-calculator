@@ -1,3 +1,5 @@
+
+
 function nameToId(name) { return name.split(' ').join('_').toLowerCase(); }
 
 function add(a, b) { return a + b; }
@@ -6,6 +8,11 @@ window.onload = function() {
 
     // ######################################################################
     var exercises = [
+        { name: 'Snatch',                 based_on: null,             ratio: null, section: 'Snatch' },
+        { name: 'Overhead Squat',         based_on: 'Snatch',         ratio: 1.05, section: 'Snatch' },
+        { name: 'Power Snatch',           based_on: 'Snatch',         ratio: 0.80, section: 'Snatch' },
+        { name: 'Snatch Blocks Abv Knee', based_on: 'Snatch',         ratio: 0.95, section: 'Snatch' },
+        { name: 'Hang Snatch Below Knee', based_on: 'Snatch',         ratio: 0.95, section: 'Snatch' },
         { name: 'Clean and Jerk',         based_on: null,             ratio: null, section: 'Clean and Jerk' },
         { name: 'Clean',                  based_on: 'Clean and Jerk', ratio: 1.02, section: 'Clean and Jerk' },
         { name: 'Back Squat',             based_on: 'Clean and Jerk', ratio: 1.34, section: 'Clean and Jerk' },
@@ -14,129 +21,132 @@ window.onload = function() {
         { name: 'Seated Press',           based_on: 'Clean and Jerk', ratio: 0.55, section: 'Clean and Jerk' },
         { name: 'Power Clean',            based_on: 'Clean',          ratio: 0.80, section: 'Clean and Jerk' },
         { name: 'Clean Blocks Abv Knee',  based_on: 'Clean',          ratio: 0.95, section: 'Clean and Jerk' },
-        { name: 'Hang Clean Below Knee',  based_on: 'Clean',          ratio: 0.95, section: 'Clean and Jerk' },
-        { name: 'Snatch',                 based_on: null,             ratio: null, section: 'Snatch' },
-        { name: 'Overhead Squat',         based_on: 'Snatch',         ratio: 1.05, section: 'Snatch' },
-        { name: 'Power Snatch',           based_on: 'Snatch',         ratio: 0.80, section: 'Snatch' },
-        { name: 'Snatch Blocks Abv Knee', based_on: 'Snatch',         ratio: 0.95, section: 'Snatch' },
-        { name: 'Hang Snatch Below Knee', based_on: 'Snatch',         ratio: 0.95, section: 'Snatch' }
+        { name: 'Hang Clean Below Knee',  based_on: 'Clean',          ratio: 0.95, section: 'Clean and Jerk' }
     ];
 
     // ######################################################################
     // Messages for diagnoses
     var diagnoses = {
         'Clean': {
-            'too_low': 'Diagnosis: Clean TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Clean TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: This seems like a statistical impossibility. If you can clean & jerk it, you can clean it. Check your numbers and try again?',
+            'too_high': 'Diagnosis: You seem to have an issue with your jerk. If your squat ratios are in the right range, you may have jerk technique issues. If your squat ratios are below ideal range, you may have a strength and/or energy production problem.'
         },
         'Back Squat': {
-            'too_low': 'Diagnosis: Back Squat TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Back Squat TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You may be hampered by weak legs. If it doesnt already plaugue your lifts, you may be operating at a high level of stress.',
+            'too_high': 'Diagnosis: You appear to have adequate strength levels to clean & jerk more. You are likely being held back by your technique.'
         },
         'Front Squat': {
-            'too_low': 'Diagnosis: Front Squat TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Front Squat TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You may be hampered by weak legs. If it doesnt already plaugue your lifts, you may be operating at a high level of stress.',
+            'too_high': 'Diagnosis: You appear to have adequate strength levels to clean & jerk more. You are likely being held back by your technique.'
         },
         'Jerk': {
-            'too_low': 'Diagnosis: Jerk TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Jerk TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: If your squat ratios are in the right range, you may have jerk technique issues. If your squat ratios are below ideal range, you may have a strength and/or energy production problem.',
+            'too_high': 'Diagnosis: Assuming your strength levels are adequate, this tells us you may have issues with your efficiency (technique and/or power production) in the clean.'
         },
         'Seated Press': {
-            'too_low': 'Diagnosis: Seated Press TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Seated Press TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: This most likely would not cause a performance issue in the competition lifts, but you may be operating at a high level of stress',
+            'too_high': 'Diagnosis: We cant discern much from a monster seated press. But congratulations!' 
         },
         'Power Clean': {
-            'too_low': 'Diagnosis: Power Clean TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Power Clean TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: This tells us you may suffer from either weak legs or poor explosion/transition speed.',
+            'too_high': 'Diagnosis: If your front squat is within acceptable range, you likely have technical inefficiencies in your clean & jerk. If your front squat is too low, you may be lacking strength, mobility, or both.'
         },
         'Clean Blocks Abv Knee': {
-            'too_low': 'Diagnosis: Clean Blocks Abv Knee TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Clean Blocks Abv Knee TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You likely have difficulty with vertical explosion. ',
+            'too_high': 'Diagnosis: You likely have issues when you break the bar off the floor.'
         },
         'Hang Clean Below Knee': {
-            'too_low': 'Diagnosis: Hang Clean Below Knee TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Hang Clean Below Knee TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You may have poor back strength or coordination problems.',
+            'too_high': 'Diagnosis: You likely have issues when you break the bar off the floor.'
         },
         'Overhead Squat': {
-            'too_low': 'Diagnosis: Overhead Squat TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Overhead Squat TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: This tells us you have a problem with overhead stability.',
+            'too_high': 'Diagnosis: Even if you can overhead squat a large house, it doesnt tell us much.'
         },
         'Power Snatch': {
-            'too_low': 'Diagnosis: Power Snatch TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Power Snatch TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: This tells us you may suffer from either weak legs or poor explosion/transition speed.',
+            'too_high': 'Diagnosis: This tells us you may be lacking sufficient mobility or coordination.'
         },
         'Snatch Blocks Abv Knee': {
-            'too_low': 'Diagnosis: Snatch Blocks Abv Knee TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Snatch Blocks Abv Knee TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You likely have difficulty with vertical explosion.',
+            'too_high': 'Diagnosis: You likely have issues when you break the bar off the floor.'
         },
         'Hang Snatch Below Knee': {
-            'too_low': 'Diagnosis: Hang Snatch Below Knee TOO LOW MESSAGE',
-            'too_high': 'Diagnosis: Hang Snatch Below Knee TOO HIGH MESSAGE'
+            'too_low': 'Diagnosis: You may have poor back strength or coordination problems.',
+            'too_high': 'Diagnosis: You likely have issues when you break the bar off the floor.'
         }
     };
 
     // ######################################################################
     var prescriptions = {
         'Clean': {
-            'too_low': 'Prescription: Clean TOO LOW MESSAGE',
-            'too_high': 'Prescription: Clean TOO HIGH MESSAGE'
+            'too_low': 'Prescription: GFY',
+            'too_high': 'Prescription: Check to make sure your squat ratios are in the right range. If not, you may get near-term benefit by getting stronger. If squats are in the right range, you should analyze your jerk technique and spend time trying to improve it.'
         },
         'Back Squat': {
-            'too_low': 'Prescription: Back Squat TOO LOW MESSAGE',
-            'too_high': 'Prescription: Back Squat TOO HIGH MESSAGE'
+            'too_low': 'Prescription: We recommend you focus on getting your legs stronger.',
+            'too_high': 'Prescription: We recommend you focus on improving your efficiency and technique in the clean & jerk.'
         },
         'Front Squat': {
-            'too_low': 'Prescription: Front Squat TOO LOW MESSAGE',
-            'too_high': 'Prescription: Front Squat TOO HIGH MESSAGE'
+            'too_low': 'Prescription: We recommend you focus on getting your legs stronger.',
+            'too_high': 'Prescription: We recommend you focus on improving your efficiency and technique in the clean & jerk.'
         },
         'Jerk': {
-            'too_low': 'Prescription: Jerk TOO LOW MESSAGE',
-            'too_high': 'Prescription: Jerk TOO HIGH MESSAGE'
+            'too_low': 'Prescription: If your squat ratios are in the right range, we recommend you focus on improving your technique in the jerk. If your squats are below range, you need to get your legs stronger.',
+            'too_high': 'Prescription: Assuming your squat ratios are within adequate range, we recommend you focus on improving your efficiency and technique in the clean.'
         },
         'Seated Press': {
-            'too_low': 'Prescription: Seated Press TOO LOW MESSAGE',
-            'too_high': 'Prescription: Seated Press TOO HIGH MESSAGE'
+            'too_low': 'Prescription: Getting stronger, especially overhead, will likley help you improve your lifts.',
+            'too_high': 'Prescription: Keep doing what youre doing Press Master!'
         },
         'Power Clean': {
-            'too_low': 'Prescription: Power Clean TOO LOW MESSAGE',
-            'too_high': 'Prescription: Power Clean TOO HIGH MESSAGE'
+            'too_low': 'Prescription: Train to improve your explosion/transition speed.',
+            'too_high': 'Prescription: If your front squat is within acceptable range, focus on improving your mobility in the clean & jerk. If your front squat is too low, spend some time getting your legs stronger.'
         },
         'Clean Blocks Abv Knee': {
-            'too_low': 'Prescription: Clean Blocks Abv Knee TOO LOW MESSAGE',
-            'too_high': 'Prescription: Clean Blocks Abv Knee TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should spend more time [improving your explosion]...',
+            'too_high': 'Prescription: You should spend more time practicing clean pulls from the floor and/or from a deficit.'
         },
         'Hang Clean Below Knee': {
-            'too_low': 'Prescription: Hang Clean Below Knee TOO LOW MESSAGE',
-            'too_high': 'Prescription: Hang Clean Below Knee TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should get your back stronger, or find a coach to help you isolate and fix likely coordination problems.',
+            'too_high': 'Prescription: You should spend more time practicing clean pulls from the floor and/or from a deficit.'
         },
         'Overhead Squat': {
-            'too_low': 'Prescription: Overhead Squat TOO LOW MESSAGE',
-            'too_high': 'Prescription: Overhead Squat TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should work on overhead strength and stability.',
+            'too_high': 'Prescription: Congratulations Mr./Mrs. Overhead Squat. We have no prescription for you.'
         },
         'Power Snatch': {
-            'too_low': 'Prescription: Power Snatch TOO LOW MESSAGE',
-            'too_high': 'Prescription: Power Snatch TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should think about getting your legs stronger...or improving your explosion and speed changing directions/getting under the bar.',
+            'too_high': 'Prescription: You either need to improve your mobility or find a coach to help you isolate and fix likely coordination problems.'
         },
         'Snatch Blocks Abv Knee': {
-            'too_low': 'Prescription: Snatch Blocks Abv Knee TOO LOW MESSAGE',
-            'too_high': 'Prescription: Snatch Blocks Abv Knee TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should spend more time [improving your explosion]...',
+            'too_high': 'Prescription: You should spend more time practicing clean pulls from the floor and/or from a deficit.'
         },
         'Hang Snatch Below Knee': {
-            'too_low': 'Prescription: Hang Snatch Below Knee TOO LOW MESSAGE',
-            'too_high': 'Prescription: Hang Snatch Below Knee TOO HIGH MESSAGE'
+            'too_low': 'Prescription: You should get your back stronger, or find a coach to help you isolate and fix likely coordination problems.',
+            'too_high': 'Prescription: You should spend more time practicing clean pulls from the floor and/or from a deficit.'
         }
-    }
+    };
+    // Generate header???
+    
+ 
+
+
+
+
 
     // Generate the panels for each section
+
     var sections = _.chain(exercises).pluck('section').unique().value();
     _.each(sections, function(section) {
         var sectionId = nameToId(section);
         $('#sections').append(`<div class="col-md-${12 / sections.length}">
-                                  <div class="panel panel-default">
-                                      <div class="panel-heading">${section}</div>
+                                  <div class="panel panel-default" style="background-color:red;">
+                                      <div class="panel-heading" style="background-color:black; color:white; font-size:150%; text-align:center;">${section}</div>
                                       <div class="panel-body">
                                           <form class="form-horizontal" id="form_${sectionId}"></form>
-                                          <button class="btn btn-default" id="calculate_${sectionId}">Calculate</button>
+                                          <div style="text-align:center"><button alignment="center" class="btn btn-default" id="calculate_${sectionId}">Analyze</button></DIV>
                                           <div id="recommendations_${sectionId}"></div>
                                       </div>
                                   </div>
@@ -311,4 +321,3 @@ window.onload = function() {
         }
     }
 };
-
