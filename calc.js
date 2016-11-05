@@ -275,7 +275,7 @@ window.onload = function() {
         var sectionExercises = _.filter(exercises, function(e) { return e.section == section; });
 
         // Clear out all of the 'calc_' sections
-        _.each(sectionExercises, function(e) { $('calc_' + nameToId(e.name)).html(''); });
+        _.each(sectionExercises, function(e) { $('#calc_' + nameToId(e.name)).html(''); });
 
         // Calculate all of the stats from the section exercises
         var calculations = calculateStats(sectionExercises);
