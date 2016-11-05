@@ -145,7 +145,7 @@ window.onload = function() {
                                   <div class="panel panel-default" style="background-color:white;">
                                       <div class="panel-heading" style="background-color:black; color:black; font-size:150%; text-align:center;">${section}</div>
                                       <div class="panel-body">
-                                          <form class="form-horizontal" id="form_${sectionId}"></form>
+                                          <div id="form_${sectionId}"></div>
                                           <div style="text-align:center"><button alignment="center" class="btn btn-default" id="calculate_${sectionId}">Analyze</button></DIV>
                                           <div id="recommendations_${sectionId}"></div>
                                       </div>
@@ -154,20 +154,43 @@ window.onload = function() {
         $('#calculate_' + nameToId(section)).click(_.partial(calculate, section));
     });
 
+
+    console.log('Lets do this');
+
+    // Create the form field header row
+    _.each(sections, function(section) {
+        var sectionId = nameToId(section);
+        $('#form_' + sectionId).append(`
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2"><small>Your %</small></div>
+                <div class="col-md-2"><small>Ideal %</small></div>
+            </div>
+        `);
+    });
+
+
     // Create a form field for each exercise
     for(i = 0; i < exercises.length; ++i) {
         var e = exercises[i];
         var id = nameToId(e.name);
         $('#form_' + nameToId(e.section)).append(`
-                          <div class="form-group" id="formgroup_${id}">
-                              <label for="${id}" class="col-sm-3 control-label">${e.name}</label>
-                              <div class="col-sm-9" class="form-control">
-                                  <input type="number" id="${id}">
-                                  <span id="calc_${id}"></span>
-                                  <span id="help_${id}" class="help-block"></span>
-                              </div>
-                          </div>
-                          `)
+                    <div class="row">
+                        <div class="col-md-5">
+                           <strong>${e.name}</strong>
+                        </div>
+                        <div class="col-md-3">
+                           <input type="number" id="${id}" class="form-control" >
+                        </div>
+                        <div class="col-md-2">
+                          <span id="calc_${id}_percent"></span>
+                        </div>
+                        <div class="col-md-2">
+                          <span id="calc_${id}_ideal"></span>
+                        </div>
+                    </div>
+        `)
     }
 
     // Engine to calculate all of the predicted stats from the 'exercises' rules
@@ -272,7 +295,8 @@ window.onload = function() {
         var sectionExercises = _.filter(exercises, function(e) { return e.section == section; });
 
         // Clear out all of the 'calc_' sections
-        _.each(sectionExercises, function(e) { $('#calc_' + nameToId(e.name)).html(''); });
+        _.each(sectionExercises, function(e) { $('#calc_' + nameToId(e.name) + '_percent').html(''); });
+        _.each(sectionExercises, function(e) { $('#calc_' + nameToId(e.name) + '_ideal').html(''); });
 
         // Calculate all of the stats from the section exercises
         var calculations = calculateStats(sectionExercises);
@@ -296,10 +320,13 @@ window.onload = function() {
                 else if(deviation > 3 && deviation < 5) label = 'label-warning';
                 else if(deviation > 5) label = 'label-danger';
 
-                var percentDisplay = e.deltaPercent < 0 ? e.deltaPercent.toFixed(2) : '+' + e.deltaPercent.toFixed(2);
+                // var percentDisplay = e.deltaPercent < 0 ? e.deltaPercent.toFixed(2) : '+' + e.deltaPercent.toFixed(2);
+                var exercise = _.find(exercises, function(ex) { return ex.name == e.name; });
+                var percent = (e.actual / calculations[exercise.based_on].actual * 100).toFixed(2);
+                var percentIdeal = (exercise.ratio * 100).toFixed();
 
-
-                $('#calc_' + nameToId(e.name)).html(`<span class="label ${label}">${percentDisplay}%</span>`);
+                $('#calc_' + nameToId(e.name) + '_percent').html(`<span class="label ${label}">${percent}%</span>`);
+                $('#calc_' + nameToId(e.name) + '_ideal').html(`<span class="label label-default">${percentIdeal}%</span>`);
             });
 
             var diagnosis = diagnoses[worst.name][worst.delta > 0 ? 'too_high' : 'too_low'];
