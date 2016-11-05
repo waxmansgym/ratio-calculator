@@ -142,8 +142,8 @@ window.onload = function() {
     _.each(sections, function(section) {
         var sectionId = nameToId(section);
         $('#sections').append(`<div class="col-md-${12 / sections.length}">
-                                  <div class="panel panel-default" style="background-color:red;">
-                                      <div class="panel-heading" style="background-color:black; color:white; font-size:150%; text-align:center;">${section}</div>
+                                  <div class="panel panel-default" style="background-color:white;">
+                                      <div class="panel-heading" style="background-color:black; color:black; font-size:150%; text-align:center;">${section}</div>
                                       <div class="panel-body">
                                           <form class="form-horizontal" id="form_${sectionId}"></form>
                                           <div style="text-align:center"><button alignment="center" class="btn btn-default" id="calculate_${sectionId}">Analyze</button></DIV>
