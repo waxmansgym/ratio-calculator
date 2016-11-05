@@ -233,13 +233,22 @@ window.onload = function() {
                         calculations[e.name].predictedStdDev = stddev;
                     }
 
-                    // Show the percent off the predicted
+                    // Calculate the percent off the predicted
                     if(value != '') {
-                        calculations[e.name].actual = value;
 
-                        var ideal_diff = (value / mean_prediction - 1.0) * 100;
+                        // var ideal_diff = (value / mean_prediction - 1.0) * 100;
+                        var ideal_diff = (1.0 - mean_prediction / value) * 100;
+
+                        console.log(e.name, 'value', value, 'mean_prediction', mean_prediction, 'ideal_diff', ideal_diff)
+
+                        calculations[e.name].actual = value;
                         calculations[e.name].delta = value - mean_prediction;
                         calculations[e.name].deltaPercent = ideal_diff;
+                    }
+                    else {
+                        calculations[e.name].actual = null;
+                        calculations[e.name].delta = null;
+                        calculations[e.name].deltaPercent = null;
                     }
                 }
         });
