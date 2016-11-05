@@ -315,7 +315,7 @@ window.onload = function() {
                       <br/><br/>
 
                       The ideal is to have your <b>${worst.name}</b> at ${(exercise.ratio * 100).toFixed(2)}% of your ${section}, however 
-                      your <b>${worst.name}</b> is ${(100 + worst.deltaPercent).toFixed(2)}% of your ${section}. That's a ${worst.deltaPercent.toFixed(2)}% differential.
+                      your <b>${worst.name}</b> is ${((exercise.ratio * 100) + worst.deltaPercent).toFixed(2)}% of your ${section}. That's a ${worst.deltaPercent.toFixed(2)}% differential.
 
                       <br/> <br/>
 
