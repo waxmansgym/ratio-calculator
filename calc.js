@@ -236,8 +236,7 @@ window.onload = function() {
                     // Calculate the percent off the predicted
                     if(value != '') {
 
-                        // var ideal_diff = (value / mean_prediction - 1.0) * 100;
-                        var ideal_diff = (1.0 - mean_prediction / value) * 100;
+                        var ideal_diff = (value / mean_prediction - 1.0) * 100;
 
                         calculations[e.name].actual = value;
                         calculations[e.name].delta = value - mean_prediction;
@@ -306,6 +305,10 @@ window.onload = function() {
             var diagnosis = diagnoses[worst.name][worst.delta > 0 ? 'too_high' : 'too_low'];
             var prescription = prescriptions[worst.name][worst.delta > 0 ? 'too_high' : 'too_low'];
 
+            // var percentOfBasis = ((exercise.ratio * 100) + worst.deltaPercent);
+
+            var percentOfBasis = worst.actual / calculations[exercise.based_on].actual * 100;
+
             $('#recommendations_' + nameToId(section))
                 .html(`<br/><br/>
                       Based on your inputs the ratio with the greatest difference is <b>${worst.name}</b>.
@@ -313,7 +316,7 @@ window.onload = function() {
                       <br/><br/>
 
                       The ideal is to have your <b>${worst.name}</b> at ${(exercise.ratio * 100).toFixed(2)}% of your ${section}, however 
-                      your <b>${worst.name}</b> is ${((exercise.ratio * 100) + worst.deltaPercent).toFixed(2)}% of your ${section}. That's a ${worst.deltaPercent.toFixed(2)}% differential.
+                      your <b>${worst.name}</b> is ${percentOfBasis.toFixed(2)}% of your ${section}. That's a ${worst.deltaPercent.toFixed(2)}% differential.
 
                       <br/> <br/>
 
