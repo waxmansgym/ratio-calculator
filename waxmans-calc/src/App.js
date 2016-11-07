@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 import './App.css';
+var _ = require('lodash');
 
 class BigLift extends Component {
     constructor(props) {
@@ -37,13 +38,25 @@ class Accessory extends Component {
     }
 
     render() {
+        // let actualRatioLabel = <span className="label label-default">{this.props.actualRatio.toFixed(2)}%</span>;
+        // let expectedRatioLabel = <span className="label label-default">{this.props.expectedRatio.toFixed(2)}%</span>;
+
+        let actualRatioLabel = <span className="label label-default">%</span>;
+        let expectedRatioLabel = <span className="label label-default">%</span>;
         return (
             <div className="row">
                 <div className="col-md-6">
                     <strong className="pull-right">{this.props.name}</strong>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                     <input type="number" className="form-control" value={this.state.value} onChange={this.handleChange}/>
+                </div>
+                <div className="col-md-1">
+                {actualRatioLabel}
+                </div>
+                <div className="col-md-1">
+                {expectedRatioLabel}
+                    
                 </div>
             </div>
         );
@@ -59,6 +72,18 @@ class App extends Component {
         this.handleAccessoryChange = this.handleAccessoryChange.bind(this);
         this.handleSnatchChange = this.handleSnatchChange.bind(this);
         this.handleCNJChange = this.handleCNJChange.bind(this);
+
+        this.accessories = {
+            snatch: [
+                {name: 'Overhead Press', ratio: 105},
+                {name: 'Power Snatch', ratio: 80},
+                {name: 'Snatch Blocks Abv Knee', ratio: 95},
+            ],
+            cnj: [
+                { name: "Clean", ratio: 120 },
+                { name: "Back Squat", ratio: 134}
+            ]
+        };
     }
 
     handleSubmit(event) {
@@ -75,6 +100,9 @@ class App extends Component {
     handleCNJChange(event) { this.setState({cnj: event.value}); }
 
     render() {
+
+        let snatchAccessories = this.accessories.snatch.map( (item) => <Accessory key={item.name} name={item.name} onChange={this.handleAccessoryChange} expectedRatio={item.ratio} /> );
+        let cnjAccessories = this.accessories.cnj.map( (item) => <Accessory key={item.name} name={item.name} onChange={this.handleAccessoryChange} expectedRatio={item.ratio} /> );
 
         return (
             <div className="App">
@@ -94,15 +122,8 @@ class App extends Component {
 
                    <Panel header="Accessories">
                       <div className="row">
-                          <div className="col-md-6">
-                              <Accessory name="Overhead Squat"         based_on={this.state.snatch} ratio="105" onChange={this.handleAccessoryChange}/>
-                              <Accessory name="Power Snatch"           based_on={this.state.snatch} ratio="80"  onChange={this.handleAccessoryChange}/>
-                              <Accessory name="Snatch Blocks Abv Knee" based_on={this.state.snatch} ratio="95"  onChange={this.handleAccessoryChange}/>
-                          </div>
-                          <div className="col-md-6">
-                              <Accessory name="Clean"         based_on={this.state.cnj} ratio="120" onChange={this.handleAccessoryChange}/>
-                              <Accessory name="Back Squat"    based_on={this.state.cnj} ratio="134" onChange={this.handleAccessoryChange}/>
-                          </div>
+                          <div className="col-md-6"> {snatchAccessories} </div>
+                          <div className="col-md-6"> {cnjAccessories} </div>
                       </div>
                    </Panel>
 
