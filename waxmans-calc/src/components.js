@@ -69,32 +69,43 @@ class AccessoryRatioDisplay extends Component {
     }
 
     render() {
-        let actualRatioLabel = <span></span>;
-        let expectedRatioLabel = <span></span>;
-        if(isNumber(this.props.actualRatio)) {
-            let delta = Math.abs(this.props.actualRatio - this.props.expectedRatio);
-            let dangerZone = 15;
-            let percent = 100 - Math.min(Math.abs(delta / dangerZone * 100), 100);
-            let color = percentColor(percent);
+        // let actualRatioLabel = <span></span>;
+        // let expectedRatioLabel = <span></span>;
+        // if(isNumber(this.props.actualRatio)) {
+        //     let delta = Math.abs(this.props.actualRatio - this.props.expectedRatio);
+        //     let dangerZone = 15;
+        //     let percent = 100 - Math.min(Math.abs(delta / dangerZone * 100), 100);
+        //     let color = percentColor(percent);
 
-            actualRatioLabel = <span className="label label-default" style={{'backgroundColor': color}}>{this.props.actualRatio.toFixed(0)}%</span>;
-            expectedRatioLabel = <span className="label label-default">{this.props.expectedRatio.toFixed(0)}%</span>;
-        }
+        //     actualRatioLabel = <span className="label label-default" style={{'backgroundColor': color}}>{this.props.actualRatio.toFixed(0)}%</span>;
+        //     expectedRatioLabel = <span className="label label-default">{this.props.expectedRatio.toFixed(0)}%</span>;
+        // }
+        //
 
+                    //<rect x={5} y="25%" width="100%" height={3} color="blue"/>
         return (
-            <span>
-                <div className="col-md-2">
-                    <center>
-                        {actualRatioLabel}
-                    </center>
-                </div>
-                <div className="col-md-2">
-                    <center>
-                        {expectedRatioLabel}
-                    </center>
-                </div>
-            </span>
+            <div className="col-md-4">
+                <svg width="100%" height={40}>
+                <line x1="0%" x2="100%" y1="50%" y2="50%" stroke-width="2" stroke="black"/>
+                <line x1="0%" x2="100%" y1="0%" y2="100%" stroke-width="2" stroke="black"/>
+                </svg>
+            </div>
         );
+
+        // return (
+        //     <span>
+        //         <div className="col-md-2">
+        //             <center>
+        //                 {actualRatioLabel}
+        //             </center>
+        //         </div>
+        //         <div className="col-md-2">
+        //             <center>
+        //                 {expectedRatioLabel}
+        //             </center>
+        //         </div>
+        //     </span>
+        // );
     }
 }
 
