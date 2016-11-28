@@ -1,6 +1,7 @@
 
-import {BaseLift, Accessory, AccessoryRatioDisplay} from './CalcComponents.js';
-import {isNumber} from './Helpers.js';
+import {BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay} from './components.js';
+import {isNumber} from './helpers.js';
+import {accessories} from './data.js';
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
@@ -15,22 +16,10 @@ class App extends Component {
         this.handleAccessoryChange = this.handleAccessoryChange.bind(this);
         this.handleBaseChange = this.handleBaseChange.bind(this);
 
-        this.accessories = {
-            snatch: [
-                {name: 'Overhead Press', ratio: 105},
-                {name: 'Power Snatch', ratio: 80},
-                {name: 'Snatch Blocks Abv Knee', ratio: 95},
-            ],
-            cnj: [
-                { name: "Clean", ratio: 120 },
-                { name: "Back Squat", ratio: 134}
-            ]
-        };
-
         this.accessoryMap = {};
         let accessoryState = { snatch: {}, cnj: {} };
-        _.forEach(_.keys(this.accessories), (base) => {
-            _.forEach(_.map(this.accessories[base], 'name'), (accessory) => {
+        _.forEach(_.keys(accessories), (base) => {
+            _.forEach(_.keys(accessories[base]), (accessory) => {
 
                 // Create a map from accessory name -> base name
                 this.accessoryMap[accessory] = base;
@@ -42,20 +31,53 @@ class App extends Component {
             })
         });
 
-        this.state = { bases: {snatch: null, cnj: null}, accessories: accessoryState}
+        this.state = {
+            bases: {snatch: null, cnj: null},
+            accessories: accessoryState,
+            results: {
+                calculated: false,
+                base: {snatch: null, cnj: null},
+                accessories: {
+                    snatch: null,
+                    cnj: null
+                }
+            }
+        }
     }
 
     handleSubmit(event) {
-
         let accessoriesState = this.state.accessories;
+
+        let results = {
+            calculated: true,
+            base: {
+                snatch: this.state.bases['snatch'],
+                cnj: this.state.bases['cnj']
+            },
+            accessories: {
+                snatch: {},
+                cnj: {}
+            }
+            
+        }
+
+        // Loop over each base
         _.forEach(_.keys(accessoriesState), (base) => {
             let baseValue = this.state.bases[base];
+
+            // Loop over each accessory
             _.forEach(_.keys(accessoriesState[base]), (accessory) => {
+
                 let accessoryValue = accessoriesState[base][accessory]['value'];
-                console.log('BASS', base, baseValue, isNumber(baseValue));
                 if(isNumber(baseValue) && isNumber(accessoryValue)) {
                     // Calculate the percentage of this lift vs the expected
                     accessoriesState[base][accessory]['percent'] = (accessoryValue / baseValue) * 100.0;
+
+                    console.log(base, accessory, accessories[base][accessory], accessories[base])
+                    results.accessories[base][accessory] = {
+                        ratio: accessories[base][accessory]['ratio'],
+                        value: accessoryValue
+                    };
                 }
                 else {
                     accessoriesState[base][accessory]['percent'] = null;
@@ -63,9 +85,10 @@ class App extends Component {
             });
         });
 
-        this.setState({accessories: accessoriesState});
-
-        console.log('Clicked', this.state);
+        this.setState({
+            accessories: accessoriesState,
+            results: results
+        });
     }
 
     handleAccessoryChange(event) {
@@ -83,68 +106,84 @@ class App extends Component {
 
     render() {
 
-        let snatchAccessories = this.accessories.snatch.map(
-            (item) => (
-                <span key={"span_" + item.name}>
-                    <Accessory key={item.name} name={item.name} onChange={this.handleAccessoryChange}/>
-                    <AccessoryRatioDisplay key={'ratio_' + item.name} expectedRatio={item.ratio} actualRatio={this.state.accessories.snatch[item.name].percent}/>
-                </span>
-            ));
+        // Create the snatch accessory inputs / displays
+        let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
+            <div className="row" key={"row_" + accessory}>
+                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
+            </div>));
 
-        let cnjAccessories = this.accessories.cnj.map(
-            (item) => (
-                <span key={"span_" + item.name}>
-                    <Accessory key={item.name} name={item.name} onChange={this.handleAccessoryChange}/>
-                    <AccessoryRatioDisplay key={'ratio_' + item.name} expectedRatio={item.ratio} actualRatio={this.state.accessories.cnj[item.name].percent}/>
-                </span>
-            ));
+        // Create the cnj accessory inputs / displays
+        let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
+            <div className="row" key={"row_" + accessory}>
+                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
+            </div>));
 
         return (
             <div className="App">
 
-              <div className="container">
+                <div className="container">
 
-                  <Panel header="Base Lifts">
-                      <div className="row">
+                    <div className="row"><div className="col-md-12">
+                        <h3>1. Start here. Enter your best snatch and/or clean & jerk:</h3>
+                        <Panel header="Base Lifts">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <BaseLiftInput name="Snatch" shortname="snatch" onChange={this.handleBaseChange}/>
+                                </div>
+                                <div className="col-md-6">
+                                    <BaseLiftInput name="Clean & Jerk" shortname="cnj" onChange={this.handleBaseChange}/>
+                                </div>
+                            </div>
+                        </Panel>
+                    </div></div>
+
+                    <div className="row">
+                        <h3>2. Next, enter your known bests for any/all of the following:</h3>
                         <div className="col-md-6">
-                            <BaseLift name="Snatch" shortname="snatch" onChange={this.handleBaseChange}/>
+                            <Panel header="Snatch Exercises">
+                                <div className="row">
+                                    <div className="col-sm-8"></div>
+                                    <div className="col-sm-2"><center><small>Actual</small></center></div>
+                                    <div className="col-sm-2"><center><small>Expected</small></center></div>
+                                </div>
+                                {snatchAccessories}
+                            </Panel>
                         </div>
+
                         <div className="col-md-6">
-                            <BaseLift name="Clean & Jerk" shortname="cnj" onChange={this.handleBaseChange}/>
+                            <Panel header="C&J Exercises">
+                                <div className="row">
+                                    <div className="col-sm-8"></div>
+                                    <div className="col-sm-2"><center><small>Actual</small></center></div>
+                                    <div className="col-sm-2"><center><small>Expected</small></center></div>
+                                </div>
+                                {cnjAccessories}
+                            </Panel>
                         </div>
-                      </div>
-                  </Panel>
+                    </div>
 
-                   <Panel header="Accessories">
-                      <div className="row">
-                          <div className="col-md-6">
-                              <div className="row">
-                                  <div className="col-md-8"></div>
-                                  <div className="col-md-2"><small>Actual %</small></div>
-                                  <div className="col-md-2"><small>Expected %</small></div>
-                              </div>
-                          </div>
+                    <div className="row">
+                         <div className="col-md-12">
+                             <h3>3. Click the button to perform analysis:</h3>
+                             <button type="button" className="btn btn-primary btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
+                         </div>
+                    </div>
 
-                          <div className="col-md-6">
-                              <div className="row">
-                                  <div className="col-md-8"></div>
-                                  <div className="col-md-2"><small>Actual %</small></div>
-                                  <div className="col-md-2"><small>Expected %</small></div>
-                              </div>
-                          </div>
-                      </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <BaseResults results={this.state.results.base} show={this.state.results.calculated}/>
+                        </div>
+                    </div>
 
-                      <div className="row">
-                          <div className="col-md-6"> {snatchAccessories} </div>
-                          <div className="col-md-6"> {cnjAccessories} </div>
-                      </div>
-                   </Panel>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <AccessoryResults base={this.state.results.base.snatch} accessories={this.state.results.accessories.snatch} show={this.state.results.calculated}/>
+                        </div>
+                    </div>
 
-                   <center>
-                       <button type="button" className="btn btn-primary btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
-                   </center>
-
-              </div>
+                </div>
           </div>
       );
     }
