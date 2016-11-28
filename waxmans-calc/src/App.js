@@ -144,22 +144,12 @@ class App extends Component {
                         <h3>2. Next, enter your known bests for any/all of the following:</h3>
                         <div className="col-md-6">
                             <Panel header="Snatch Exercises">
-                                <div className="row">
-                                    <div className="col-sm-8"></div>
-                                    <div className="col-sm-2"><center><small>Actual</small></center></div>
-                                    <div className="col-sm-2"><center><small>Expected</small></center></div>
-                                </div>
                                 {snatchAccessories}
                             </Panel>
                         </div>
 
                         <div className="col-md-6">
                             <Panel header="C&J Exercises">
-                                <div className="row">
-                                    <div className="col-sm-8"></div>
-                                    <div className="col-sm-2"><center><small>Actual</small></center></div>
-                                    <div className="col-sm-2"><center><small>Expected</small></center></div>
-                                </div>
                                 {cnjAccessories}
                             </Panel>
                         </div>

@@ -53,12 +53,12 @@ class AccessoryLiftInput extends Component {
     }
 }
 
-function percentColor(percent, start = 0, end = 120) {
+function percentColor(percent, alpha=1, start = 0, end = 120) {
     let a = percent / 100;
     let b = end * a;
     let c = b + start;
 
-    return 'hsl('+c+',70%,40%)';
+    return 'hsla('+c+',70%,40%,' + alpha + ')';
 }
     
 
@@ -82,12 +82,29 @@ class AccessoryRatioDisplay extends Component {
         // }
         //
 
+         if(!isNumber(this.props.actualRatio)) {
+             return null;
+         }
+        
+        let x = Math.max(0, Math.min(100, (50 + this.props.actualRatio - this.props.expectedRatio))) + "%"
+
+        let delta = Math.abs(this.props.actualRatio - this.props.expectedRatio);
+        let dangerZone = 15;
+        let percent = 100 - Math.min(Math.abs(delta / dangerZone * 100), 100);
+        let color = percentColor(percent, 0.75);
+
+
                     //<rect x={5} y="25%" width="100%" height={3} color="blue"/>
+         //<line x1={x} x2={x} y1="0%" y2="100%" strokeWidth="6" stroke="black"/>
         return (
             <div className="col-md-4">
                 <svg width="100%" height={40}>
-                <line x1="0%" x2="100%" y1="50%" y2="50%" stroke-width="2" stroke="black"/>
-                <line x1="0%" x2="100%" y1="0%" y2="100%" stroke-width="2" stroke="black"/>
+                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1" stroke="rgba(0,0,0,0.5)"/>
+
+                    <line x1="50%" x2="50%" y1="40%" y2="60%" strokeWidth="1" stroke="rgba(0,0,0,0.5)"/>
+
+                    <circle cx={x} cy="50%" r={5} fill={color}/>
+
                 </svg>
             </div>
         );
