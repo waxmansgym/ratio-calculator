@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 var _ = require('lodash');
 import {isNumber} from './helpers.js';
 import Panel from 'react-bootstrap/lib/Panel';
+import {diagnoses, prescriptions} from './data.js';
 
 class BaseLiftInput extends Component {
     constructor(props) {
@@ -107,7 +108,6 @@ class BaseResults extends Component {
         if(this.props.show === false) {
             return null;
         }
-        console.log('Yeah');
 
         let resultContent = "default string " + this.props.results.snatch + " " + this.props.results.cnj;
         if(!isNumber(this.props.results.snatch) || !isNumber(this.props.results.cnj)) {
@@ -150,6 +150,48 @@ class AccessoryResults extends Component {
     }
 
     render() {
+
+        if(!isNumber(this.props.base)) {
+            return null;
+        }
+
+        let results = _.map(this.props.accessories, (accessory, accessoryName) => {
+            let actualRatio = accessory.value / this.props.base * 100;
+            return {
+                name: accessoryName,
+                actualRatio: actualRatio,
+                expectedRatio: accessory.ratio,
+                ratioDiff: actualRatio - accessory.ratio
+            };
+        });
+
+        let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
+
+        let analysisName = this.props.baseName + " Analysis";
+
+        let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
+
+        console.log('WORST:', worst);
+        if(!(worst.name in diagnoses) || !(worst.name in prescriptions)) {
+            console.log('OH SHIT');
+        }
+        return (<Panel header={analysisName}>
+                    <p>
+                        Based on your inputs the ratio with the greatest difference is <strong>{worst.name}</strong>. 
+                    </p>
+                    <p>
+                        The ideal is to have your <strong>{worst.name}</strong> at {worst.expectedRatio.toFixed(2)}% of your {this.props.baseName},
+                        however your <strong>{worst.name}</strong> is at {worst.actualRatio.toFixed(2)}% of your {this.props.baseName}. That's a {worst.ratioDiff.toFixed(2)}% differential.
+                    </p>
+                    <p>
+                        Diagnosis: {diagnoses[worst.name][whichWay]} 
+                    </p>
+                    <p>
+                        Prescription: {prescriptions[worst.name][whichWay]} 
+                    </p>
+                </Panel>);
+
+
         return <span>
         {JSON.stringify(this.props)}
         </span>;

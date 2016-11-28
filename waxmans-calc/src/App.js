@@ -73,7 +73,6 @@ class App extends Component {
                     // Calculate the percentage of this lift vs the expected
                     accessoriesState[base][accessory]['percent'] = (accessoryValue / baseValue) * 100.0;
 
-                    console.log(base, accessory, accessories[base][accessory], accessories[base])
                     results.accessories[base][accessory] = {
                         ratio: accessories[base][accessory]['ratio'],
                         value: accessoryValue
@@ -111,14 +110,16 @@ class App extends Component {
             <div className="row" key={"row_" + accessory}>
                 <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
-            </div>));
+            </div>
+        ));
 
         // Create the cnj accessory inputs / displays
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
             <div className="row" key={"row_" + accessory}>
                 <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
-            </div>));
+            </div>
+        ));
 
         return (
             <div className="App">
@@ -179,7 +180,19 @@ class App extends Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <AccessoryResults base={this.state.results.base.snatch} accessories={this.state.results.accessories.snatch} show={this.state.results.calculated}/>
+                            <AccessoryResults
+                            baseName="Snatch" 
+                                base={this.state.results.base.snatch}
+                                accessories={this.state.results.accessories.snatch} show={this.state.results.calculated}/>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-12">
+                            <AccessoryResults
+                            baseName="Clean & Jerk" 
+                                base={this.state.results.base.cnj}
+                                accessories={this.state.results.accessories.cnj} show={this.state.results.calculated}/>
                         </div>
                     </div>
 
