@@ -128,7 +128,7 @@ class App extends Component {
 
                     <div className="row"><div className="col-md-12">
                         <h3>1. Start here. Enter your best snatch and/or clean & jerk:</h3>
-                        <Panel header="Base Lifts">
+                        <Panel header="Base Lifts" bsStyle="danger">
                             <div className="row">
                                 <div className="col-md-6">
                                     <BaseLiftInput name="Snatch" shortname="snatch" onChange={this.handleBaseChange}/>
@@ -143,13 +143,13 @@ class App extends Component {
                     <div className="row">
                         <h3>2. Next, enter your known bests for any/all of the following:</h3>
                         <div className="col-md-6">
-                            <Panel header="Snatch Exercises">
+                            <Panel header="Snatch Exercises" bsStyle="danger">
                                 {snatchAccessories}
                             </Panel>
                         </div>
 
                         <div className="col-md-6">
-                            <Panel header="C&J Exercises">
+                            <Panel header="C&J Exercises" bsStyle="danger">
                                 {cnjAccessories}
                             </Panel>
                         </div>

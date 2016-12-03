@@ -212,7 +212,7 @@ class BaseResults extends Component {
         return (
             <span>
                 <h3>4. Check out your results:</h3>
-                <Panel header="Snatch Compared to C&J">
+                <Panel header="Snatch Compared to C&J" bsStyle="danger">
                     {resultContent}
                 </Panel>
             </span>
@@ -270,7 +270,7 @@ class AccessoryResults extends Component {
                     </span>);
         }
 
-        return (<Panel header={analysisName}>{resultsContent}</Panel>);
+        return (<Panel header={analysisName} bsStyle="danger">{resultsContent}</Panel>);
     }
 }
 
