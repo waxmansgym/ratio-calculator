@@ -158,6 +158,7 @@ class App extends Component {
                     <div className="row">
                          <div className="col-md-12">
                              <h3>3. Click the button to perform analysis:</h3>
+                             <h4>Then see below for results</h4>
                              <button type="button" className="btn btn-primary btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
                          </div>
                     </div>
