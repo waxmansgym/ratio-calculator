@@ -17,6 +17,7 @@ const accessories = {
     }
 };
 
+// Accessory Diagnoses
 const diagnoses = {
     'Clean': {
         'too_low': 'This seems like a statistical impossibility. If you can clean & jerk it, you can clean it. Check your numbers and try again?',
@@ -68,6 +69,7 @@ const diagnoses = {
     }
 };
 
+// Accessory Prescriptions
 const prescriptions = {
     'Clean': {
         'too_low': 'GFY',

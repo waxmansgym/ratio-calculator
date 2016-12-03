@@ -164,7 +164,7 @@ class App extends Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <BaseResults results={this.state.results.base} show={this.state.results.calculated}/>
+                            <BaseResults results={this.state.results.base} show={this.state.results.calculated} accessories={this.state.results.accessories}/>
                         </div>
                     </div>
 

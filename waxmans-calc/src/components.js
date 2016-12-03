@@ -149,15 +149,64 @@ class BaseResults extends Component {
             resultContent = <span>You didn't enter a {missing} number so we can't perform this analysis</span>;
         }
         else {
-            if(this.props.results.snatch === this.props.results.cnj) {
-                resultContent = <span>Your <strong>Snatch</strong> and <strong>Clean & Jerk</strong> are the same. You should be ashamed.</span>;
+
+            let snatchCJIdealRatio = 80;
+            let snatchCJRatioTolerance = 2;
+            let snatchCJRatio = this.props.results.snatch / this.props.results.cnj * 100;
+
+            let snatch = <strong>Snatch</strong>;
+            let cnj = <strong>Clean & Jerk</strong>;
+            let fs = <strong>Front Squat</strong>;
+
+            // TODO: What should this message and tolerance be?
+            if(Math.abs(snatchCJRatio - snatchCJIdealRatio) < snatchCJRatioTolerance) {
+                resultContent = (
+                    <span>
+                        The ratio of your <strong>snatch</strong> to <strong>clean & jerk</strong> is within tolerance. Keep up the good work!
+                    </span>
+                );
             }
-            else if(this.props.results.snatch > this.props.results.cnj) {
-                resultContent = <span>Wow! your <strong>Snatch</strong> is better than your <strong>Clean & Jerk</strong>.</span>;
+            else if(snatchCJRatio < snatchCJIdealRatio) {
+                resultContent = (
+                    <span>
+                      Your <strong>snatch</strong> technique is inefficient,
+                      you may benefit most from improving the efficiency of your <strong>snatch</strong>.
+                    </span>
+                );
             }
             else {
-                resultContent = <span>Oh my! your <strong>Clean & Jerk</strong> is better than your <strong>Snatch</strong>.</span>;
+                if(this.props.accessories.cnj['Front Squat'] !== undefined) {
+
+                    let fsqRatio = this.props.accessories.cnj['Front Squat'].value / this.props.results.cnj * 100;
+                    let idealFsqRatio = this.props.accessories.cnj['Front Squat'].ratio;
+
+                    if(fsqRatio > idealFsqRatio) {
+                        resultContent = (
+                            <span>
+                                Your <strong>clean</strong> technique is
+                                inefficient, you may benefit most from
+                                improving the efficiency of your <strong>clean</strong>.
+                            </span>);
+                    } else {
+                        resultContent = (
+                            <span>
+                                You are likely suffering from a strength problem,
+                                you may benefit most from improving your strength
+                                in the <strong>Front Squat</strong> and other
+                                clean-related exercises.
+                            </span>
+                        ); }
+                }
+                else {
+                    resultContent = (
+                        <span>
+                            Your {snatch} and {cnj} maxes are too close together.
+                            Please enter a {fs} number so that we can further diagnose.
+                        </span>
+                    );
+                }
             }
+
         }
 
         return (
@@ -193,38 +242,36 @@ class AccessoryResults extends Component {
             };
         });
 
-        let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
-
         let analysisName = this.props.baseName + " Analysis";
 
-        let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
-
-        console.log('WORST:', worst);
-        if(!(worst.name in diagnoses) || !(worst.name in prescriptions)) {
-            console.log('OH SHIT');
+        let resultsContent = null;
+        if(results.length === 0) {
+            resultsContent = (<span>Please enter one or more accessory maxes for analysis</span>);
         }
-        return (<Panel header={analysisName}>
-                    <p>
-                        Based on your inputs the ratio with the greatest difference is <strong>{worst.name}</strong>. 
-                    </p>
-                    <p>
-                        The ideal is to have your <strong>{worst.name}</strong> at {worst.expectedRatio.toFixed(2)}% of your {this.props.baseName},
-                        however your <strong>{worst.name}</strong> is at {worst.actualRatio.toFixed(2)}% of your {this.props.baseName}. That's a {worst.ratioDiff.toFixed(2)}% differential.
-                    </p>
-                    <p>
-                        Diagnosis: {diagnoses[worst.name][whichWay]} 
-                    </p>
-                    <p>
-                        Prescription: {prescriptions[worst.name][whichWay]} 
-                    </p>
-                </Panel>);
+        else {
+            let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
+            let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
 
+            resultsContent = (
+                    <span>
+                        <p>
+                            Based on your inputs the ratio with the greatest difference is <strong>{worst.name}</strong>. 
+                        </p>
+                        <p>
+                            The ideal is to have your <strong>{worst.name}</strong> at {worst.expectedRatio.toFixed(2)}% of your {this.props.baseName},
+                            however your <strong>{worst.name}</strong> is at {worst.actualRatio.toFixed(2)}% of your {this.props.baseName}. That's a {worst.ratioDiff.toFixed(2)}% differential.
+                        </p>
+                        <p>
+                            Diagnosis: {diagnoses[worst.name][whichWay]} 
+                        </p>
+                        <p>
+                            Prescription: {prescriptions[worst.name][whichWay]} 
+                        </p>
+                    </span>);
+        }
 
-        return <span>
-        {JSON.stringify(this.props)}
-        </span>;
+        return (<Panel header={analysisName}>{resultsContent}</Panel>);
     }
 }
-
 
 export {BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay};
