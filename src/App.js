@@ -126,16 +126,31 @@ class App extends Component {
 
                 <div className="container">
 
+                    <div className="row">
+                        <div className="col-md-12">
+                            <img src="img/wg_logo.png" class="img-responsive"/>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1>Waxman's Gym Lift Ratio Calculator <small>v0.1</small></h1>
+                        </div>
+                    </div>
+
                     <div className="row"><div className="col-md-12">
                         <h3>1. Start here. Enter your best snatch and/or clean & jerk:</h3>
                         <Panel header="Base Lifts" bsStyle="danger">
                             <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-2"></div>
+                                <div className="col-md-3">
                                     <BaseLiftInput name="Snatch" shortname="snatch" onChange={this.handleBaseChange}/>
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-2"></div>
+                                <div className="col-md-3">
                                     <BaseLiftInput name="Clean & Jerk" shortname="cnj" onChange={this.handleBaseChange}/>
                                 </div>
+                                <div className="col-md-2"></div>
                             </div>
                         </Panel>
                     </div></div>
@@ -159,8 +174,13 @@ class App extends Component {
                          <div className="col-md-12">
                              <h3>3. Click the button to perform analysis:</h3>
                              <h4>Then see below for results</h4>
-                             <button type="button" className="btn btn-primary btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
+                             <button type="button" className="btn btn-success btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
                          </div>
+                    </div>
+
+                    <div className="row" style={{'padding-top': '50px'}}>
+                        <div className="col-md-12">
+                        </div>
                     </div>
 
                     <div className="row">

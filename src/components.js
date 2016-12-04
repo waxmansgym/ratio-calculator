@@ -42,7 +42,7 @@ class AccessoryLiftInput extends Component {
         return (
             <span>
                 <div className="col-md-5">
-                    <strong className="pull-right">{this.props.name}</strong>
+                    <strong>{this.props.name}</strong>
                 </div>
                 <div className="col-md-3">
                     <input type="number" className="form-control" value={this.state.value} onChange={this.handleChange}/>
