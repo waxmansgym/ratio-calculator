@@ -252,21 +252,124 @@ class AccessoryResults extends Component {
             let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
             let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
 
+            let secondWorst = _.maxBy(results, (r) => {
+                if(r.name === worst.name) { return 0; }
+                return Math.abs(r.ratioDiff);
+            });
+            let whichWay2 = secondWorst.ratioDiff < 0 ? 'too_low' : 'too_high';
+
+            let diagnosis = diagnoses[worst.name][whichWay];
+            let prescription = prescriptions[worst.name][whichWay];
+
+            // ######################################################################
+            // Hacky exception code goes here...
+            // TODO: Clean this up
+            // ######################################################################
+
+            // Grab the front squat entry from the list of results
+            let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
+
+            // The "acceptable" range for the front squat
+            let frontSquatAcceptableRange = 10.0;
+
+            //////////////////////////////////////////////////////////////////////
+            if(worst.name === 'Clean' && frontSquat !== undefined) {
+                // Clean too high (and front squat ratio is within range) 
+                if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                    diagnosis = "Your biggest deficiency seems to rest with your jerk. " +
+                        "Since your front squat to c&j ratio is within the right range, you very likely have jerk technique issues.";
+                    prescription = "We recommend you analyze (or get coaching help to analyze) your jerk technique and work on fixing it.";
+                }
+
+                // Clean too high (and front squat ratio is lower than ideal)
+                else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < 0) {
+                    diagnosis = "Your biggest deficiency seems to rest with your jerk. " + 
+                        "Since your front squat to c&j is lower than expected, your Jerk issues may be strength related";
+                    prescription = "We recommend you concentrate on getting your legs stronger.";
+                }
+            }
+            //////////////////////////////////////////////////////////////////////
+            else if(worst.name === 'Jerk' && frontSquat !== undefined) {
+                // Jerk lower than expected (and front squat ratio is within range)
+                if(worst.ratioDiff < 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                    diagnosis = "Since your squat ratios appear to be within the right range, you may have jerk technique issues.";
+                    prescription = "We recommend you analyze (or get coaching help to analyze) your jerk technique and work on fixing it.";
+                }
+
+                // Jerk lower than expected (and front squat ratio is lower than ideal)
+                else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < 0) {
+                    diagnosis = "Since your squat ratios are below ideal range, your issues are likely strength-related";
+                    prescription = "We recommend you concentrate on getting your legs stronger.";
+                }
+            }
+            //////////////////////////////////////////////////////////////////////
+            else if(worst.name === 'Seated Press') {
+                // Press higher than ideal
+                if(worst.ratioDiff > 0) {
+                    diagnosis = diagnoses[secondWorst.name][whichWay2];
+                    prescription = prescriptions[secondWorst.name][whichWay2];
+                    worst = secondWorst;
+                }
+            }
+            //////////////////////////////////////////////////////////////////////
+            else if(worst.name === 'Power Clean') {
+                // PCL lower than expected
+                if(worst.ratioDiff < 0) {
+                    diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
+                    prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
+                }
+
+                // PCL higher than expected (and front squat ratio is within range)
+                else if(frontSquat !== undefined && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                    diagnosis = "Since your front squat is within acceptable range, you likely have technical inefficiencies in your clean & jerk.";
+                    prescription = "We recommend you analyze (or get coaching help to analyze) your clean & jerk technique and work on fixing it.";
+                }
+
+                // PCL higher than expected (and front squat ratio is lower than ideal)
+                else if(frontSquat !== undefined && frontSquat.ratioDiff < 0) {
+                    diagnosis = "Since your front squat is lower than the acceptable range, you may be lacking strength, mobility, or both.";
+                    prescription = "We recommend you spend some time getting your legs stronger and/or improving your mobility";
+                }
+            }
+            //////////////////////////////////////////////////////////////////////
+            else if(worst.name === 'Overhead Squat') {
+                // OHS higher than ideal
+                if(worst.ratioDiff > 0) {
+                    diagnosis = diagnoses[secondWorst.name][whichWay2];
+                    prescription = prescriptions[secondWorst.name][whichWay2];
+                    worst = secondWorst;
+                }
+            }
+            //////////////////////////////////////////////////////////////////////
+            else if(worst.name === 'Power Snatch') {
+                // Lower than ideal
+                if(worst.ratioDiff < 0) {
+                    diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
+                    prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
+                }
+            }
+
+            // Create the generic description text for this calculation
+            let description = `The ideal is to have your ${worst.name} at ${worst.expectedRatio.toFixed(2)}% 
+                of your ${this.props.baseName}, however your ${worst.name} is at ${worst.actualRatio.toFixed(2)}%
+                of your ${this.props.baseName}. That's a ${worst.ratioDiff.toFixed(2)}% differential.`
+
+            // Create the HTML to display the diagnosis/prescription/description
             resultsContent = (
                     <span>
                         <p>
-                            Based on your inputs the ratio with the greatest difference is <strong>{worst.name}</strong>. 
+                            Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>. 
                         </p>
-                        <p>
-                            The ideal is to have your <strong>{worst.name}</strong> at {worst.expectedRatio.toFixed(2)}% of your {this.props.baseName},
-                            however your <strong>{worst.name}</strong> is at {worst.actualRatio.toFixed(2)}% of your {this.props.baseName}. That's a {worst.ratioDiff.toFixed(2)}% differential.
-                        </p>
-                        <p>
-                            Diagnosis: {diagnoses[worst.name][whichWay]} 
-                        </p>
-                        <p>
-                            Prescription: {prescriptions[worst.name][whichWay]} 
-                        </p>
+                        <dl>
+                            <dt>Diagnosis</dt>
+                            <dd>{diagnosis}</dd>
+
+                            <dt>Prescription</dt>
+                            <dd>{prescription}</dd>
+
+                            <dt>How did we get this?</dt>
+                            <dd>{description}</dd>
+                        </dl>
                     </span>);
         }
 

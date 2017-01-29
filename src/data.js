@@ -96,7 +96,7 @@ const prescriptions = {
         'too_high': 'If your front squat is within acceptable range, focus on improving your mobility in the clean & jerk. If your front squat is too low, spend some time getting your legs stronger.'
     },
     'Clean Blocks Abv Knee': {
-        'too_low': 'You should spend more time [improving your explosion]...',
+        'too_low': 'You should spend more time improving your explosion',
         'too_high': 'You should spend more time practicing clean pulls from the floor and/or from a deficit.'
     },
     'Hang Clean Below Knee': {
@@ -112,7 +112,7 @@ const prescriptions = {
         'too_high': 'You either need to improve your mobility or find a coach to help you isolate and fix likely coordination problems.'
     },
     'Snatch Blocks Abv Knee': {
-        'too_low': 'You should spend more time [improving your explosion]...',
+        'too_low': 'You should spend more time improving your explosion.',
         'too_high': 'You should spend more time practicing clean pulls from the floor and/or from a deficit.'
     },
     'Hang Snatch Below Knee': {

@@ -88,6 +88,8 @@ class App extends Component {
             accessories: accessoriesState,
             results: results
         });
+
+        setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
     }
 
     handleAccessoryChange(event) {
@@ -128,13 +130,14 @@ class App extends Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <img src="img/wg_logo.png" class="img-responsive"/>
+                            <img src="img/wg_logo.png"/>
                         </div>
                     </div>
 
                     <div className="row">
                         <div className="col-md-12">
                             <h1>Waxman's Gym Lift Ratio Calculator <small>v0.1</small></h1>
+                            <p>Over years of training athletes, we've found that lift ratios can serve as powerful tools for evaluating balance and guiding lifter development. By uncovering your biggest imbalances, you can better prioritize problems and more effectively direct your programming/training.</p>
                         </div>
                     </div>
 
@@ -178,12 +181,11 @@ class App extends Component {
                          </div>
                     </div>
 
-                    <div className="row" style={{'padding-top': '50px'}}>
-                        <div className="col-md-12">
-                        </div>
+                    <div className="row" style={{'paddingTop': '50px'}}>
+                        <div className="col-md-12"> </div>
                     </div>
 
-                    <div className="row">
+                    <div className="row" id="baseResults">
                         <div className="col-md-12">
                             <BaseResults results={this.state.results.base} show={this.state.results.calculated} accessories={this.state.results.accessories}/>
                         </div>
