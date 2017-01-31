@@ -137,7 +137,7 @@ class BaseResults extends Component {
             return null;
         }
 
-        let resultContent = "default string " + this.props.results.snatch + " " + this.props.results.cnj;
+        let resultsContent = '';
         if(!isNumber(this.props.results.snatch) || !isNumber(this.props.results.cnj)) {
             let missing = null;
             if(!isNumber(this.props.results.snatch) && !isNumber(this.props.results.cnj))
@@ -146,65 +146,72 @@ class BaseResults extends Component {
                 missing = (<strong>Snatch</strong>);
             else if(isNumber(this.props.results.snatch) && !isNumber(this.props.results.cnj))
                 missing = (<strong>Clean & Jerk</strong>);
-            resultContent = <span>You didn't enter a {missing} number so we can't perform this analysis</span>;
+            resultsContent = <span>You didn't enter a {missing} number so we can't perform this analysis</span>;
         }
         else {
-
             let snatchCJIdealRatio = 80;
             let snatchCJRatioTolerance = 2;
             let snatchCJRatio = this.props.results.snatch / this.props.results.cnj * 100;
 
-            let snatch = <strong>Snatch</strong>;
-            let cnj = <strong>Clean & Jerk</strong>;
-            let fs = <strong>Front Squat</strong>;
+            let diagnosis = '';
+            let prescription = '';
+            let description = '';
 
             // TODO: What should this message and tolerance be?
             if(Math.abs(snatchCJRatio - snatchCJIdealRatio) < snatchCJRatioTolerance) {
-                resultContent = (
+                resultsContent = (
                     <span>
                         The ratio of your <strong>snatch</strong> to <strong>clean & jerk</strong> is within tolerance. Keep up the good work!
                     </span>
                 );
             }
-            else if(snatchCJRatio < snatchCJIdealRatio) {
-                resultContent = (
-                    <span>
-                      Your <strong>snatch</strong> technique is inefficient,
-                      you may benefit most from improving the efficiency of your <strong>snatch</strong>.
-                    </span>
-                );
-            }
             else {
-                if(this.props.accessories.cnj['Front Squat'] !== undefined) {
+                description = `The ideal is to have your snatch at ${snatchCJIdealRatio}% of your C&J, however your snatch is at ${snatchCJRatio}% of your C&J.
+                    That's a ${(snatchCJIdealRatio - snatchCJRatio).toFixed(1)}% differential.`
 
-                    let fsqRatio = this.props.accessories.cnj['Front Squat'].value / this.props.results.cnj * 100;
-                    let idealFsqRatio = this.props.accessories.cnj['Front Squat'].ratio;
-
-                    if(fsqRatio > idealFsqRatio) {
-                        resultContent = (
-                            <span>
-                                Your <strong>clean</strong> technique is
-                                inefficient, you may benefit most from
-                                improving the efficiency of your <strong>clean</strong>.
-                            </span>);
-                    } else {
-                        resultContent = (
-                            <span>
-                                You are likely suffering from a strength problem,
-                                you may benefit most from improving your strength
-                                in the <strong>Front Squat</strong> and other
-                                clean-related exercises.
-                            </span>
-                        ); }
+                if(snatchCJRatio < snatchCJIdealRatio) {
+                    diagnosis =  "Your snatch technique appears to be inefficient given how much you can clean & jerk.";
+                    prescription = "We recommend you analyze (or get coaching help to analyze) your snatch technique and work on fixing it. " +
+                        "Check the Snatch-specific analysis below for additional details re: weaknesses in the snatch";
                 }
                 else {
-                    resultContent = (
-                        <span>
-                            Your {snatch} and {cnj} maxes are too close together.
-                            Please enter a {fs} number so that we can further diagnose.
-                        </span>
-                    );
+                    if(this.props.accessories.cnj['Front Squat'] !== undefined) {
+
+                        let fsqRatio = this.props.accessories.cnj['Front Squat'].value / this.props.results.cnj * 100;
+                        let idealFsqRatio = this.props.accessories.cnj['Front Squat'].ratio;
+
+                        if(Math.abs(idealFsqRatio - fsqRatio) < 5.0 || fsqRatio > idealFsqRatio) {
+                            diagnosis = `Your clean & jerk technique appears inefficient given how much you can snatch (and given your strength in the front squat).`;
+                            prescription = `We recommend you analyze (or get coaching help to analyze) your clean & jerk technique and work on fixing it. 
+                                Check the c&j-specific analysis below for additional details re: weaknesses in the clean & jerk`;
+                        } 
+                        else {
+                            diagnosis = `Your clean & jerk is on the low side compared with your snatch. 
+                                Based on your front squat numbers, you may be limited in the C&J by strength problems.`;
+                            prescription = `We recommend you dedicate some time to getting your legs and torso stronger to improve your clean & jerk. 
+                                Check the c&j-specific analysis below for additional details.`;
+
+                        }
+                    }
+                    else {
+                        diagnosis = `Your clean & jerk technique appears inefficient given how much you can snatch.`;
+                        prescription = `Please enter a front squat number so that we can further diagnose`;
+                    }
                 }
+
+                resultsContent = (
+                    <span>
+                    <dl>
+                    <dt>Diagnosis</dt>
+                    <dd>{diagnosis}</dd>
+
+                    <dt>Prescription</dt>
+                    <dd>{prescription}</dd>
+
+                    <dt>How did we get this?</dt>
+                    <dd>{description}</dd>
+                    </dl>
+                    </span>);
             }
 
         }
@@ -213,7 +220,7 @@ class BaseResults extends Component {
             <span>
                 <h3>4. Check out your results:</h3>
                 <Panel header="Snatch Compared to C&J" bsStyle="danger">
-                    {resultContent}
+                    {resultsContent}
                 </Panel>
             </span>
         );
@@ -270,7 +277,7 @@ class AccessoryResults extends Component {
             let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
 
             // The "acceptable" range for the front squat
-            let frontSquatAcceptableRange = 10.0;
+            let frontSquatAcceptableRange = 5.0;
 
             //////////////////////////////////////////////////////////////////////
             if(worst.name === 'Clean' && frontSquat !== undefined) {
