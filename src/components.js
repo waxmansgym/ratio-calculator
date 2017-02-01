@@ -4,6 +4,8 @@ import {isNumber} from './helpers.js';
 import Panel from 'react-bootstrap/lib/Panel';
 import {diagnoses, prescriptions} from './data.js';
 
+let formatNumber = Math.round;
+
 class BaseLiftInput extends Component {
     constructor(props) {
         super(props);
@@ -166,8 +168,8 @@ class BaseResults extends Component {
                 );
             }
             else {
-                description = `The ideal is to have your snatch at ${snatchCJIdealRatio}% of your C&J, however your snatch is at ${snatchCJRatio}% of your C&J.
-                    That's a ${(snatchCJIdealRatio - snatchCJRatio).toFixed(1)}% differential.`
+                description = `The ideal is to have your snatch at ${formatNumber(snatchCJIdealRatio)}% of your C&J, however your snatch is at ${formatNumber(snatchCJRatio)}% of your C&J.
+                    That's a ${formatNumber(snatchCJIdealRatio - snatchCJRatio)}% differential.`
 
                 if(snatchCJRatio < snatchCJIdealRatio) {
                     diagnosis =  "Your snatch technique appears to be inefficient given how much you can clean & jerk.";
@@ -357,9 +359,9 @@ class AccessoryResults extends Component {
             }
 
             // Create the generic description text for this calculation
-            let description = `The ideal is to have your ${worst.name} at ${worst.expectedRatio.toFixed(2)}% 
-                of your ${this.props.baseName}, however your ${worst.name} is at ${worst.actualRatio.toFixed(2)}%
-                of your ${this.props.baseName}. That's a ${worst.ratioDiff.toFixed(2)}% differential.`
+            let description = `The ideal is to have your ${worst.name} at ${formatNumber(worst.expectedRatio)}% 
+                of your ${this.props.baseName}, however your ${worst.name} is at ${formatNumber(worst.actualRatio)}%
+                of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
 
             // Create the HTML to display the diagnosis/prescription/description
             resultsContent = (
