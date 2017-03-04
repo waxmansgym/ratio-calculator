@@ -163,7 +163,9 @@ class BaseResults extends Component {
             if(Math.abs(snatchCJRatio - snatchCJIdealRatio) < snatchCJRatioTolerance) {
                 resultsContent = (
                     <span>
-                        The ratio of your <strong>snatch</strong> to <strong>clean & jerk</strong> is within tolerance. Keep up the good work!
+                         The ratio of your snatch to clean & jerk demonstrates fairly ideal balance. Keep up
+                         the good work! Also, see additional analysis below to determine how you might
+                         improve each.
                     </span>
                 );
             }
@@ -172,26 +174,72 @@ class BaseResults extends Component {
                     That's a ${formatNumber(snatchCJIdealRatio - snatchCJRatio)}% differential.`
 
                 if(snatchCJRatio < snatchCJIdealRatio) {
-                    diagnosis =  "Your snatch technique appears to be inefficient given how much you can clean & jerk.";
-                    prescription = "We recommend you analyze (or get coaching help to analyze) your snatch technique and work on fixing it. " +
-                        "Check the Snatch-specific analysis below for additional details re: weaknesses in the snatch";
+                    diagnosis =  "Comparing your snatch to your clean & jerk, it appears you have adequate strength to snatch more. Thus your snatch technique appears to be inefficient.";
+
+                    prescription = (
+                        <span>
+                            <p>
+                                While there are a number of common
+                                technical problems that could be hampering your snatch,
+                                it’s hard to tell from these numbers alone what aspect of
+                                your technique is the greatest limiter.
+                            </p>
+                            <p>
+                                We recommend you evaluate your own lifts on video, or seek
+                                out a knowledgeable coach, to help you prioritize/fix your
+                                technical inefficiencies so you can better harness your
+                                strength. Also have a look at the snatch-specific analysis
+                                below for potential insights.
+                            </p>
+                        </span>);
                 }
                 else {
                     if(this.props.accessories.cnj['Front Squat'] !== undefined) {
 
                         let fsqRatio = this.props.accessories.cnj['Front Squat'].value / this.props.results.cnj * 100;
-                        let idealFsqRatio = this.props.accessories.cnj['Front Squat'].ratio;
+                        // let idealFsqRatio = this.props.accessories.cnj['Front Squat'].ratio;
 
-                        if(Math.abs(idealFsqRatio - fsqRatio) < 5.0 || fsqRatio > idealFsqRatio) {
-                            diagnosis = `Your clean & jerk technique appears inefficient given how much you can snatch (and given your strength in the front squat).`;
-                            prescription = `We recommend you analyze (or get coaching help to analyze) your clean & jerk technique and work on fixing it. 
-                                Check the c&j-specific analysis below for additional details re: weaknesses in the clean & jerk`;
+                        if(fsqRatio > 125) {
+
+                            diagnosis = `Based on the numbers you entered, since your best snatch and clean & jerk are closer
+                            than ideal, and since you don’t have any apparent weakness in your front squat, it appears you have
+                            adequate strength to clean & jerk more. Thus we conclude your clean & jerk technique may be
+                            inefficient.`;
+
+                            prescription = (
+                                <span>
+                                    <p>
+                                        While there are a number of common technical problems that could be hampering your clean & jerk, it’s hard to
+                                        tell from these numbers alone what aspect of your technique is the greatest limiter. 
+                                    </p>
+                                    <p>
+                                        We recommend you evaluate your own lifts on video, or seek out a knowledgeable coach, to help you
+                                        prioritize/fix your technical inefficiencies so you can better harness your strength. 
+                                    </p>
+                                    <p>
+                                        Also look at the clean-specific analysis below for potential insights.
+                                    </p>
+                                </span>
+                            );
+
                         } 
                         else {
-                            diagnosis = `Your clean & jerk is on the low side compared with your snatch. 
-                                Based on your front squat numbers, you may be limited in the C&J by strength problems.`;
-                            prescription = `We recommend you dedicate some time to getting your legs and torso stronger to improve your clean & jerk. 
-                                Check the c&j-specific analysis below for additional details.`;
+                            diagnosis = (
+                                <span>
+                                    <p>
+                                        Based on the numbers you entered, since your best snatch and
+                                        clean & jerk are closer than ideal, and since your front squat
+                                        shows room for improvement, we suspect you may be limited in the
+                                        clean & jerk by limited strength. 
+                                    </p>
+                                </span>
+                            );
+                            prescription = (
+                                <span>
+                                    You may benefit most in the clean & jerk by improving your strength in the front squat.
+                                    Also have a look at the clean-specific analysis below for more potential insights.
+                                </span>
+                            );
 
                         }
                     }
