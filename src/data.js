@@ -10,7 +10,6 @@ const accessories = {
         'Back Squat':             { ratio: 134 },
         'Front Squat':            { ratio: 115 },
         'Jerk':                   { ratio: 105 },
-        'Seated Press':           { ratio:  55 },
         'Power Clean':            { ratio:  80 },
         'Clean Blocks Abv Knee':  { ratio:  95 },
         'Hang Clean Below Knee':  { ratio:  95 }
@@ -34,10 +33,6 @@ const diagnoses = {
     'Jerk': {
         'too_low': 'If your squat ratios are in the right range, you may have jerk technique issues. If your squat ratios are below ideal range, you may have a strength and/or energy production problem.',
         'too_high': 'Assuming your strength levels are adequate, this tells us you may have issues with your efficiency (technique and/or power production) in the clean.'
-    },
-    'Seated Press': {
-        'too_low': 'This most likely would not cause a performance issue in the competition lifts, but you may be operating at a high level of stress',
-        'too_high': 'We cant discern much from a monster seated press. But congratulations!' 
     },
     'Power Clean': {
         'too_low': 'This tells us you may suffer from either weak legs or poor explosion/transition speed.',
@@ -72,8 +67,8 @@ const diagnoses = {
 // Accessory Prescriptions
 const prescriptions = {
     'Clean': {
-        'too_low': 'GFY',
-        'too_high': 'Check to make sure your squat ratios are in the right range. If not, you may get near-term benefit by getting stronger. If squats are in the right range, you should analyze your jerk technique and spend time trying to improve it.'
+        'too_low': '',
+        'too_high': 'Check to make sure your squat ratios are in the right range (enter them above for analysis). If not, you may get near-term benefit by getting stronger. If squats are in the right range, you should analyze your jerk technique and spend time trying to improve it.'
     },
     'Back Squat': {
         'too_low': 'We recommend you focus on getting your legs stronger.',
@@ -86,10 +81,6 @@ const prescriptions = {
     'Jerk': {
         'too_low': 'If your squat ratios are in the right range, we recommend you focus on improving your technique in the jerk. If your squats are below range, you need to get your legs stronger.',
         'too_high': 'Assuming your squat ratios are within adequate range, we recommend you focus on improving your efficiency and technique in the clean.'
-    },
-    'Seated Press': {
-        'too_low': 'Getting stronger, especially overhead, will likley help you improve your lifts.',
-        'too_high': 'Keep doing what youre doing Press Master!'
     },
     'Power Clean': {
         'too_low': 'Train to improve your explosion/transition speed.',

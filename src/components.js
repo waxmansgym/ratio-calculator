@@ -306,128 +306,603 @@ class AccessoryResults extends Component {
             resultsContent = (<span>Please enter one or more accessory maxes for analysis</span>);
         }
         else {
-            let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
-            let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
+            let finished = true;
+            while(finished === false) {
+                let finished = true;
+                let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
+                let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
 
-            let secondWorst = _.maxBy(results, (r) => {
-                if(r.name === worst.name) { return 0; }
-                return Math.abs(r.ratioDiff);
-            });
-            let whichWay2 = secondWorst.ratioDiff < 0 ? 'too_low' : 'too_high';
+                let secondWorst = _.maxBy(results, (r) => {
+                    if(r.name === worst.name) { return 0; }
+                    return Math.abs(r.ratioDiff);
+                });
+                let whichWay2 = secondWorst.ratioDiff < 0 ? 'too_low' : 'too_high';
 
-            let diagnosis = diagnoses[worst.name][whichWay];
-            let prescription = prescriptions[worst.name][whichWay];
+                let diagnosis = diagnoses[worst.name][whichWay];
+                let prescription = prescriptions[worst.name][whichWay];
 
-            // ######################################################################
-            // Hacky exception code goes here...
-            // TODO: Clean this up
-            // ######################################################################
+                // ######################################################################
+                // TODO: As the rule tree becomes more complex, more and more logic made its way here.
+                // All diagnoses/prescriptions should just be moved out of the data.js file and into
+                // here so that it's all in one place
+                // ######################################################################
 
-            // Grab the front squat entry from the list of results
-            let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
+                // Grab the front squat entry from the list of results
+                let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
 
-            // The "acceptable" range for the front squat
-            let frontSquatAcceptableRange = 5.0;
+                // The "acceptable" range for the front squat
+                let frontSquatAcceptableRange = 5.0;
 
-            //////////////////////////////////////////////////////////////////////
-            if(worst.name === 'Clean' && frontSquat !== undefined) {
-                // Clean too high (and front squat ratio is within range) 
-                if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
-                    diagnosis = "Your biggest deficiency seems to rest with your jerk. " +
-                        "Since your front squat to c&j ratio is within the right range, you very likely have jerk technique issues.";
-                    prescription = "We recommend you analyze (or get coaching help to analyze) your jerk technique and work on fixing it.";
+                //////////////////////////////////////////////////////////////////////
+                // Clean too low
+                if(worst.name === 'Clean' && worst.ratioDiff < 0) {
+                    diagnosis = (
+                        <span>
+                            According to your numbers, you clean less than you can clean & jerk.
+                            This seems like a statistical impossibility. If you can clean & jerk it, you can clean it, no?
+                        </span>
+                    );
+                    prescription = (
+                        <span>
+                            Check the numbers you input and try again?
+                        </span>
+                    );
+                }
+                else if(worst.name === 'Clean' && frontSquat !== undefined) {
+                    // Clean too high (and front squat ratio is within range) 
+                    if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                        diagnosis = (
+                            <span>
+                                Based on the numbers you entered, since your clean is so much greater than your clean & jerk,
+                                and since you don’t appear to be limited by your front squat strength,
+                                it appears you have technical efficiency problems with your jerk.
+                            </span>
+                        );
+                        prescription = (
+                            <span>
+                                <p>
+                                    While there are a number of common technical problems that could be hampering your jerk,
+                                    it’s hard to tell from these numbers alone what aspect of your technique is the greatest limiter. 
+                                </p>
+                                <p>
+                                    We recommend you evaluate your own lifts on video, or seek out a knowledgeable coach,
+                                    to help you prioritize/fix your technical inefficiencies so you can better harness your strength in the jerk. 
+                                </p>
+                            </span>);
+                    }
+
+                    // Clean too high (and front squat ratio is lower than ideal)
+                    else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < 0) {
+                        diagnosis = (
+                            <span>
+                                Based on the numbers you entered, since your clean is so much greater than your clean & jerk,
+                                and since your front squat numbers are lower than ideal, it appears your jerk is limited by your leg strength.
+                            </span>
+                        );
+                        prescription = (
+                            <span>
+                                You’ll likely benefit most by improving your leg strength through squatting.
+                                This includes both squatting more and rising faster from the bottom of the squat.
+                                Both improvements will give you more strength and energy for the jerk.
+                            </span>
+                        );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Back Squat') {
+                    if(worst.ratioDiff > 0) {
+                        // Back Squat too high
+                        diagnosis = (
+                            <span>
+                                Since your back squat is much greater than ideal relative to your clean & jerk, and since this is
+                                the biggest disparity in the numbers you entered, it tells us that you likely have adequate strength
+                                levels to clean & jerk more. Since strength likely is not holding you back in the clean & jerk, you
+                                most likely have inefficiencies in your clean technique. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                <p>
+                                    While there are a number of common technical problems that could be
+                                    hampering your clean & jerk, it’s hard to tell from these numbers
+                                    alone what aspect of your technique is the greatest limiter. 
+                                </p>
+                                <p>
+                                    We recommend you evaluate your own lifts on video, or seek out
+                                    a knowledgeable coach to help you prioritize/fix your technical
+                                    inefficiencies so you can better harness your strength. 
+                                </p>
+                                <p>
+                                    <i>Note</i>: Since squat strength doesn’t seem to be a big limiter
+                                    for you here, you may wish to re-perform the analysis without your
+                                    back squat numbers to better hone in on your technical issues in the
+                                    clean & jerk. This may tell you which area other than back squat
+                                    represents your greatest disparity.
+                                </p>
+                            </span>
+                        );
+                    }
+                    else {
+                        // Back Squat too low
+                        diagnosis = (
+                            <span>
+                                Since your ratio of back squat to clean is much lower than ideal, and
+                                since this is the biggest disparity in the numbers you entered, it tells
+                                us you may be hampered most in your clean & jerk by weak legs.  If it
+                                doesn’t already cause you to miss lifts, your clean & jerks likely feel
+                                heavy since you are clean & jerking so close to your maximum strength.
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                We recommend you focus on getting your legs stronger so you have more
+                                strength in reserve to make your clean & jerks more easily. You can do this
+                                by getting stronger in the squat plus practice rising faster from the bottom
+                                of the squat.
+                            </span>
+                        );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Front Squat') {
+                    if(worst.ratioDiff < 0) {
+                        // FS too low
+                        diagnosis = (
+                            <span>
+                                Since your ratio of front squat to clean is much lower than ideal, and
+                                since this is the biggest disparity in the numbers you entered, it tells
+                                us you may be hampered most in your clean & jerk by weak legs. If it
+                                doesn’t already cause you to miss lifts, your clean & jerks likely feel
+                                heavy since you are clean & jerking so close to your maximum strength.
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                We recommend you focus on getting your legs stronger so you have more
+                                strength in reserve to make your clean & jerks more easily. You can do this
+                                by getting stronger in the squat plus practice rising faster from the bottom
+                                of the squat.
+                            </span>
+                        );
+                    }
+                    else {
+                        // FS too high
+                        diagnosis = (
+                            <span>
+                                Since your front squat is much greater than necessary relative to your clean
+                                & jerk, and since this is the biggest disparity in the numbers you entered,
+                                it tells us you likely have adequate strength levels to clean & jerk more.
+                                    Since strength is likely not holding you back in the clean & jerk, you
+                                most likely have inefficiencies in your clean & jerk technique. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                <p>
+                                    While there are a number of common technical problems that could be
+                                    hampering your clean & jerk, it’s hard to tell from these numbers alone
+                                    what aspect of your technique is the greatest limiter. 
+                                </p>
+                                <p>
+                                    We recommend you evaluate your own lifts on video, or seek out
+                                    a knowledgeable coach to help you prioritize/fix your technical
+                                    inefficiencies so you can better harness your strength. 
+                                </p>
+                                <p>
+                                    Note: Since squat strength doesn’t seem to be a big limiter for you
+                                    here, you may wish to re-perform the analysis without your front
+                                    squat numbers to better hone in on your technical issues in the
+                                    clean & jerk. This may tell you which area other than front squat
+                                    represents the greatest disparity.
+                                </p>
+                            </span>
+                        );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Jerk') {
+                    if(frontSquat === undefined) {
+                        // Jerk higher than expected
+                        if(worst.ratioDiff > 0) {
+                            diagnosis = (
+                                <span>
+                                    Since your jerk is well above the ideal range compared with your clean
+                                    & jerk, it appears you are likely being held back by your technical
+                                    efficiency in the clean. 
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    <p>
+                                        While there are a number of common technical problems that could be
+                                        hampering your clean, it’s hard to tell from these numbers alone what
+                                        aspect of your technique is the greatest limiter. 
+                                    </p>
+                                    <p>
+                                        We recommend you evaluate your own lifts on video, or seek out
+                                        a knowledgeable coach to help you prioritize/fix your technical
+                                        inefficiencies so you can better harness your strength. 
+                                    </p>
+                                    <p>
+                                        <i>Note</i>: Since the jerk doesn’t seem to be a big limiter for you here, you
+                                        may wish to re-perform the analysis without your jerk numbers to better
+                                        hone in on your issues in the clean.
+                                    </p>
+                                </span>
+                            );
+                        }
+                        // Jerk lower than expected
+                        else {
+                            diagnosis = (
+                                <span>
+                                    If your squat ratios are in the right range, you may have jerk
+                                    technique issues. If your squat ratios are below ideal range, you
+                                    may have a strength and/or energy production problem.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    If your squat ratios are in the right range, we recommend you focus
+                                    on improving your technique in the jerk. If your squats are below
+                                    range, you need to get your legs stronger. Enter a Front Squat
+                                    number above for more detailed diagnosis.
+                                </span>
+                            );
+                        }
+                    }
+                    else {
+                        // Jerk lower than expected (and front squat ratio is within range)
+                        if(worst.ratioDiff < 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                            diagnosis = (
+                                <span>
+                                    Since your jerk is lower than ideal, since you don’t appear to be
+                                    limited by strength according to your front squat numbers, and since
+                                    this is the ratio with the greatest variance from ideal, it is likely
+                                    you have technical inefficiencies in your jerk
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    <p>
+                                        While there are a number of common technical problems that could be
+                                        hampering your jerk, it’s hard to tell from these numbers alone what
+                                        aspect of your technique is the greatest limiter. 
+                                    </p>
+                                    <p>
+                                        We recommend you evaluate your own lifts on video, or seek out
+                                        a knowledgeable coach to help you prioritize/fix your technical
+                                        inefficiencies so you can better harness your strength for the jerk. 
+                                    </p>
+                                </span>
+                            );
+                        }
+
+                        // Jerk lower than expected (and front squat ratio is lower than ideal)
+                        else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < 0) {
+
+                            diagnosis = (
+                                <span>
+                                    Since your jerk is lower than ideal, and since your front squat is lower
+                                    than ideal compared to your clean & jerk, it appears your jerk is
+                                    limited by your strength.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    You’ll likely benefit most by improving your squatting. This
+                                    includes both squatting more and rising faster from the bottom of
+                                    the squat. Both improvements will give you more strength and energy
+                                    for the jerk.
+                                </span>
+                            );
+                        }
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Power Clean') {
+
+                    if(frontSquat === undefined) {
+                        // Too low
+                        if(worst.ratioDiff < 0) {
+                            diagnosis = (
+                                <span>
+                                    This tells us you may suffer from either weak legs or poor explosion/transition speed.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    Train to improve your explosion/transition speed. Enter a Front Squat number for further analysis.
+                                </span>
+                            );
+                        }
+                        // Too high
+                        else {
+                            diagnosis = (
+                                <span>
+                                     If your front squat is within acceptable range, you likely have technical
+                                     inefficiencies in your clean & jerk. If your front squat is too low, you
+                                     may be lacking strength, mobility, or both.       
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                     If your front squat is within acceptable range, focus on improving your
+                                     mobility in the clean & jerk. If your front squat is too low, spend
+                                     some time getting your legs stronger. Enter a front squat number for further analysis.
+                                </span>
+                            );
+                        }
+                    }
+                    else {
+                        // PCL lower than expected (front squat within or above ideal range)
+                        if(worst.ratioDiff < 0 && frontSquat.ratioDiff + frontSquatAcceptableRange > 0) {
+                            diagnosis = (
+                                <span>
+                                    Since your power clean is lower than expected compared with your clean
+                                    & jerk, and since your front squat doesn’t appear to be deficient, you
+                                    are most likely limited by poor explosion speed and/or slow change of
+                                    direction/descent under the bar in your cleans.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    We recommend you work on improving your explosion speed and your
+                                    change of direction speed to help you get under the bar faster in
+                                    your cleans. You can do this by working on cleans/power cleans from
+                                    the power position and hang above the knee (to help with speed and change of direction),
+                                    and cleans/power cleans from blocks at the power position and above
+                                    the knee (to help with acceleration and change of direction).
+                                </span>
+                            );
+                        }
+                        // PCL lower than expected (front squat below ideal range)
+                        else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < -frontSquatAcceptableRange) {
+                            diagnosis = (
+                                <span>
+                                   Since your power clean is lower than ideal compared with your clean
+                                   & jerk, and since your front squat is lower than ideal, you are most
+                                   likely limited by poor explosion strength and/or  you are weak in the
+                                   receiving position of the clean.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   We recommend you work on improving your explosion strength and your
+                                   strength in the receiving position. You can do this by working on
+                                   front squats and partial front squats (to improve strength in the receiving position),
+                                   cleans/power cleans from the power position and hang above the knee
+                                   (to help with speed and change of direction) and cleans/power cleans
+                                   from blocks at the power position and above the knee 
+                                   (to help with acceleration and change of direction).
+                                </span>
+                            );
+                        }
+                        // PCL higher than expected (and front squat ratio is within range)
+                        else if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                            diagnosis = (
+                                <span>
+                                   Since your power clean is higher than ideal compared with your clean
+                                   & jerk, but your front squat suggests you have adequate strength in
+                                   reserve, it appears you are most likely limited by technical
+                                   inefficiencies in receiving the clean (e.g. footwork, elbow speed, and potentially torso position) 
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   First we recommend you double-check that you are in good receiving
+                                   position in your cleans (just like your front squats). If you’re not
+                                   in good receiving position, you may benefit from spending time with
+                                   mobility work. Assuming your receiving position is OK, you’ll likely
+                                   get the greatest improvement practicing cleans/power cleans from the
+                                   blocks or the hang, either from the power position or from above the
+                                   knee. These will help you focus on receiving the bar more
+                                   efficiently. 
+                                </span>
+                            );
+                        }
+                        else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < -frontSquatAcceptableRange) {
+                            diagnosis = (
+                                <span>
+                                   Since your power clean is higher than ideal compared with your clean
+                                   & jerk, but your front squat is lower than ideal, it suggests you
+                                   have very limited strength reserve, Thus your clean & jerk is likely
+                                   limited by your strength. If your positioning is bad, this could also
+                                   be related to mobility. 
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   We recommend you work on making sure you are in a good receiving
+                                   position. If you’re not in good receiving position, you may benefit
+                                   from spending time with mobility work. If you are in good receiving
+                                   position, you should focus on getting your legs stronger so you have
+                                   more strength reserve to better make your cleans and jerks. This
+                                   should include squatting more and rising faster from the squat. 
+                                </span>
+                            );
+                        }
+                    }
+
+                    // PCL lower than expected
+                    if(worst.ratioDiff < 0) {
+                        diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
+                        prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
+                    }
+
+                    // PCL higher than expected (and front squat ratio is within range)
+                    else if(frontSquat !== undefined && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
+                        diagnosis = "Since your front squat is within acceptable range, you likely have technical inefficiencies in your clean & jerk.";
+                        prescription = "We recommend you analyze (or get coaching help to analyze) your clean & jerk technique and work on fixing it.";
+                    }
+
+                    // PCL higher than expected (and front squat ratio is lower than ideal)
+                    else if(frontSquat !== undefined && frontSquat.ratioDiff < 0) {
+                        diagnosis = "Since your front squat is lower than the acceptable range, you may be lacking strength, mobility, or both.";
+                        prescription = "We recommend you spend some time getting your legs stronger and/or improving your mobility";
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Clean Blocks Abv Knee') {
+                    // Lower than ideal
+                    if(worst.ratioDiff < 0) {
+                            diagnosis = (
+                                <span>
+                                   Since your clean from blocks above the knee is much lower than ideal
+                                   relative to your clean & jerk, and since this is the biggest
+                                   disparity in the numbers you entered, it tell us your biggest
+                                   weakness is likely in the vertical explosion.  
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   We recommend you incorporate training to improve your explosion such
+                                   as box jumps, heavy partial squats, and jumping squats with the
+                                   barbell. 
+                                </span>
+                            );
+                    }
+                    // Higher than ideal
+                    else {
+                            diagnosis = (
+                                <span>
+                                    Since your clean from blocks above the knee is much greater than
+                                    ideal relative to your clean & jerk, and since this is the biggest
+                                    disparity in the numbers you entered, it tells us you likely suffer
+                                    from issues in the clean when moving the bar from the floor past
+                                    your knees. This may be a strength issue off the floor or
+                                    a coordination issue passing your knees.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   We recommend you incorporate training to improve breaking the bar off
+                                   the floor and passing your knees. This might include clean pulls to
+                                   the knee and clean pulls to the hip. You may also wish to include
+                                   lifts from the hang below the knee. 
+                                </span>
+                            );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Hang Clean Below Knee') {
+                    // Lower than ideal
+                    if(worst.ratioDiff < 0) {
+                            diagnosis = (
+                                <span>
+                                   Since your hang clean from below the knee is much lower than ideal
+                                   relative to your clean & jerk, and since this is the biggest
+                                   disparity in the numbers you entered, it tells us you may have poor
+                                   back strength or coordination problems when the bar passes your
+                                   knees. 
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   If it’s a back strength issue, we recommend you incorporate exercises
+                                   like RDLs, back extensions, clean pulls to the hip. If it’s
+                                   a coordination issue, you should practice more lifts from below the
+                                   knee (power clean, clean) as well as pulls and extensions. 
+                                </span>
+                            );
+                    }
+                    // Higher than ideal
+                    else {
+                            diagnosis = (
+                                <span>
+                                    Since your hang clean from below the knee is much greater than ideal
+                                    relative to your clean & jerk, and since this is the biggest
+                                    disparity in the numbers you entered, it tells us you likely suffer
+                                    from issues when you break the bar off the floor in the clean.
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                    We recommend you incorporate training to improve breaking the bar
+                                    off the floor. This might include clean pulls to the knee and more
+                                    lifts from floor.
+                                </span>
+                            );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Overhead Squat') {
+                    // OHS lower than ideal
+                    if(worst.ratioDiff < 0) {
+                            diagnosis = (
+                                <span>
+                                   Since your overhead squat is much lower than ideal relative to your
+                                   snatch, and since this is the biggest disparity in the numbers you
+                                   entered, it tells us you likely have a problem with overhead
+                                   stability in the receiving position of the snatch. 
+                                </span>
+                            );
+
+                            prescription = (
+                                <span>
+                                   We recommend you spend some time focused on increasing your overhead
+                                   strength and stability. You can do this by adding lots of presses
+                                   from different positions (including behind neck, seated, from squat, etc) and with different grips (snatch, clean).
+                                   You can also incorporate upper back work with rows, dips, lat pulldowns, pullups, etc. 
+                                </span>
+                            );
+                    }
+                    // OHS higher than ideal
+                    else {
+                        diagnosis = diagnoses[secondWorst.name][whichWay2];
+                        prescription = prescriptions[secondWorst.name][whichWay2];
+                        worst = secondWorst;
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Power Snatch') {
+                    // Lower than ideal
+                    if(worst.ratioDiff < 0) {
+                        diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
+                        prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
+                    }
                 }
 
-                // Clean too high (and front squat ratio is lower than ideal)
-                else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < 0) {
-                    diagnosis = "Your biggest deficiency seems to rest with your jerk. " + 
-                        "Since your front squat to c&j is lower than expected, your Jerk issues may be strength related";
-                    prescription = "We recommend you concentrate on getting your legs stronger.";
-                }
+                // Create the generic description text for this calculation
+                let description = `The ideal is to have your ${worst.name} at ${formatNumber(worst.expectedRatio)}% 
+                    of your ${this.props.baseName}, however your ${worst.name} is at ${formatNumber(worst.actualRatio)}%
+                    of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
+
+                // Create the HTML to display the diagnosis/prescription/description
+                resultsContent = (
+                        <span>
+                            <p>
+                                Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>. 
+                            </p>
+                            <dl>
+                                <dt>Diagnosis</dt>
+                                <dd>{diagnosis}</dd>
+
+                                <dt>Prescription</dt>
+                                <dd>{prescription}</dd>
+
+                                <dt>How did we get this?</dt>
+                                <dd>{description}</dd>
+                            </dl>
+                        </span>);
             }
-            //////////////////////////////////////////////////////////////////////
-            else if(worst.name === 'Jerk' && frontSquat !== undefined) {
-                // Jerk lower than expected (and front squat ratio is within range)
-                if(worst.ratioDiff < 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
-                    diagnosis = "Since your squat ratios appear to be within the right range, you may have jerk technique issues.";
-                    prescription = "We recommend you analyze (or get coaching help to analyze) your jerk technique and work on fixing it.";
-                }
-
-                // Jerk lower than expected (and front squat ratio is lower than ideal)
-                else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < 0) {
-                    diagnosis = "Since your squat ratios are below ideal range, your issues are likely strength-related";
-                    prescription = "We recommend you concentrate on getting your legs stronger.";
-                }
-            }
-            //////////////////////////////////////////////////////////////////////
-            else if(worst.name === 'Seated Press') {
-                // Press higher than ideal
-                if(worst.ratioDiff > 0) {
-                    diagnosis = diagnoses[secondWorst.name][whichWay2];
-                    prescription = prescriptions[secondWorst.name][whichWay2];
-                    worst = secondWorst;
-                }
-            }
-            //////////////////////////////////////////////////////////////////////
-            else if(worst.name === 'Power Clean') {
-                // PCL lower than expected
-                if(worst.ratioDiff < 0) {
-                    diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
-                    prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
-                }
-
-                // PCL higher than expected (and front squat ratio is within range)
-                else if(frontSquat !== undefined && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
-                    diagnosis = "Since your front squat is within acceptable range, you likely have technical inefficiencies in your clean & jerk.";
-                    prescription = "We recommend you analyze (or get coaching help to analyze) your clean & jerk technique and work on fixing it.";
-                }
-
-                // PCL higher than expected (and front squat ratio is lower than ideal)
-                else if(frontSquat !== undefined && frontSquat.ratioDiff < 0) {
-                    diagnosis = "Since your front squat is lower than the acceptable range, you may be lacking strength, mobility, or both.";
-                    prescription = "We recommend you spend some time getting your legs stronger and/or improving your mobility";
-                }
-            }
-            //////////////////////////////////////////////////////////////////////
-            else if(worst.name === 'Overhead Squat') {
-                // OHS higher than ideal
-                if(worst.ratioDiff > 0) {
-                    diagnosis = diagnoses[secondWorst.name][whichWay2];
-                    prescription = prescriptions[secondWorst.name][whichWay2];
-                    worst = secondWorst;
-                }
-            }
-            //////////////////////////////////////////////////////////////////////
-            else if(worst.name === 'Power Snatch') {
-                // Lower than ideal
-                if(worst.ratioDiff < 0) {
-                    diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
-                    prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
-                }
-            }
-
-            // Create the generic description text for this calculation
-            let description = `The ideal is to have your ${worst.name} at ${formatNumber(worst.expectedRatio)}% 
-                of your ${this.props.baseName}, however your ${worst.name} is at ${formatNumber(worst.actualRatio)}%
-                of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
-
-            // Create the HTML to display the diagnosis/prescription/description
-            resultsContent = (
-                    <span>
-                        <p>
-                            Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>. 
-                        </p>
-                        <dl>
-                            <dt>Diagnosis</dt>
-                            <dd>{diagnosis}</dd>
-
-                            <dt>Prescription</dt>
-                            <dd>{prescription}</dd>
-
-                            <dt>How did we get this?</dt>
-                            <dd>{description}</dd>
-                        </dl>
-                    </span>);
         }
 
         return (<Panel header={analysisName} bsStyle="danger">{resultsContent}</Panel>);
