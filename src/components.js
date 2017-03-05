@@ -306,9 +306,11 @@ class AccessoryResults extends Component {
             resultsContent = (<span>Please enter one or more accessory maxes for analysis</span>);
         }
         else {
-            let finished = true;
+            let finished = false;
+            let notes = (<span></span>);
             while(finished === false) {
-                let finished = true;
+                console.log('>>>>>>>');
+                finished = true;
                 let worst = _.maxBy(results, (r) => Math.abs(r.ratioDiff));
                 let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
 
@@ -866,23 +868,150 @@ class AccessoryResults extends Component {
                     }
                     // OHS higher than ideal
                     else {
-                        diagnosis = diagnoses[secondWorst.name][whichWay2];
-                        prescription = prescriptions[secondWorst.name][whichWay2];
-                        worst = secondWorst;
+                        results = _.filter(results, (r) => r.name !== 'Overhead Squat');
+                        if(results.length > 0) {
+                            notes = (
+                                <span>
+                                You have a huge Overhead Squat. This isn't a problem, so we moved on to your next weakness for analysis.
+                                </span>
+                            );
+                            finished = false;
+                        }
                     }
                 }
                 //////////////////////////////////////////////////////////////////////
                 else if(worst.name === 'Power Snatch') {
                     // Lower than ideal
                     if(worst.ratioDiff < 0) {
-                        diagnosis = "This tells us you may suffer from poor explosion/transition speed.";
-                        prescription = "You should work on improving your explosion and your change of direction speed (getting under bar faster)";
+                        diagnosis = (
+                            <span>
+                                Since your power snatch is lower than ideal compared to your snatch,
+                                and since this is the biggest disparity we detected, you are most
+                                likely limited by poor explosion and/or you are slow changing
+                                directions and getting under the bar.
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                               We recommend you work on improving your explosion speed and your
+                               change of direction speed to help you get under the bar faster. You
+                               can do this by working on snatches/power snatches from the power
+                               position and hang above the knee (to help with speed and change of direction)
+                               and snatches/power snatches from blocks at the power position and above the knee 
+                               (to help with acceleration and change of direction).
+                           </span>
+                        );
+                    }
+                    else {
+                        diagnosis = (
+                            <span>
+                               Since your power snatch is higher than ideal compared with your
+                               snatch, it appears you are most likely being held back by strength or
+                               confidence in your receiving position. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                               To improve your strength and confidence in the receiving position of
+                               the snatch, you might work on snatch balance, overhead squat,
+                               overhead squat with a pause, and snatch-grip presses 
+                               (standing, seated, and from squat). 
+                            </span>
+                        );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Snatch Blocks Abv Knee') {
+                    // Lower than ideal
+                    if(worst.ratioDiff < 0) {
+                        diagnosis = (
+                            <span>
+                                Since your snatch from blocks above the knee is much lower than ideal
+                                relative to your snatch, and since this is the biggest disparity in the
+                                numbers you entered, it tell us your biggest weakness is likely in the
+                                vertical explosion. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                We recommend you incorporate training to improve your explosion such
+                                as box jumps, heavy partial squats, and jumping squats with the
+                                barbell.
+                            </span>
+                        );
+                    }
+                    // Higher than ideal
+                    else {
+                        diagnosis = (
+                            <span>
+                               Since your snatch from blocks above the knee is much greater than
+                               ideal relative to your snatch, and since this is the biggest
+                               disparity in the numbers you entered, it tells us you likely suffer
+                               from issues in the snatch when moving the bar from the floor and past
+                               your knees. This may be a strength issue off the floor or
+                               a coordination issue passing your knees. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                We recommend you incorporate training to improve breaking the bar off
+                                the floor and passing your knees. This might include snatch pulls to the
+                                knee and snatch pulls to the hip. You may also wish to include lifts
+                                from the hang below the knee.
+                            </span>
+                        );
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////
+                else if(worst.name === 'Hang Snatch Below Knee') {
+                    if(worst.ratioDiff < 0) {
+                        diagnosis = (
+                            <span>
+                                Since your hang snatch from below the knee is much lower than ideal
+                                relative to your snatch, and since this is the biggest disparity in the
+                                numbers you entered, it tells us you may have poor back strength or
+                                coordination problems when the bar passes your knees.
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                               If it’s a back strength issue, we recommend you incorporate exercises
+                               like RDLs (regular grip and snatch grip), back extensions, and snatch
+                               pulls to the hip. If it’s a coordination issue, you should practice
+                               more lifts from below the knee (power snatch, snatch) as well as
+                               snatch pulls and snatch extensions. 
+                            </span>
+                        );
+                    }
+                    else {
+                        diagnosis = (
+                            <span>
+                               Since your hang snatch from below the knee is much greater than ideal
+                               relative to your snatch, and since this is the biggest disparity in
+                               the numbers you entered, it tells us you likely suffer from issues
+                               when you break the bar off the floor in the snatch. 
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                               We recommend you incorporate training to improve breaking the bar off
+                               the floor. This might include snatch pulls to the knee and more lifts
+                               from floor. 
+                            </span>
+                        );
                     }
                 }
 
                 // Create the generic description text for this calculation
-                let description = `The ideal is to have your ${worst.name} at ${formatNumber(worst.expectedRatio)}% 
-                    of your ${this.props.baseName}, however your ${worst.name} is at ${formatNumber(worst.actualRatio)}%
+                let description = `The ideal is to have your ${worst.name} at
+                ${formatNumber(worst.expectedRatio)}% of your ${this.props.baseName}, however your
+                ${worst.name} is at ${formatNumber(worst.actualRatio)}%
                     of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
 
                 // Create the HTML to display the diagnosis/prescription/description
@@ -901,6 +1030,9 @@ class AccessoryResults extends Component {
                                 <dt>How did we get this?</dt>
                                 <dd>{description}</dd>
                             </dl>
+                            <p>
+                                <i>{notes}</i>
+                            </p>
                         </span>);
             }
         }
