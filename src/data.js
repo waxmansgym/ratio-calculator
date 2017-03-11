@@ -1,3 +1,9 @@
+let ranges = {
+    ideal: 3,
+    acceptable: 6,
+    unacceptable: 9,
+}
+
 const accessories = {
     snatch: {
         'Overhead Squat':         { ratio: 105 },
@@ -7,7 +13,7 @@ const accessories = {
     },
     cnj: {
         'Clean':                  { ratio: 102 },
-        'Back Squat':             { ratio: 134 },
+        'Back Squat':             { ratio: 135 },
         'Front Squat':            { ratio: 115 },
         'Jerk':                   { ratio: 105 },
         'Power Clean':            { ratio:  80 },
