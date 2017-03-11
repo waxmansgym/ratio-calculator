@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 var _ = require('lodash');
 import {isNumber} from './helpers.js';
-import Panel from 'react-bootstrap/lib/Panel';
 import {ranges, diagnoses, prescriptions} from './data.js';
 
 let formatNumber = Math.round;
@@ -252,28 +251,33 @@ class BaseResults extends Component {
                 }
 
                 resultsContent = (
-                    <span>
-                    <dl>
-                    <dt>Diagnosis</dt>
-                    <dd>{diagnosis}</dd>
+                        <span>
+                            <h3>Diagnosis</h3>
+                            {diagnosis}
 
-                    <dt>Prescription</dt>
-                    <dd>{prescription}</dd>
+                            <h3>Prescription</h3>
+                            {prescription}
 
-                    <dt>How did we get this?</dt>
-                    <dd>{description}</dd>
-                    </dl>
-                    </span>);
+                            <h3>How did we get this?</h3>
+                            {description}
+                        </span>);
             }
-
         }
 
         return (
             <span>
                 <h3>4. Check out your results:</h3>
-                <Panel header="Snatch Compared to C&J" bsStyle="danger">
-                    {resultsContent}
-                </Panel>
+
+                <div className="panel panel-danger">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">Snatch Compared to C&J</h3>
+                    </div>
+                    <div className="panel-body" style={{'text-align': 'left'}}>
+                        {resultsContent}
+                    </div>
+                </div>
+
+
             </span>
         );
     }
@@ -317,6 +321,7 @@ class AccessoryResults extends Component {
                 let whichWay = worst.ratioDiff < 0 ? 'too_low' : 'too_high';
                 let diagnosis = diagnoses[worst.name][whichWay];
                 let prescription = prescriptions[worst.name][whichWay];
+                let showWork = true;
 
                 // ######################################################################
                 // TODO: As the rule tree becomes more complex, more and more logic made its way here.
@@ -331,7 +336,8 @@ class AccessoryResults extends Component {
                 let frontSquatAcceptableRange = 5.0;
 
                 if(Math.abs(worst.ratioDiff) <= ranges.ideal) {
-                    if(results.length == 1) {
+                    showWork = false;
+                    if(results.length === 1) {
                         diagnosis = (
                             <span>
                                 Congratulations, your {worst.name} is within ideal balance.
@@ -1040,22 +1046,31 @@ class AccessoryResults extends Component {
                 ${worst.name} is at ${formatNumber(worst.actualRatio)}%
                     of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
 
+                let work = (<span></span>);
+                if(showWork) {
+                    work = (
+                        <span>
+                            <h3>How did we get this?</h3>
+                            {description}
+                        </span>
+                    );
+                }
+
                 // Create the HTML to display the diagnosis/prescription/description
                 resultsContent = (
                         <span>
                             <p>
-                                Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>. 
+                                Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>.
                             </p>
-                            <dl>
-                                <dt>Diagnosis</dt>
-                                <dd>{diagnosis}</dd>
 
-                                <dt>Prescription</dt>
-                                <dd>{prescription}</dd>
+                            <h3>Diagnosis</h3>
+                            {diagnosis}
 
-                                <dt>How did we get this?</dt>
-                                <dd>{description}</dd>
-                            </dl>
+                            <h3>Prescription</h3>
+                            {prescription}
+
+                            {work}
+
                             <p>
                                 <i>{notes}</i>
                             </p>
@@ -1063,7 +1078,16 @@ class AccessoryResults extends Component {
             }
         }
 
-        return (<Panel header={analysisName} bsStyle="danger">{resultsContent}</Panel>);
+        return (
+            <div className="panel panel-danger">
+                <div className="panel-heading">
+                    <h3 className="panel-title">{analysisName}</h3>
+                </div>
+                <div className="panel-body" style={{'text-align': 'left'}}>
+                    {resultsContent}
+                </div>
+            </div>
+        );
     }
 }
 

@@ -117,4 +117,4 @@ const prescriptions = {
         'too_high': 'You should spend more time practicing clean pulls from the floor and/or from a deficit.'
     }
 };
-export {accessories, diagnoses, prescriptions};
+export {ranges, accessories, diagnoses, prescriptions};

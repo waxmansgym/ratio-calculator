@@ -130,7 +130,7 @@ class App extends Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <img src="img/wg_logo.png"/>
+                            <img alt="Waxman's Gym" src="img/wg_logo.png"/>
                         </div>
                     </div>
 
