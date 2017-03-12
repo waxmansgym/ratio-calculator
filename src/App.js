@@ -1,5 +1,5 @@
 
-import {BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay} from './components.js';
+import {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal} from './components.js';
 import {isNumber} from './helpers.js';
 import {accessories} from './data.js';
 
@@ -32,6 +32,7 @@ class App extends Component {
         });
 
         this.state = {
+            scrolled: false,
             bases: {snatch: null, cnj: null},
             accessories: accessoryState,
             results: {
@@ -84,12 +85,14 @@ class App extends Component {
             });
         });
 
+        if(!this.state.scrolled)
+            setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
+
         this.setState({
             accessories: accessoriesState,
-            results: results
+            results: results,
+            scrolled: true
         });
-
-        setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
     }
 
     handleAccessoryChange(event) {
@@ -111,6 +114,7 @@ class App extends Component {
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
             <div className="row" key={"row_" + accessory}>
                 <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
+                <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.snatch} base="snatch"/>
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
             </div>
         ));
@@ -119,6 +123,7 @@ class App extends Component {
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
             <div className="row" key={"row_" + accessory}>
                 <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
+                <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.cnj} base="cnj"/>
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
             </div>
         ));
@@ -162,13 +167,17 @@ class App extends Component {
                         <h3>2. Next, enter your known bests for any/all of the following:</h3>
                         <div className="col-md-6">
                             <Panel header="Snatch Exercises" bsStyle="danger">
+                                <AccessoryHeader/>
                                 {snatchAccessories}
+                                <AccessoryFooter/>
                             </Panel>
                         </div>
 
                         <div className="col-md-6">
                             <Panel header="C&J Exercises" bsStyle="danger">
+                                <AccessoryHeader/>
                                 {cnjAccessories}
+                                <AccessoryFooter/>
                             </Panel>
                         </div>
                     </div>

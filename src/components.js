@@ -1,9 +1,57 @@
 import React, { Component } from 'react';
 var _ = require('lodash');
 import {isNumber} from './helpers.js';
-import {ranges, diagnoses, prescriptions} from './data.js';
+import {accessories, ranges, diagnoses, prescriptions} from './data.js';
 
 let formatNumber = Math.round;
+
+class AccessoryHeader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render() {
+        return(
+            <div className="row">
+                <div className="col-md-5"></div>
+                <div className="col-md-2"><small><b>Input</b></small></div>
+                <div className="col-md-1"><small><b>Ideal</b></small></div>
+                <div className="col-md-4"><small><b>Variance</b></small></div>
+            </div>
+        );
+    }
+};
+
+class AccessoryFooter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    //<line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
+    //<line x1="50%" x2="50%" y1="0%" y2="100%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
+    //<circle cx={x} cy="50%" r={13} stroke="black" strokeWidth="1.5" fill={color}/>
+    //<text x={x} y="50%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
+
+
+    render() {
+        return(
+            <div className="row">
+                <div className="col-md-5"></div>
+                <div className="col-md-2"></div>
+                <div className="col-md-1"></div>
+                <div className="col-md-4">
+
+                    <svg width="100%" height={40} style={{overflow: 'visible'}}>
+                    
+                    </svg>
+
+                </div>
+            </div>
+        );
+    }
+}
 
 class BaseLiftInput extends Component {
     constructor(props) {
@@ -45,8 +93,8 @@ class AccessoryLiftInput extends Component {
                 <div className="col-md-5">
                     <strong>{this.props.name}</strong>
                 </div>
-                <div className="col-md-3">
-                    <input type="number" className="form-control" value={this.state.value} onChange={this.handleChange}/>
+                <div className="col-md-2">
+                    <input type="number" className="form-control" value={this.state.value} style={{textAlign: 'center', paddingRight: '2px', paddingLeft: '2px'}} onChange={this.handleChange}/>
                 </div>
             </span>
 
@@ -62,6 +110,20 @@ function percentColor(percent, alpha=1, start = 0, end = 120) {
     return 'hsla('+c+',70%,40%,' + alpha + ')';
 }
     
+class AccessoryLiftIdeal extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render() {
+        let ratio = accessories[this.props.base][this.props.name].ratio;
+        let expected = '';
+        if(this.props.baseValue !== null)
+            expected = Math.round(ratio / 100 * this.props.baseValue);
+        return (<div className="col-md-1" style={{textAlign: 'center'}}>{expected}</div>);
+    }
+}
 
 class AccessoryRatioDisplay extends Component {
     constructor(props) {
@@ -70,62 +132,35 @@ class AccessoryRatioDisplay extends Component {
     }
 
     render() {
-        // let actualRatioLabel = <span></span>;
-        // let expectedRatioLabel = <span></span>;
-        // if(isNumber(this.props.actualRatio)) {
-        //     let delta = Math.abs(this.props.actualRatio - this.props.expectedRatio);
-        //     let dangerZone = 15;
-        //     let percent = 100 - Math.min(Math.abs(delta / dangerZone * 100), 100);
-        //     let color = percentColor(percent);
-
-        //     actualRatioLabel = <span className="label label-default" style={{'backgroundColor': color}}>{this.props.actualRatio.toFixed(0)}%</span>;
-        //     expectedRatioLabel = <span className="label label-default">{this.props.expectedRatio.toFixed(0)}%</span>;
-        // }
-        //
-
          if(!isNumber(this.props.actualRatio)) {
              return null;
          }
         
-        let x = Math.max(0, Math.min(100, (50 + this.props.actualRatio - this.props.expectedRatio))) + "%"
+        // let x = Math.max(0, Math.min(100, (50 + this.props.actualRatio - this.props.expectedRatio))) + "%"
 
-        let delta = Math.abs(this.props.actualRatio - this.props.expectedRatio);
-        let dangerZone = 15;
-        let percent = 100 - Math.min(Math.abs(delta / dangerZone * 100), 100);
-        let color = percentColor(percent, 1.0);
+        let delta = this.props.actualRatio - this.props.expectedRatio;
+        let percent = 100 - Math.min(Math.abs(delta / ranges.unacceptable * 100), 100);
+        let x = Math.max(0, Math.min(100, 50 + (this.props.actualRatio - this.props.expectedRatio) / ranges.unacceptable * 50  )) + "%";
+        let color = percentColor(percent, 0.6);
 
+        let format = (n) => {
+            return (n>0?'+':'') + Math.round(n) + '%';
+        }
 
-                    //<rect x={5} y="25%" width="100%" height={3} color="blue"/>
-         //<line x1={x} x2={x} y1="0%" y2="100%" strokeWidth="6" stroke="black"/>
         return (
-            <div className="col-md-4">
-                <svg width="100%" height={40}>
-                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1" stroke="rgba(0,0,0,0.5)"/>
+            <div className="col-md-4" style={{overflow: 'visible'}}>
+                <svg width="100%" height={40} style={{overflow: 'visible'}}>
+                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
 
-                    <line x1="50%" x2="50%" y1="40%" y2="60%" strokeWidth="1" stroke="rgba(0,0,0,0.5)"/>
+                    <line x1="50%" x2="50%" y1="0%" y2="100%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
 
-                    <circle cx={x} cy="50%" r={15} stroke="black" strokeWidth="1" fill={color}/>
+                    <circle cx={x} cy="50%" r={13} stroke="black" strokeWidth="1.5" fill={color}/>
 
-                    <text x={x} y="50%" fontSize="10" textAnchor="middle" alignmentBaseline="middle"> hi </text>
+                    <text x={x} y="50%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
 
                 </svg>
             </div>
         );
-
-        // return (
-        //     <span>
-        //         <div className="col-md-2">
-        //             <center>
-        //                 {actualRatioLabel}
-        //             </center>
-        //         </div>
-        //         <div className="col-md-2">
-        //             <center>
-        //                 {expectedRatioLabel}
-        //             </center>
-        //         </div>
-        //     </span>
-        // );
     }
 }
 
@@ -272,7 +307,7 @@ class BaseResults extends Component {
                     <div className="panel-heading">
                         <h3 className="panel-title">Snatch Compared to C&J</h3>
                     </div>
-                    <div className="panel-body" style={{'text-align': 'left'}}>
+                    <div className="panel-body" style={{textAlign: 'left'}}>
                         {resultsContent}
                     </div>
                 </div>
@@ -336,7 +371,6 @@ class AccessoryResults extends Component {
                 let frontSquatAcceptableRange = 5.0;
 
                 if(Math.abs(worst.ratioDiff) <= ranges.ideal) {
-                    showWork = false;
                     if(results.length === 1) {
                         diagnosis = (
                             <span>
@@ -352,6 +386,7 @@ class AccessoryResults extends Component {
                         );
                     }
                     else {
+                        showWork = false;
                         diagnosis = (
                             <span>
                                 All the exercises you’ve entered appear to be within ideal ranges to demonstrate balance. Congratulations.
@@ -383,7 +418,6 @@ class AccessoryResults extends Component {
                         );
                     }
                     else if(worst.name === 'Clean' && frontSquat !== undefined) {
-                        console.log('YAAAA', worst.ratioDiff, Math.abs(frontSquat.ratioDiff), frontSquatAcceptableRange);
                         // Clean too high (and front squat ratio is within range) 
                         if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
                             diagnosis = (
@@ -1083,7 +1117,7 @@ class AccessoryResults extends Component {
                 <div className="panel-heading">
                     <h3 className="panel-title">{analysisName}</h3>
                 </div>
-                <div className="panel-body" style={{'text-align': 'left'}}>
+                <div className="panel-body" style={{textAlign: 'left'}}>
                     {resultsContent}
                 </div>
             </div>
@@ -1091,4 +1125,4 @@ class AccessoryResults extends Component {
     }
 }
 
-export {BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay};
+export {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal};
