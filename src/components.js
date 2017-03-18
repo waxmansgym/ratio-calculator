@@ -13,11 +13,11 @@ class AccessoryHeader extends Component {
 
     render() {
         return(
-            <div className="row">
-                <div className="col-md-5"></div>
+            <div className="row hidden-sm hidden-xs">
+                <div className="col-md-3"></div>
                 <div className="col-md-2"><small><b>Input</b></small></div>
                 <div className="col-md-1"><small><b>Ideal</b></small></div>
-                <div className="col-md-4"><small><b>Variance</b></small></div>
+                <div className="col-md-6"><small><b>Variance</b></small></div>
             </div>
         );
     }
@@ -34,17 +34,55 @@ class AccessoryFooter extends Component {
     //<circle cx={x} cy="50%" r={13} stroke="black" strokeWidth="1.5" fill={color}/>
     //<text x={x} y="50%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
 
-
     render() {
+
+        let redxr = 50 + ranges.acceptable / ranges.unacceptable * 50 + '%';
+        let redxl = 50 - ranges.acceptable / ranges.unacceptable * 50 + '%';
+
+        let yellowxr = 50 + ranges.ideal / ranges.unacceptable * 50 + '%';
+        let yellowxl = 50 - ranges.ideal / ranges.unacceptable * 50 + '%';
+
         return(
             <div className="row">
-                <div className="col-md-5"></div>
+                <div className="col-md-3"></div>
                 <div className="col-md-2"></div>
                 <div className="col-md-1"></div>
-                <div className="col-md-4">
+                <div className="col-md-6">
 
-                    <svg width="100%" height={40} style={{overflow: 'visible'}}>
+                    <svg width="80%" height={40} style={{overflow: 'visible'}}>
+
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+                        </marker>
+                    </defs>
+
+
+                    <line x1={redxr} x2={redxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                    <text x={redxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.acceptable + '%'} </text>
+
+                    <line x1={yellowxr} x2={yellowxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                    <text x={yellowxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.ideal + '%'} </text>
+
+                    <line x1={redxl} x2={redxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                    <text x={redxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.acceptable + '%'} </text>
+
+                    <line x1={yellowxl} x2={yellowxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                    <text x={yellowxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.ideal + '%'} </text>
+
+                    <line x1="50%" x2="50%" y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                    <text x="50%" y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> 0% </text>
+
+
                     
+                    <line x2="100%" x1={redxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
+                    <line x2="0%" x1={redxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
+
+                    <line x1={redxr} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
+                    <line x1={redxl} x2={yellowxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
+                    <line x1={yellowxl} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(0,255,0,1)"/>
+
+
                     </svg>
 
                 </div>
@@ -68,8 +106,17 @@ class BaseLiftInput extends Component {
     render() {
         return(
             <span>
-                <strong>{this.props.name}</strong>
-                <input type="number" className="form-control" value={this.state.value} onChange={this.handleChange}/>
+                <span className="visible-sm visible-xs">
+                    <div className="col-md-12" style={{display: 'table', margin: '0 auto'}}>
+                        <strong>{this.props.name}</strong>
+                        <input type="number" className="form-control" style={{textAlign: 'center'}} value={this.state.value} onChange={this.handleChange}/>
+                    </div>
+                </span>
+
+                <span className="hidden-sm hidden-xs">
+                    <strong>{this.props.name}</strong>
+                    <input type="number" className="form-control" style={{textAlign: 'center'}} value={this.state.value} onChange={this.handleChange}/>
+                </span>
             </span>
         );
     }
@@ -90,11 +137,29 @@ class AccessoryLiftInput extends Component {
     render() {
         return (
             <span>
-                <div className="col-md-5">
-                    <strong>{this.props.name}</strong>
+                <div className="col-md-3">
+                    <strong>{this.props.displayName}</strong>
                 </div>
                 <div className="col-md-2">
-                    <input type="number" className="form-control" value={this.state.value} style={{textAlign: 'center', paddingRight: '2px', paddingLeft: '2px'}} onChange={this.handleChange}/>
+
+                    <div className="row visible-sm visible-xs">
+                        <div className="col-md-12" style={{display: 'table', margin: '0 auto'}}>
+                            <form>
+                                <input type="number" className="form-control col-xs-2" value={this.state.value}
+                                    style={{textAlign: 'center', verticalAlign: 'middle', paddingRight: '2px', paddingLeft: '2px', width: "100px"}} onChange={this.handleChange}/>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div className="row hidden-sm hidden-xs">
+                        <div className="col-md-12">
+                            <form>
+                                <input type="number" className="form-control col-xs-2" value={this.state.value}
+                                    style={{textAlign: 'center', verticalAlign: 'middle', paddingRight: '2px', paddingLeft: '2px'}} onChange={this.handleChange}/>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </span>
 
@@ -119,9 +184,12 @@ class AccessoryLiftIdeal extends Component {
     render() {
         let ratio = accessories[this.props.base][this.props.name].ratio;
         let expected = '';
-        if(this.props.baseValue !== null)
+        let idealLabel = null;
+        if(this.props.baseValue !== null) {
             expected = Math.round(ratio / 100 * this.props.baseValue);
-        return (<div className="col-md-1" style={{textAlign: 'center'}}>{expected}</div>);
+            idealLabel = (<span className="visible-sm visible-xs" style={{paddingTop: '10px'}}><strong>Ideal</strong></span>);
+        }
+        return (<div className="col-md-1" style={{textAlign: 'center'}}><i>{idealLabel}{expected}</i></div>);
     }
 }
 
@@ -141,22 +209,27 @@ class AccessoryRatioDisplay extends Component {
         let delta = this.props.actualRatio - this.props.expectedRatio;
         let percent = 100 - Math.min(Math.abs(delta / ranges.unacceptable * 100), 100);
         let x = Math.max(0, Math.min(100, 50 + (this.props.actualRatio - this.props.expectedRatio) / ranges.unacceptable * 50  )) + "%";
-        let color = percentColor(percent, 0.6);
+        // let color = percentColor(percent, 1.0);
+        let color = '';
+        if(Math.abs(delta) < ranges.ideal) color = 'rgba(50, 255, 50, 1)';
+        else if(Math.abs(delta) < ranges.acceptable) color = 'rgba(255, 255, 50, 1)';
+        else color = 'rgba(255, 80, 80, 1)';
 
         let format = (n) => {
             return (n>0?'+':'') + Math.round(n) + '%';
         }
 
         return (
-            <div className="col-md-4" style={{overflow: 'visible'}}>
-                <svg width="100%" height={40} style={{overflow: 'visible'}}>
-                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
+            <div className="col-md-6" style={{overflow: 'visible'}}>
 
-                    <line x1="50%" x2="50%" y1="0%" y2="100%" strokeWidth="1" stroke="rgba(0,0,0,0.1)"/>
+                <svg width="80%" height="30" style={{overflow: 'visible'}}>
+                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1.5" stroke="rgba(0,0,0,1.0)"/>
 
-                    <circle cx={x} cy="50%" r={13} stroke="black" strokeWidth="1.5" fill={color}/>
+                    <line x1="50%" x2="50%" y1="50%" y2="100%" strokeWidth="0.5" stroke="rgba(0,0,0,1.0)"/>
 
-                    <text x={x} y="50%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
+                    <circle cx={x} cy="50%" r={18} stroke="black" strokeWidth="1.5" fill={color}/>
+
+                    <text x={x} y="50%" fontWeight="bold" fontSize="11" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
 
                 </svg>
             </div>

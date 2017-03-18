@@ -1,24 +1,26 @@
+import React from 'react';
+
 let ranges = {
-    ideal: 3,
-    acceptable: 6,
-    unacceptable: 9,
+    ideal: 2.5,
+    acceptable: 5,
+    unacceptable: 7.5,
 }
 
 const accessories = {
     snatch: {
-        'Overhead Squat':         { ratio: 105 },
-        'Power Snatch':           { ratio:  80 },
-        'Snatch Blocks Abv Knee': { ratio:  95 },
-        'Hang Snatch Below Knee': { ratio:  95 }
+        'Overhead Squat':         { ratio: 105, display:  (<span>Overhead <br className="hidden-sm hidden-xs"/>Squat</span>) },
+        'Power Snatch':           { ratio:  80, display:  (<span>Power <br className="hidden-sm hidden-xs"/>Snatch</span>) },
+        'Snatch Blocks Abv Knee': { ratio:  95, display:  (<span>Snatch Blocks <br className="hidden-sm hidden-xs"/>Abv Knee</span>) },
+        'Hang Snatch Below Knee': { ratio:  95, display:  (<span>Hang Snatch <br className="hidden-sm hidden-xs"/>Below Knee</span>) }
     },
     cnj: {
-        'Clean':                  { ratio: 102 },
-        'Back Squat':             { ratio: 135 },
-        'Front Squat':            { ratio: 115 },
-        'Jerk':                   { ratio: 105 },
-        'Power Clean':            { ratio:  80 },
-        'Clean Blocks Abv Knee':  { ratio:  95 },
-        'Hang Clean Below Knee':  { ratio:  95 }
+        'Clean':                  { ratio: 102, display: (<span>Clean <br className="hidden-sm hidden-xs"/></span>) },
+        'Back Squat':             { ratio: 135, display: (<span>Back <br className="hidden-sm hidden-xs"/>Squat</span>) },
+        'Front Squat':            { ratio: 115, display: (<span>Front <br className="hidden-sm hidden-xs"/>Squat</span>) },
+        'Jerk':                   { ratio: 105, display: (<span>Jerk</span>) },
+        'Power Clean':            { ratio:  80, display: (<span>Power <br className="hidden-sm hidden-xs"/>Clean</span>) },
+        'Clean Blocks Abv Knee':  { ratio:  95, display: (<span>Clean Blocks <br className="hidden-sm hidden-xs"/>Abv Knee</span>) },
+        'Hang Clean Below Knee':  { ratio:  95, display: (<span>Hang Clean <br className="hidden-sm hidden-xs"/>Below Knee</span>) }
     }
 };
 

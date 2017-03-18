@@ -85,8 +85,8 @@ class App extends Component {
             });
         });
 
-        if(!this.state.scrolled)
-            setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
+        // if(!this.state.scrolled)
+        //     setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
 
         this.setState({
             accessories: accessoriesState,
@@ -112,20 +112,30 @@ class App extends Component {
 
         // Create the snatch accessory inputs / displays
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
-            <div className="row" key={"row_" + accessory}>
-                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
-                <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.snatch} base="snatch"/>
-                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
-            </div>
+            <span key={"span_" + accessory}>
+                <div className="row" key={"row_" + accessory}>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessories.snatch[accessory].display} onChange={this.handleAccessoryChange}/>
+                    <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.snatch} base="snatch"/>
+                    <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
+                </div>
+                <div className="row" key={"row_" + accessory + "_extra"}>
+                    <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
+                </div>
+            </span>
         ));
 
         // Create the cnj accessory inputs / displays
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
-            <div className="row" key={"row_" + accessory}>
-                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
-                <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.cnj} base="cnj"/>
-                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
-            </div>
+            <span key={"span_" + accessory}>
+                <div className="row" key={"row_" + accessory}>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessories.cnj[accessory].display} onChange={this.handleAccessoryChange}/>
+                    <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.cnj} base="cnj"/>
+                    <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
+                </div>
+                <div className="row" key={"row_" + accessory + "_extra"}>
+                    <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
+                </div>
+            </span>
         ));
 
         return (
@@ -184,11 +194,16 @@ class App extends Component {
 
                     <div className="row">
                          <div className="col-md-12">
-                             <h3>3. Click the button to perform analysis:</h3>
-                             <h4>Then see below for results</h4>
                              <button type="button" className="btn btn-success btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
                          </div>
+                     </div>
+
+                    <div className="row">
+                         <div className="col-md-12">
+                             <h4>See <strong>above &uarr;</strong>, and <strong>below &darr;</strong> for analysis</h4>
+                         </div>
                     </div>
+
 
                     <div className="row" style={{'paddingTop': '50px'}}>
                         <div className="col-md-12"> </div>
