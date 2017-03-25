@@ -14,15 +14,15 @@ class AccessoryHeader extends Component {
     render() {
         return(
             <span>
-            <div className="row hidden-sm hidden-xs">
-                <div className="col-md-3"></div>
-                <div className="col-md-2"><small><b>Input</b></small></div>
-                <div className="col-md-1"><small><b>Ideal</b></small></div>
-                <div className="col-md-6"><small><b>Variance</b></small></div>
-            </div>
-            <div className="row hidden-sm hidden-xs">
-                <div className="col-md-12">&nbsp;</div>
-            </div>
+                <div className="row hidden-sm hidden-xs">
+                    <div className="col-md-3"></div>
+                    <div className="col-md-2"><small><b>Input</b></small></div>
+                    <div className="col-md-1"><small><b>Ideal</b></small></div>
+                    <div className="col-md-6"><small><b>Variance</b></small></div>
+                </div>
+                <div className="row hidden-sm hidden-xs">
+                    <div className="col-md-12">&nbsp;</div>
+                </div>
             </span>
         );
     }
@@ -56,36 +56,34 @@ class AccessoryFooter extends Component {
 
                     <svg width="80%" height={40} style={{overflow: 'visible'}}>
 
-                    <defs>
-                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
-                            <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
-                        </marker>
-                    </defs>
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+                            </marker>
+                        </defs>
 
 
-                    <line x1={redxr} x2={redxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
-                    <text x={redxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.acceptable + '%'} </text>
+                        <line x1={redxr} x2={redxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                        <text x={redxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.acceptable + '%'} </text>
 
-                    <line x1={yellowxr} x2={yellowxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
-                    <text x={yellowxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.ideal + '%'} </text>
+                        <line x1={yellowxr} x2={yellowxr} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                        <text x={yellowxr} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'+' + ranges.ideal + '%'} </text>
 
-                    <line x1={redxl} x2={redxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
-                    <text x={redxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.acceptable + '%'} </text>
+                        <line x1={redxl} x2={redxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                        <text x={redxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.acceptable + '%'} </text>
 
-                    <line x1={yellowxl} x2={yellowxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
-                    <text x={yellowxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.ideal + '%'} </text>
+                        <line x1={yellowxl} x2={yellowxl} y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                        <text x={yellowxl} y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> {'-' + ranges.ideal + '%'} </text>
 
-                    <line x1="50%" x2="50%" y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
-                    <text x="50%" y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> 0% </text>
+                        <line x1="50%" x2="50%" y1="50%" y2="75%" strokeWidth="1" stroke="rgba(0, 0, 0, 1)"/>
+                        <text x="50%" y="100%" fontSize="9" textAnchor="middle" alignmentBaseline="middle"> 0% </text>
 
+                        <line x2="100%" x1={redxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
+                        <line x2="0%" x1={redxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
 
-                    
-                    <line x2="100%" x1={redxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
-                    <line x2="0%" x1={redxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,0,0,1)" markerEnd="url(#arrow)"/>
-
-                    <line x1={redxr} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
-                    <line x1={redxl} x2={yellowxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
-                    <line x1={yellowxl} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(0,255,0,1)"/>
+                        <line x1={redxr} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
+                        <line x1={redxl} x2={yellowxl} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(255,255,0,1)"/>
+                        <line x1={yellowxl} x2={yellowxr} y1="50%" y2="50%" strokeWidth="4" stroke="rgba(0,255,0,1)"/>
 
 
                     </svg>
@@ -172,14 +170,6 @@ class AccessoryLiftInput extends Component {
     }
 }
 
-function percentColor(percent, alpha=1, start = 0, end = 120) {
-    let a = percent / 100;
-    let b = end * a;
-    let c = b + start;
-
-    return 'hsla('+c+',70%,40%,' + alpha + ')';
-}
-    
 class AccessoryLiftIdeal extends Component {
     constructor(props) {
         super(props);
@@ -205,16 +195,14 @@ class AccessoryRatioDisplay extends Component {
     }
 
     render() {
-         if(!isNumber(this.props.actualRatio)) {
-             return null;
-         }
-        
+        if(!isNumber(this.props.actualRatio)) {
+            return null;
+        }
+
         // let x = Math.max(0, Math.min(100, (50 + this.props.actualRatio - this.props.expectedRatio))) + "%"
 
         let delta = this.props.actualRatio - this.props.expectedRatio;
-        let percent = 100 - Math.min(Math.abs(delta / ranges.unacceptable * 100), 100);
         let x = Math.max(0, Math.min(100, 50 + (this.props.actualRatio - this.props.expectedRatio) / ranges.unacceptable * 50  )) + "%";
-        // let color = percentColor(percent, 1.0);
         let color = '';
         if(Math.abs(delta) < ranges.ideal) color = 'rgba(50, 255, 50, 1)';
         else if(Math.abs(delta) < ranges.acceptable) color = 'rgba(255, 255, 50, 1)';
@@ -1204,3 +1192,4 @@ class AccessoryResults extends Component {
 }
 
 export {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal};
+// vim: set ft=javascript.jsx

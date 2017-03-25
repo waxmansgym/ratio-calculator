@@ -1,42 +1,45 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 class Notes extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            modal: false
-        };
+        this.state = { showModal: false };
+        this.close = this.close.bind(this);
+        this.open = this.open.bind(this);
+    }
 
-        console.log('YEAH');
-    this.toggle = this.toggle.bind(this);
-  }
+    close() {
+        this.setState({ showModal: false });
+    }
 
-    toggle() {
-        console.log('Toggling!');
-        this.setState({
-            modal: !this.state.modal
-        });
+    open() {
+        this.setState({ showModal: true });
     }
 
     render() {
-      return (
-        <div>
-          <Button color="danger" onClick={this.toggle}>Notes</Button>
+        return (
+            <div>
+                <Button
+                    bsStyle="primary"
+                    bsSize="large"
+                    onClick={this.open}
+                >
+                    Notes
+                </Button>
 
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className="">
-            <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-            <ModalBody>
-            Notes Body...
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-            </ModalFooter>
-          </Modal>
-        </div>
-      );
+                <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Notes</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Hello World
+                    </Modal.Body>
+                </Modal>
+            </div>
+        );
     }
 }
 
 export {Notes};
+// vim: set ft=javascript.jsx

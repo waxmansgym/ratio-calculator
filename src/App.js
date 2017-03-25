@@ -156,7 +156,13 @@ class App extends Component {
 
                             <Notes/>
 
-                            <p>Over years of training athletes, we've found that lift ratios can serve as powerful tools for evaluating balance and guiding lifter development. By uncovering your biggest imbalances, you can better prioritize problems and more effectively direct your programming/training.</p>
+                            <p>
+                                Over years of training athletes, we've found that lift ratios can serve as powerful tools
+                                for evaluating balance and guiding lifter development. By uncovering your biggest
+                                imbalances, you can better prioritize problems and more effectively direct your
+                                programming/training.
+                            </p>
+
                         </div>
                     </div>
 
@@ -245,3 +251,4 @@ class App extends Component {
 }
 
 export default App;
+// vim: set ft=javascript.jsx

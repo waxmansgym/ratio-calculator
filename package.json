@@ -12,11 +12,8 @@
     "jquery": "^3.2.0",
     "lodash": "^4.16.6",
     "react": "^15.4.2",
-    "react-addons-css-transition-group": "^15.4.2",
-    "react-addons-transition-group": "^15.4.2",
-    "react-bootstrap": "^0.30.6",
-    "react-dom": "^15.3.2",
-    "reactstrap": "^4.3.0"
+    "react-bootstrap": "^0.30.8",
+    "react-dom": "^15.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
