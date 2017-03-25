@@ -1,5 +1,6 @@
 
 import {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal} from './components.js';
+import {Notes} from './notes.js';
 import {isNumber} from './helpers.js';
 import {accessories} from './data.js';
 
@@ -152,6 +153,9 @@ class App extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <h1>Waxman's Gym Lift Ratio Calculator <small>v0.1</small></h1>
+
+                            <Notes/>
+
                             <p>Over years of training athletes, we've found that lift ratios can serve as powerful tools for evaluating balance and guiding lifter development. By uncovering your biggest imbalances, you can better prioritize problems and more effectively direct your programming/training.</p>
                         </div>
                     </div>
@@ -234,6 +238,7 @@ class App extends Component {
                     </div>
 
                 </div>
+           <script src="src/lib/js/bootstrap.min.js"></script>
           </div>
       );
     }

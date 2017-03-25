@@ -13,12 +13,17 @@ class AccessoryHeader extends Component {
 
     render() {
         return(
+            <span>
             <div className="row hidden-sm hidden-xs">
                 <div className="col-md-3"></div>
                 <div className="col-md-2"><small><b>Input</b></small></div>
                 <div className="col-md-1"><small><b>Ideal</b></small></div>
                 <div className="col-md-6"><small><b>Variance</b></small></div>
             </div>
+            <div className="row hidden-sm hidden-xs">
+                <div className="col-md-12">&nbsp;</div>
+            </div>
+            </span>
         );
     }
 };
@@ -374,7 +379,7 @@ class BaseResults extends Component {
 
         return (
             <span>
-                <h3>4. Check out your results:</h3>
+                <h3>3. Check out your results:</h3>
 
                 <div className="panel panel-danger">
                     <div className="panel-heading">

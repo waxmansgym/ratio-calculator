@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head prefix="og: http://ogp.me/ns#">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="object" property="og:type">
+<meta content="GitLab" property="og:site_name">
+<meta content="content/fonts/glyphicons-halflings-regular.woff2 · a97d6b4c5b29594004e3855f1ab1222449d0c211 · mailman / mailman-website" property="og:title">
+<meta content="The source code for new list.org and mailman3.org websites. It uses pelican to build the static website." property="og:description">
+<meta content="https://gitlab.com/uploads/project/avatar/288932/logo2010-2.jpg" property="og:image">
+<meta content="https://gitlab.com/mailman/mailman-website/blob/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2" property="og:url">
+<meta content="summary" property="twitter:card">
+<meta content="content/fonts/glyphicons-halflings-regular.woff2 · a97d6b4c5b29594004e3855f1ab1222449d0c211 · mailman / mailman-website" property="twitter:title">
+<meta content="The source code for new list.org and mailman3.org websites. It uses pelican to build the static website." property="twitter:description">
+<meta content="https://gitlab.com/uploads/project/avatar/288932/logo2010-2.jpg" property="twitter:image">
+
+<title>content/fonts/glyphicons-halflings-regular.woff2 · a97d6b4c5b29594004e3855f1ab1222449d0c211 · mailman / mailman-website · GitLab</title>
+<meta content="The source code for new list.org and mailman3.org websites. It uses pelican to build the static website." name="description">
+<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon-075eba76312e8421991a0c1f89a89ee81678bcde72319dd3e8047e2a47cd3a42.ico" />
+<link rel="stylesheet" media="all" href="/assets/application-f692186c449c244070a2adde2de343c5daf200e5f9e42b3fa6691dd5c154d606.css" />
+<link rel="stylesheet" media="print" href="/assets/print-87bb95ae825e1039facb71c62197dad696049012bb8cfeb76bb57c3a4aa865a6.css" />
+<script src="/assets/webpack/runtime.3bcd3bc8dfb7fe8372c6.bundle.js"></script>
+<script src="/assets/webpack/common.b4f214d36bf6957e0aab.bundle.js"></script>
+<script src="/assets/webpack/main.07a0af951487735cb7a1.bundle.js"></script>
+
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="rk2usgPRwnLEQQzwauQQ/65iK714Zok4LKqIJH4343zOeQOkR8s7a5OMmllOkxVpru1FH9O2Jcqx1x0LJ8xWEQ==" />
+<meta content="origin-when-cross-origin" name="referrer">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+<meta content="#474D57" name="theme-color">
+<link rel="apple-touch-icon" type="image/x-icon" href="/assets/touch-icon-iphone-5a9cee0e8a51212e70b90c87c12f382c428870c0ff67d1eb034d884b78d2dae7.png" />
+<link rel="apple-touch-icon" type="image/x-icon" href="/assets/touch-icon-ipad-a6eec6aeb9da138e507593b464fdac213047e49d3093fc30e90d9a995df83ba3.png" sizes="76x76" />
+<link rel="apple-touch-icon" type="image/x-icon" href="/assets/touch-icon-iphone-retina-72e2aadf86513a56e050e7f0f2355deaa19cc17ed97bbe5147847f2748e5a3e3.png" sizes="120x120" />
+<link rel="apple-touch-icon" type="image/x-icon" href="/assets/touch-icon-ipad-retina-8ebe416f5313483d9c1bc772b5bbe03ecad52a54eba443e5215a22caed2a16a2.png" sizes="152x152" />
+<link color="rgb(226, 67, 41)" href="/assets/logo-d36b5212042cebc89b96df4bf6ac24e43db316143e89926c0db839ff694d2de4.svg" rel="mask-icon">
+<meta content="/assets/msapplication-tile-1196ec67452f618d39cdd85e2e3a542f76574c071051ae7effbfde01710eb17d.png" name="msapplication-TileImage">
+<meta content="#30353E" name="msapplication-TileColor">
+
+
+<!-- Piwik -->
+<script>
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.gitlab.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.gitlab.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+
+</head>
+
+<body class="" data-group="" data-page="projects:blob:show" data-project="mailman-website">
+<script>
+//<![CDATA[
+window.gon={};gon.api_version="v3";gon.default_avatar_url="https:\/\/gitlab.com\/assets\/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=10;gon.asset_host=null;gon.relative_url_root="";gon.shortcuts_path="\/help\/shortcuts";gon.user_color_scheme="white";gon.katex_css_url="\/assets\/katex-e46cafe9c3fa73920a7c2c063ee8bb0613e0cf85fd96a3aea25f8419c4bfcfba.css";gon.katex_js_url="\/assets\/katex-04bcf56379fcda0ee7c7a63f71d0fc15ffd2e014d017cd9d51fd6554dfccf40a.js";
+//]]>
+</script>
+<header class="navbar navbar-gitlab with-horizontal-nav">
+<a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
+<div class="container-fluid">
+<div class="header-content">
+<div class="dropdown global-dropdown">
+<button class="global-dropdown-toggle" data-toggle="dropdown" type="button">
+<span class="sr-only">Toggle navigation</span>
+<i class="fa fa-bars"></i>
+</button>
+<div class="dropdown-menu-nav global-dropdown-menu">
+<ul>
+<li class="home"><a title="Projects" href="/explore"><span>
+Projects
+</span>
+</a></li><li class=""><a title="Groups" href="/explore/groups"><span>
+Groups
+</span>
+</a></li><li class=""><a title="Snippets" href="/explore/snippets"><span>
+Snippets
+</span>
+</a></li><li class=""><a title="Help" href="/help"><span>
+Help
+</span>
+</a></li></ul>
+
+</div>
+</div>
+<button class="navbar-toggle" type="button">
+<span class="sr-only">Toggle navigation</span>
+<i class="fa fa-ellipsis-v"></i>
+</button>
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li class="hidden-sm hidden-xs">
+<div class="has-location-badge search search-form">
+<form class="navbar-form" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><div class="search-input-container">
+<div class="location-badge">This project</div>
+<div class="search-input-wrap">
+<div class="dropdown" data-url="/search/autocomplete">
+<input type="search" name="search" id="search" placeholder="Search" class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options" spellcheck="false" tabindex="1" autocomplete="off" data-toggle="dropdown" data-issues-path="https://gitlab.com/dashboard/issues" data-mr-path="https://gitlab.com/dashboard/merge_requests" />
+<div class="dropdown-menu dropdown-select">
+<div class="dropdown-content"><ul>
+<li>
+<a class="is-focused dropdown-menu-empty-link">
+Loading...
+</a>
+</li>
+</ul>
+</div><div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+<i class="search-icon"></i>
+<i class="clear-icon js-clear-input"></i>
+</div>
+</div>
+</div>
+<input type="hidden" name="group_id" id="group_id" class="js-search-group-options" />
+<input type="hidden" name="project_id" id="search_project_id" value="288932" class="js-search-project-options" data-project-path="mailman-website" data-name="mailman-website" data-issues-path="/mailman/mailman-website/issues" data-mr-path="/mailman/mailman-website/merge_requests" />
+<input type="hidden" name="search_code" id="search_code" value="true" />
+<input type="hidden" name="repository_ref" id="repository_ref" value="a97d6b4c5b29594004e3855f1ab1222449d0c211" />
+
+<div class="search-autocomplete-opts hide" data-autocomplete-path="/search/autocomplete" data-autocomplete-project-id="288932" data-autocomplete-project-ref="a97d6b4c5b29594004e3855f1ab1222449d0c211"></div>
+</form></div>
+
+</li>
+<li class="visible-sm-inline-block visible-xs-inline-block">
+<a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/search"><i class="fa fa-search"></i>
+</a></li>
+<li>
+<div>
+<a class="btn btn-sign-in btn-success" href="/users/sign_in?redirect_to_referer=yes">Sign in</a>
+</div>
+</li>
+</ul>
+</div>
+<div class="header-logo">
+<a class="home" title="Dashboard" id="logo" href="/"><svg width="28" height="28" class="tanuki-logo" viewBox="0 0 36 36">
+  <path class="tanuki-shape tanuki-left-ear" fill="#e24329" d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
+  <path class="tanuki-shape tanuki-right-ear" fill="#e24329" d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
+  <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
+  <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
+  <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
+  <path class="tanuki-shape tanuki-left-cheek" fill="#fca326" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
+  <path class="tanuki-shape tanuki-right-cheek" fill="#fca326" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
+</svg>
+
+</a></div>
+<h1 class="title"><span><a href="/mailman">mailman</a></span> / <a class="project-item-select-holder" href="/mailman/mailman-website">mailman-website</a></h1>
+<div class="js-dropdown-menu-projects">
+<div class="dropdown-menu dropdown-select dropdown-menu-projects">
+<div class="dropdown-title"><span>Go to a project</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i class="fa fa-times dropdown-menu-close-icon"></i></button></div>
+<div class="dropdown-input"><input type="search" id="" class="dropdown-input-field" placeholder="Search your projects" autocomplete="off" /><i class="fa fa-search dropdown-input-search"></i><i role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
+<div class="dropdown-content"></div>
+<div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+</div>
+
+</div>
+</div>
+</header>
+
+<script>
+  var findFileURL = "/mailman/mailman-website/find_file/a97d6b4c5b29594004e3855f1ab1222449d0c211";
+</script>
+
+<div class="page-with-sidebar">
+<div class="layout-nav">
+<div class="container-fluid">
+<div class="scrolling-tabs-container">
+<div class="fade-left">
+<i class="fa fa-angle-left"></i>
+</div>
+<div class="fade-right">
+<i class="fa fa-angle-right"></i>
+</div>
+<ul class="nav-links scrolling-tabs">
+<li class="home"><a title="Project" class="shortcuts-project" href="/mailman/mailman-website"><span>
+Project
+</span>
+</a></li><li class="active"><a title="Repository" class="shortcuts-tree" href="/mailman/mailman-website/tree/a97d6b4c5b29594004e3855f1ab1222449d0c211"><span>
+Repository
+</span>
+</a></li><li class=""><a title="Issues" class="shortcuts-issues" href="/mailman/mailman-website/issues"><span>
+Issues
+<span class="badge count issue_counter">3</span>
+</span>
+</a></li><li class=""><a title="Merge Requests" class="shortcuts-merge_requests" href="/mailman/mailman-website/merge_requests"><span>
+Merge Requests
+<span class="badge count merge_counter">0</span>
+</span>
+</a></li><li class=""><a title="Pipelines" class="shortcuts-pipelines" href="/mailman/mailman-website/pipelines"><span>
+Pipelines
+</span>
+</a></li><li class=""><a title="Wiki" class="shortcuts-wiki" href="/mailman/mailman-website/wikis/home"><span>
+Wiki
+</span>
+</a></li><li class=""><a title="Settings" class="shortcuts-tree" href="/mailman/mailman-website/settings/members"><span>
+Settings
+</span>
+</a></li><li class="hidden">
+<a title="Activity" class="shortcuts-project-activity" href="/mailman/mailman-website/activity"><span>
+Activity
+</span>
+</a></li>
+<li class="hidden">
+<a title="Network" class="shortcuts-network" href="/mailman/mailman-website/network/a97d6b4c5b29594004e3855f1ab1222449d0c211">Graph
+</a></li>
+<li class="hidden">
+<a title="Charts" class="shortcuts-repository-charts" href="/mailman/mailman-website/graphs/a97d6b4c5b29594004e3855f1ab1222449d0c211/charts">Charts
+</a></li>
+<li class="hidden">
+<a class="shortcuts-new-issue" href="/mailman/mailman-website/issues/new">Create a new issue
+</a></li>
+<li class="hidden">
+<a title="Jobs" class="shortcuts-builds" href="/mailman/mailman-website/builds">Jobs
+</a></li>
+<li class="hidden">
+<a title="Commits" class="shortcuts-commits" href="/mailman/mailman-website/commits/a97d6b4c5b29594004e3855f1ab1222449d0c211">Commits
+</a></li>
+<li class="hidden">
+<a title="Issue Boards" class="shortcuts-issue-boards" href="/mailman/mailman-website/boards">Issue Boards</a>
+</li>
+</ul>
+</div>
+
+</div>
+</div>
+<div class="content-wrapper page-with-layout-nav">
+<div class="scrolling-tabs-container sub-nav-scroll">
+<div class="fade-left">
+<i class="fa fa-angle-left"></i>
+</div>
+<div class="fade-right">
+<i class="fa fa-angle-right"></i>
+</div>
+
+<div class="nav-links sub-nav scrolling-tabs">
+<ul class="container-fluid container-limited">
+<li class="active"><a href="/mailman/mailman-website/tree/a97d6b4c5b29594004e3855f1ab1222449d0c211">Files
+</a></li><li class=""><a href="/mailman/mailman-website/commits/a97d6b4c5b29594004e3855f1ab1222449d0c211">Commits
+</a></li><li class=""><a href="/mailman/mailman-website/branches">Branches
+</a></li><li class=""><a href="/mailman/mailman-website/tags">Tags
+</a></li><li class=""><a href="/mailman/mailman-website/graphs/a97d6b4c5b29594004e3855f1ab1222449d0c211">Contributors
+</a></li><li class=""><a href="/mailman/mailman-website/network/a97d6b4c5b29594004e3855f1ab1222449d0c211">Graph
+</a></li><li class=""><a href="/mailman/mailman-website/compare?from=master&amp;to=a97d6b4c5b29594004e3855f1ab1222449d0c211">Compare
+</a></li><li class=""><a href="/mailman/mailman-website/graphs/a97d6b4c5b29594004e3855f1ab1222449d0c211/charts">Charts
+</a></li><li class=""><a href="/mailman/mailman-website/path_locks">Locked Files
+</a></li></ul>
+</div>
+</div>
+
+<div class="alert-wrapper">
+
+
+<div class="flash-container flash-container-page">
+</div>
+
+
+</div>
+<div class=" ">
+<div class="content" id="content-body">
+
+<div class="container-fluid container-limited">
+
+<div class="tree-holder" id="tree-holder">
+<div class="nav-block">
+<div class="tree-ref-holder">
+<form class="project-refs-form" action="/mailman/mailman-website/refs/switch" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="destination" id="destination" value="blob" />
+<input type="hidden" name="path" id="path" value="content/fonts/glyphicons-halflings-regular.woff2" />
+<div class="dropdown">
+<button class="dropdown-menu-toggle js-project-refs-dropdown" type="button" data-toggle="dropdown" data-selected="a97d6b4c5b29594004e3855f1ab1222449d0c211" data-ref="a97d6b4c5b29594004e3855f1ab1222449d0c211" data-refs-url="/mailman/mailman-website/refs" data-field-name="ref" data-submit-form-on-click="true"><span class="dropdown-toggle-text ">a97d6b4c5b29594004e3855f1ab1222449d0c211</span><i class="fa fa-chevron-down"></i></button>
+<div class="dropdown-menu dropdown-menu-selectable">
+<div class="dropdown-title"><span>Switch branch/tag</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i class="fa fa-times dropdown-menu-close-icon"></i></button></div>
+<div class="dropdown-input"><input type="search" id="" class="dropdown-input-field" placeholder="Search branches and tags" autocomplete="off" /><i class="fa fa-search dropdown-input-search"></i><i role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
+<div class="dropdown-content"></div>
+<div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+</div>
+</form>
+</div>
+<ul class="breadcrumb repo-breadcrumb">
+<li>
+<a href="/mailman/mailman-website/tree/a97d6b4c5b29594004e3855f1ab1222449d0c211">mailman-website
+</a></li>
+<li>
+<a href="/mailman/mailman-website/tree/a97d6b4c5b29594004e3855f1ab1222449d0c211/content">content</a>
+
+</li>
+<li>
+<a href="/mailman/mailman-website/tree/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts">fonts</a>
+
+</li>
+<li>
+<a href="/mailman/mailman-website/blob/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2"><strong>
+glyphicons-halflings-regular.woff2
+</strong>
+</a>
+</li>
+</ul>
+</div>
+<ul class="blob-commit-info hidden-xs">
+<li class="commit flex-list js-toggle-container" id="commit-a97d6b4c">
+<div class="avatar-cell hidden-xs">
+<a href="/maxking"><img class="avatar has-tooltip s36 hidden-xs" alt="Abhilash Raj&#39;s avatar" title="Abhilash Raj" data-container="body" src="https://secure.gravatar.com/avatar/1786350e8a814c84a91563c7c11e4000?s=72&amp;d=identicon" /></a>
+</div>
+<div class="commit-detail">
+<div class="commit-content">
+<a class="commit-row-message item-title" href="/mailman/mailman-website/commit/a97d6b4c5b29594004e3855f1ab1222449d0c211">Add css theme and bootstrap glyphicons in the repo</a>
+<span class="commit-row-message visible-xs-inline">
+&middot;
+a97d6b4c
+</span>
+<div class="commiter">
+<a class="commit-author-link has-tooltip" title="raj.abhilash1@gmail.com" href="/maxking">Abhilash Raj</a>
+committed
+<time class="js-timeago" title="Jun 9, 2015 5:33am" datetime="2015-06-09T05:33:57Z" data-toggle="tooltip" data-placement="top" data-container="body">Jun 09, 2015</time>
+</div>
+</div>
+<div class="commit-actions flex-row hidden-xs">
+<button class="btn btn-clipboard btn-transparent" data-toggle="tooltip" data-placement="bottom" data-container="body" data-clipboard-text="a97d6b4c5b29594004e3855f1ab1222449d0c211" data-title="Copy commit SHA to clipboard" type="button" title="Copy commit SHA to clipboard"><i aria-hidden="true" class="fa fa-clipboard"></i></button>
+<a class="commit-short-id btn btn-transparent" href="/mailman/mailman-website/commit/a97d6b4c5b29594004e3855f1ab1222449d0c211">a97d6b4c</a>
+
+</div>
+</div>
+</li>
+
+</ul>
+<div class="blob-content-holder" id="blob-content-holder">
+<article class="file-holder">
+<div class="js-file-title file-title-flex-parent">
+<div class="file-header-content">
+<i class="fa fa-file-text-o fa-fw"></i>
+<strong class="file-title-name">
+glyphicons-halflings-regular.woff2
+</strong>
+<small>
+17.6 KB
+</small>
+</div>
+<div class="file-actions hidden-xs">
+<div class="btn-group" role="group"><a class="btn btn-sm" target="_blank" href="/mailman/mailman-website/raw/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2">Raw</a><a class="btn btn-sm" href="/mailman/mailman-website/commits/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2">History</a><a class="btn btn-sm js-data-file-blob-permalink-url" href="/mailman/mailman-website/blob/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2">Permalink</a></div>
+<script>
+  PathLocks.init(
+    '/mailman/mailman-website/path_locks/toggle',
+    'content/fonts/glyphicons-halflings-regular.woff2'
+  );
+</script>
+
+</div>
+</div>
+<div class="file-content blob_file blob-no-preview">
+<div class="center">
+<a href="/mailman/mailman-website/raw/a97d6b4c5b29594004e3855f1ab1222449d0c211/content/fonts/glyphicons-halflings-regular.woff2"><h1 class="light">
+<i class="fa fa-download"></i>
+</h1>
+<h4>
+Download (17.6 KB)
+</h4>
+</a></div>
+</div>
+
+</article>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+</body>
+</html>
+
