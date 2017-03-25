@@ -1,0 +1,20 @@
+{
+  "name": "custom-bootstrap",
+  "version": "1.0.0",
+  "description": "Custom bootstrap theme for waxman's gym calculator",
+  "main": "index.js",
+  "scripts": {
+    "build": "lessc index.less build/index.css",
+    "start": "npm-watch"
+  },
+  "watch": {
+    "build": "index.less"
+  },
+  "author": "Randolph Voorhies",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "less": "^2.7.2",
+    "npm-watch": "^0.1.8"
+  }
+}
