@@ -1,7 +1,8 @@
 // import 'bootstrap/dist/css/bootstrap.css';
 //import 'bootstrap/dist/css/bootstrap-theme.css';
 
-import 'custom-bootstrap/build/index.css'
+import '../custom-bootstrap/build/index.css'
+// import 'node_modules/custom-bootstrap'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

@@ -7,16 +7,20 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "custom-bootstrap": "file://custom-bootstrap",
     "donatello": "^1.0.0",
     "ftp-deploy": "^1.1.0",
     "jquery": "^3.2.0",
     "lodash": "^4.16.6",
+    "npm-run-all": "^4.0.2",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:custom-bootstrap": "(cd custom-bootstrap && npm start)",
+    "start-all": "node_modules/npm-run-all/bin/run-p/index.js start start:*",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "deploy": "deploy.js"
