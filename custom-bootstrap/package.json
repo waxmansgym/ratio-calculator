@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Custom bootstrap theme for waxman's gym calculator",
   "main": "build/index.css",
+  "repository": "",
   "scripts": {
     "build": "lessc index.less build/index.css",
     "start": "node_modules/npm-watch/cli.js"
