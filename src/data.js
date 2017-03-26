@@ -14,7 +14,7 @@ const accessories = {
         'Hang Snatch Below Knee': { ratio:  95, display:  (<span>Hang Snatch <br className="hidden-sm hidden-xs"/>Below Knee</span>) }
     },
     cnj: {
-        'Clean':                  { ratio: 102, display: (<span>Clean <br className="hidden-sm hidden-xs"/></span>) },
+        'Clean':                  { ratio: 102, display: (<span>Clean</span>) },
         'Back Squat':             { ratio: 135, display: (<span>Back <br className="hidden-sm hidden-xs"/>Squat</span>) },
         'Front Squat':            { ratio: 115, display: (<span>Front <br className="hidden-sm hidden-xs"/>Squat</span>) },
         'Jerk':                   { ratio: 105, display: (<span>Jerk</span>) },

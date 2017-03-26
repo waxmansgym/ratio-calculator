@@ -20,21 +20,25 @@ class Notes extends React.Component {
     render() {
         return (
             <div>
-                <Button
-                    bsStyle="primary"
-                    bsSize="large"
-                    onClick={this.open}
-                >
-                    Notes
-                </Button>
+                <Button bsStyle="default" bsSize="medium" onClick={this.open}> Notes </Button>
 
                 <Modal show={this.state.showModal} onHide={this.close} bsSize="large" aria-labelledby="contained-modal-title-lg">
                     <Modal.Header closeButton>
                         <Modal.Title>Notes</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Hello World
+                        <div id="notesbody">
+                            <p>
+                                Over years of training athletes, we've found that lift ratios can serve as powerful tools
+                                for evaluating balance and guiding lifter development. By uncovering your biggest
+                                imbalances, you can better prioritize problems and more effectively direct your
+                                programming/training.
+                            </p>
+                        </div>
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.close}>Close</Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
@@ -42,4 +46,4 @@ class Notes extends React.Component {
 }
 
 export {Notes};
-// vim: set ft=javascript.jsx
+// vim: ft=javascript.jsx

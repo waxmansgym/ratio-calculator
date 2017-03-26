@@ -138,9 +138,11 @@ class AccessoryLiftInput extends Component {
     }
 
     render() {
+        let isMultiline = Array.isArray(this.props.displayName.props.children);
+        let verticalAlign = isMultiline ? '' : 'translateY(50%)';
         return (
             <span>
-                <div className="col-md-3">
+                <div className="col-md-3" style={{ transform: verticalAlign }}>
                     <strong>{this.props.displayName}</strong>
                 </div>
                 <div className="col-md-2">
@@ -184,7 +186,7 @@ class AccessoryLiftIdeal extends Component {
             expected = Math.round(ratio / 100 * this.props.baseValue);
             idealLabel = (<span className="visible-sm visible-xs" style={{paddingTop: '10px'}}><strong>Ideal</strong></span>);
         }
-        return (<div className="col-md-1" style={{textAlign: 'center'}}><i>{idealLabel}{expected}</i></div>);
+        return (<div className="col-md-1" style={{transform: 'translateY(50%)'}}><i>{idealLabel}{expected}</i></div>);
     }
 }
 
@@ -435,6 +437,8 @@ class AccessoryResults extends Component {
 
                 // The "acceptable" range for the front squat
                 let frontSquatAcceptableRange = 5.0;
+
+                let shortExplanation = null;
 
                 if(Math.abs(worst.ratioDiff) <= ranges.ideal) {
                     if(results.length === 1) {
@@ -1138,6 +1142,15 @@ class AccessoryResults extends Component {
                             );
                         }
                     }
+
+                    if(results.length > 1) {
+                        shortExplanation = (
+                            <p>
+                                Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>.
+                            </p>
+                        );
+                    }
+
                 }
 
                 // Create the generic description text for this calculation
@@ -1146,7 +1159,7 @@ class AccessoryResults extends Component {
                 ${worst.name} is at ${formatNumber(worst.actualRatio)}%
                     of your ${this.props.baseName}. That's a ${formatNumber(worst.ratioDiff)}% differential.`
 
-                let work = (<span></span>);
+                let work = null;
                 if(showWork) {
                     work = (
                         <span>
@@ -1159,9 +1172,7 @@ class AccessoryResults extends Component {
                 // Create the HTML to display the diagnosis/prescription/description
                 resultsContent = (
                         <span>
-                            <p>
-                                Based on your inputs the ratio with the greatest difference is <u>{worst.name}</u>.
-                            </p>
+                            {shortExplanation}
 
                             <h3>Diagnosis</h3>
                             {diagnosis}
@@ -1192,4 +1203,4 @@ class AccessoryResults extends Component {
 }
 
 export {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal};
-// vim: set ft=javascript.jsx
+// vim: filetype=javascript.jsx
