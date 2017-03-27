@@ -6,4 +6,6 @@ function isNumber(value) {
     return true;
 }
 
-export {isNumber};
+let formatNumber = Math.round;
+
+export {formatNumber, isNumber};

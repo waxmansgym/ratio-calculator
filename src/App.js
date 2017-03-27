@@ -1,5 +1,12 @@
 
-import {AccessoryHeader, AccessoryFooter, BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay, AccessoryLiftIdeal} from './components.js';
+import {AccessoryHeader} from './components/accessoryheader.js'; 
+import {AccessoryFooter} from './components/accessoryfooter.js'; 
+import {BaseLiftInput} from './components/baseliftinput.js'; 
+import {AccessoryLiftInput} from './components/accessoryliftinput.js'; 
+import {AccessoryLiftIdeal} from './components/accessoryliftideal.js'; 
+import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js'; 
+import {BaseResults} from './components/baseresults.js'; 
+import {AccessoryResults} from './components/accessoryresults.js';
 import {Notes} from './notes.js';
 import {isNumber} from './helpers.js';
 import {accessories} from './data.js';
