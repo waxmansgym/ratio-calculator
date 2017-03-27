@@ -15,7 +15,13 @@ class AccessoryLiftIdeal extends Component {
             expected = Math.round(ratio / 100 * this.props.baseValue);
             idealLabel = (<span className="visible-sm visible-xs" style={{paddingTop: '10px'}}><strong>Ideal</strong></span>);
         }
-        return (<div className="col-md-1" style={{transform: 'translateY(50%)'}}><i>{idealLabel}{expected}</i></div>);
+
+        return (
+            <span>
+                <div className="col-md-1 hidden-sm hidden-xs" style={{transform: 'translateY(50%)'}}><i>{idealLabel}{expected}</i></div>
+                <div className="col-md-1 visible-sm visible-xs"><i>{idealLabel}{expected}</i></div>
+            </span>
+        );
     }
 }
 
