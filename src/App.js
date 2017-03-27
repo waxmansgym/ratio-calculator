@@ -7,13 +7,13 @@ import {AccessoryLiftIdeal} from './components/accessoryliftideal.js';
 import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js'; 
 import {BaseResults} from './components/baseresults.js'; 
 import {AccessoryResults} from './components/accessoryresults.js';
-import {Notes} from './notes.js';
+import {Notes} from './components/notes.js';
 import {isNumber} from './helpers.js';
 import {accessories} from './data.js';
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
-import './App.css';
+
 var _ = require('lodash');
 
 class App extends Component {
@@ -147,7 +147,7 @@ class App extends Component {
         ));
 
         return (
-            <div className="App">
+            <div className="App text-center">
 
                 <div className="container">
 

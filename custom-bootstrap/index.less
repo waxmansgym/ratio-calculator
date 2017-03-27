@@ -872,3 +872,13 @@
 @dl-horizontal-breakpoint:    @grid-float-breakpoint;
 //** Horizontal line color.
 @hr-border:                   @gray-lighter;
+
+//** Get rid of the spin buttons on number inputs
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] {
+        -moz-appearance:textfield;
+}
