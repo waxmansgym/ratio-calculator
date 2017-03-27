@@ -13,13 +13,20 @@ class AccessoryLiftInput extends Component {
     }
 
     render() {
+
+        // Vertically center the label if it is only one line (but not in mobile view!)
         let isMultiline = Array.isArray(this.props.displayName.props.children);
         let verticalAlign = isMultiline ? '' : 'translateY(50%)';
+
         return (
             <span>
-                <div className="col-md-3" style={{ transform: verticalAlign }}>
+                <div className="col-md-3 hidden-sm hidden-xs" style={{ transform: verticalAlign }}>
                     <strong>{this.props.displayName}</strong>
                 </div>
+                <div className="col-md-3 visible-sm visible-xs">
+                    <strong>{this.props.displayName}</strong>
+                </div>
+
                 <div className="col-md-2">
 
                     <div className="row visible-sm visible-xs">
