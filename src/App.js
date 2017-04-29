@@ -122,9 +122,7 @@ class App extends Component {
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
             <span key={"span_" + accessory}>
                 <div className="row" key={"row_" + accessory}>
-                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessories.snatch[accessory].display} onChange={this.handleAccessoryChange}/>
-                    <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.snatch} base="snatch"/>
-                    <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
                 </div>
                 <div className="row" key={"row_" + accessory + "_extra"}>
                     <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
@@ -132,18 +130,28 @@ class App extends Component {
             </span>
         ));
 
+        let snatchRatioDisplays = _.map(_.keys(accessories.snatch), (accessory) => (
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio}
+                    actualRatio={this.state.accessories.snatch[accessory].percent} displayName={accessories.snatch[accessory].display}
+                    baseValue={this.state.results.base.snatch} />
+        ));
+
         // Create the cnj accessory inputs / displays
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
             <span key={"span_" + accessory}>
                 <div className="row" key={"row_" + accessory}>
-                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessories.cnj[accessory].display} onChange={this.handleAccessoryChange}/>
-                    <AccessoryLiftIdeal key="ideal{accessory}" name={accessory} baseValue={this.state.results.base.cnj} base="cnj"/>
-                    <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
                 </div>
                 <div className="row" key={"row_" + accessory + "_extra"}>
                     <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
                 </div>
             </span>
+        ));
+
+        let cnjRatioDisplays = _.map(_.keys(accessories.cnj), (accessory) => (
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio}
+                    actualRatio={this.state.accessories.cnj[accessory].percent} displayName={accessories.cnj[accessory].display}
+                    baseValue={this.state.results.base.cnj} />
         ));
 
         return (
@@ -187,17 +195,13 @@ class App extends Component {
                         <h3>2. Next, enter your known bests for any/all of the following:</h3>
                         <div className="col-md-6">
                             <Panel header="Snatch Exercises" bsStyle="danger">
-                                <AccessoryHeader/>
                                 {snatchAccessories}
-                                <AccessoryFooter/>
                             </Panel>
                         </div>
 
                         <div className="col-md-6">
                             <Panel header="C&J Exercises" bsStyle="danger">
-                                <AccessoryHeader/>
                                 {cnjAccessories}
-                                <AccessoryFooter/>
                             </Panel>
                         </div>
                     </div>
@@ -217,6 +221,24 @@ class App extends Component {
 
                     <div className="row" style={{'paddingTop': '50px'}}>
                         <div className="col-md-12"> </div>
+                    </div>
+
+                    <div className="row" id="ratioDisplays">
+                        <div className="col-md-6" id="snatchRatioDisplays">
+                            <Panel bsStyle="danger" hidden={!this.state.results.calculated}>
+                                <AccessoryHeader/>
+                                {snatchRatioDisplays}
+                                <AccessoryFooter/>
+                            </Panel>
+                        </div>
+
+                        <div className="col-md-6" id="cnjRatioDisplays">
+                            <Panel bsStyle="danger" hidden={!this.state.results.calculated}>
+                                <AccessoryHeader/>
+                                {cnjRatioDisplays}
+                                <AccessoryFooter/>
+                            </Panel>
+                        </div>
                     </div>
 
                     <div className="row" id="baseResults">

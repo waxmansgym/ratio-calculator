@@ -18,9 +18,8 @@ class AccessoryFooter extends Component {
         return(
             <div className="row">
                 <div className="col-md-3"></div>
-                <div className="col-md-2"></div>
                 <div className="col-md-1"></div>
-                <div className="col-md-6">
+                <div className="col-md-8">
 
                     <svg width="80%" height={40} style={{overflow: 'visible'}}>
 

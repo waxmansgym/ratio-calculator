@@ -26,19 +26,37 @@ class AccessoryRatioDisplay extends Component {
             return (n>0?'+':'') + Math.round(n) + '%';
         }
 
+        let isMultiline = Array.isArray(this.props.displayName.props.children);
+        let verticalAlign = isMultiline ? '' : 'translateY(50%)';
+
+
+
+        let expected = Math.round(this.props.expectedRatio / 100 * this.props.baseValue);
+        let idealLabel = (
+            <span>
+                <div className="hidden-sm hidden-xs" style={{transform: 'translateY(50%)'}}><i>{expected}</i></div>
+                <div className="visible-sm visible-xs"><i>Ideal: {expected}</i></div>
+            </span>
+        );
+
         return (
-            <div className="col-md-6" style={{overflow: 'visible'}}>
+            <div className="row" style={{paddingTop: '8px', paddingBottom: '8px'}}>
+                <div className="col-md-3 hidden-sm hidden-xs" style={{ transform: verticalAlign }}>
+                    <strong>{this.props.displayName}</strong>
+                </div>
+                <div className="col-md-3 visible-sm visible-xs">
+                    <strong>{this.props.displayName}</strong>
+                </div>
 
-                <svg width="80%" height="30" style={{overflow: 'visible'}}>
-                    <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1.5" stroke="rgba(0,0,0,1.0)"/>
-
-                    <line x1="50%" x2="50%" y1="50%" y2="100%" strokeWidth="0.5" stroke="rgba(0,0,0,1.0)"/>
-
-                    <circle cx={x} cy="50%" r={18} stroke="black" strokeWidth="1.5" fill={color}/>
-
-                    <text x={x} y="50%" fontWeight="bold" fontSize="11" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
-
-                </svg>
+                <div className="col-md-1"> {idealLabel} </div>
+                <div className="col-md-8">
+                    <svg width="80%" height="30" style={{overflow: 'visible'}}>
+                        <line x1="0%" x2="100%" y1="50%" y2="50%" strokeWidth="1.5" stroke="rgba(0,0,0,1.0)"/>
+                        <line x1="50%" x2="50%" y1="50%" y2="100%" strokeWidth="0.5" stroke="rgba(0,0,0,1.0)"/>
+                        <circle cx={x} cy="50%" r={18} stroke="black" strokeWidth="1.5" fill={color}/>
+                        <text x={x} y="50%" fontWeight="bold" fontSize="11" textAnchor="middle" alignmentBaseline="middle"> {format(delta)} </text>
+                    </svg>
+                </div>
             </div>
         );
     }
