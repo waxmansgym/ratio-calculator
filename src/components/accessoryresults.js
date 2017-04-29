@@ -607,26 +607,37 @@ class AccessoryResults extends Component {
 
                         prescription = (
                             <span>
-                                We recommend you spend some time focused on increasing your overhead
-                                strength and stability. You can do this by adding lots of presses
-                                from different positions (including behind neck, seated, from squat, etc) and with different grips (snatch, clean).
-                                You can also incorporate upper back work with rows, dips, lat pulldowns, pullups, etc. 
+                                We recommend you spend some time focused on increasing your overhead strength and
+                                stability. You can do this by adding lots of presses from different positions (including behind
+                                neck, seated, from squat, etc) and with different grips (snatch, clean). You can also incorporate upper back
+                                work with rows, dips, lat pulldowns, pullups, etc.
                             </span>
                         );
                     }
                     // OHS higher than ideal
                     else {
-                        results = _.filter(results, (r) => r.name !== 'Overhead Squat');
-                        if(results.length > 0) {
-                            notes = (
-                                <span>
-                                    You have a huge Overhead Squat. This isn't a problem, so we moved on to your next weakness for analysis.
-                                </span>
-                            );
-                        }
+                        diagnosis = (
+                            <span>
+                                The biggest disparity in the numbers you entered is your overhead squat compared with
+                                your snatch. Your overhead squat appears to be higher than necessary given what we'd expect for
+                                a balanced athlete. Unfortunately, this excess of overhead strength/stability, given your current
+                                snatch abilities, doesn't tell us much (except perhaps, that overhead strength/stability isn't
+                                a current limiter for you).
+                            </span>
+                        );
+
+                        prescription = (
+                            <span>
+                                Here's the good news and the bad news: A huge overhead squat isn't, by itself, a problem. It
+                                also doesn't tell us much about the rest of your balance as a lifter. As such, we have no
+                                direct prescription for this. Since the overhead squat doesn't appear to be a limiter for you, you
+                                may wish to re-perform the analysis without your OH squat numbers to better hone in on other technical
+                                issues that may limit your snatch.
+                            </span>
+                        );
                     }
                 }
-                //////////////////////////////////////////////////////////////////////
+               //////////////////////////////////////////////////////////////////////
                 else if(worst.name === 'Power Snatch') {
                     // Lower than ideal
                     if(worst.ratioDiff < 0) {
