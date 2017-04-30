@@ -35,9 +35,12 @@ class AccessoryRatioDisplay extends Component {
         let idealLabel = (
             <span>
                 <div className="hidden-sm hidden-xs" style={{transform: 'translateY(50%)'}}><i>{expected}</i></div>
+                <div className="visible-sm visible-xs"><i>Your Input: {this.props.accessoryValue}</i></div>
                 <div className="visible-sm visible-xs"><i>Ideal: {expected}</i></div>
             </span>
         );
+
+        console.log(this.props.xxx)
 
         return (
             <div className="row" style={{paddingTop: '8px', paddingBottom: '8px'}}>

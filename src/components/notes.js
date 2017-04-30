@@ -20,9 +20,9 @@ class Notes extends React.Component {
     render() {
         return (
             <div>
-                <Button bsStyle="default" bsSize="medium" onClick={this.open}> Notes </Button>
+                <Button bsStyle="default" onClick={this.open}> Notes </Button>
 
-                <Modal show={this.state.showModal} onHide={this.close} bsSize="medium" aria-labelledby="contained-modal-title-lg">
+                <Modal show={this.state.showModal} onHide={this.close} aria-labelledby="contained-modal-title-lg">
                     <Modal.Header closeButton>
                         <Modal.Title>Notes</Modal.Title>
                     </Modal.Header>

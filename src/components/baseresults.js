@@ -138,8 +138,6 @@ class BaseResults extends Component {
 
         return (
             <span>
-                <h3>3. Check out your results:</h3>
-
                 <div className="panel panel-danger">
                     <div className="panel-heading">
                         <h3 className="panel-title">Snatch Compared to C&J</h3>

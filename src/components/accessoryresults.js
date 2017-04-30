@@ -49,7 +49,7 @@ class AccessoryResults extends Component {
             // Grab the front squat entry from the list of results as we use it all over the place
             let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
 
-            // The "acceptable" range for the front squat
+            // The "acceptable" range for the front squat in %
             let frontSquatAcceptableRange = 5.0;
 
             let shortExplanation = null;
@@ -395,96 +395,102 @@ class AccessoryResults extends Component {
                         }
                     }
                     else {
-                        // PCL lower than expected (front squat within or above ideal range)
-                        if(worst.ratioDiff < 0 && frontSquat.ratioDiff + frontSquatAcceptableRange >= 0) {
-                            diagnosis = (
-                                <span>
-                                    Since your power clean is lower than ideal compared with your clean
-                                    & jerk, and since your front squat doesn’t appear to be deficient, you
-                                    are most likely limited by poor explosion speed and/or slow change of
-                                    direction/descent under the bar in your cleans.
-                                </span>
-                            );
 
-                            prescription = (
-                                <span>
-                                    We recommend you work on improving your explosion speed and your
-                                    change of direction speed to help you get under the bar faster in
-                                    your cleans. You can do this by working on cleans/power cleans from
-                                    the power position and hang above the knee (to help with speed and change of direction),
-                                    and cleans/power cleans from blocks at the power position and above
-                                    the knee (to help with acceleration and change of direction).
-                                </span>
-                            );
+                        if(worst.ratioDiff < 0) {
+                            // PCL lower than expected (front squat within or above ideal range)
+                            if(frontSquat.ratioDiff + frontSquatAcceptableRange >= 0) {
+                                diagnosis = (
+                                    <span>
+                                        Since your power clean is lower than ideal compared with your clean
+                                        & jerk, and since your front squat doesn’t appear to be deficient, you
+                                        are most likely limited by poor explosion speed and/or slow change of
+                                        direction/descent under the bar in your cleans.
+                                    </span>
+                                );
+
+                                prescription = (
+                                    <span>
+                                        We recommend you work on improving your explosion speed and your
+                                        change of direction speed to help you get under the bar faster in
+                                        your cleans. You can do this by working on cleans/power cleans from
+                                        the power position and hang above the knee (to help with speed and change of direction),
+                                        and cleans/power cleans from blocks at the power position and above
+                                        the knee (to help with acceleration and change of direction).
+                                    </span>
+                                );
+                            }
+                            // PCL lower than expected (front squat below ideal range)
+                            else {
+                                diagnosis = (
+                                    <span>
+                                        Since your power clean is lower than ideal compared with your clean
+                                        & jerk, and since your front squat is lower than ideal, you are most
+                                        likely limited by poor explosion strength and/or  you are weak in the
+                                        receiving position of the clean.
+                                    </span>
+                                );
+
+                                prescription = (
+                                    <span>
+                                        We recommend you work on improving your explosion strength and your
+                                        strength in the receiving position. You can do this by working on
+                                        front squats and partial front squats (to improve strength in the receiving position),
+                                        cleans/power cleans from the power position and hang above the knee
+                                        (to help with speed and change of direction) and cleans/power cleans
+                                        from blocks at the power position and above the knee 
+                                        (to help with acceleration and change of direction).
+                                    </span>
+                                );
+                            }
                         }
-                        // PCL lower than expected (front squat below ideal range)
-                        else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < -frontSquatAcceptableRange) {
-                            diagnosis = (
-                                <span>
-                                    Since your power clean is lower than ideal compared with your clean
-                                    & jerk, and since your front squat is lower than ideal, you are most
-                                    likely limited by poor explosion strength and/or  you are weak in the
-                                    receiving position of the clean.
-                                </span>
-                            );
+                        else { // PCL higher than expected
+                            // PCL higher than expected (front squat within or above ideal range)
+                            if(frontSquat.ratioDiff + frontSquatAcceptableRange >= 0) {
+                                diagnosis = (
+                                    <span>
+                                        Since your power clean is higher than ideal compared with your clean
+                                        & jerk, but your front squat suggests you have adequate strength in
+                                        reserve, it appears you are most likely limited by technical
+                                        inefficiencies in receiving the clean (e.g. footwork, elbow speed, and potentially torso position) 
+                                    </span>
+                                );
 
-                            prescription = (
-                                <span>
-                                    We recommend you work on improving your explosion strength and your
-                                    strength in the receiving position. You can do this by working on
-                                    front squats and partial front squats (to improve strength in the receiving position),
-                                    cleans/power cleans from the power position and hang above the knee
-                                    (to help with speed and change of direction) and cleans/power cleans
-                                    from blocks at the power position and above the knee 
-                                    (to help with acceleration and change of direction).
-                                </span>
-                            );
-                        }
-                        // PCL higher than expected (and front squat ratio is within range)
-                        else if(worst.ratioDiff > 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
-                            diagnosis = (
-                                <span>
-                                    Since your power clean is higher than ideal compared with your clean
-                                    & jerk, but your front squat suggests you have adequate strength in
-                                    reserve, it appears you are most likely limited by technical
-                                    inefficiencies in receiving the clean (e.g. footwork, elbow speed, and potentially torso position) 
-                                </span>
-                            );
+                                prescription = (
+                                    <span>
+                                        First we recommend you double-check that you are in good receiving
+                                        position in your cleans (just like your front squats). If you’re not
+                                        in good receiving position, you may benefit from spending time with
+                                        mobility work. Assuming your receiving position is OK, you’ll likely
+                                        get the greatest improvement practicing cleans/power cleans from the
+                                        blocks or the hang, either from the power position or from above the
+                                        knee. These will help you focus on receiving the bar more
+                                        efficiently. 
+                                    </span>
+                                );
+                            }
+                            // PCL higher than expected (and front squat ratio is lower than ideal)
+                            else {
+                                diagnosis = (
+                                    <span>
+                                        Since your power clean is higher than ideal compared with your clean
+                                        & jerk, but your front squat is lower than ideal, it suggests you
+                                        have very limited strength reserve, Thus your clean & jerk is likely
+                                        limited by your strength. If your positioning is bad, this could also
+                                        be related to mobility. 
+                                    </span>
+                                );
 
-                            prescription = (
-                                <span>
-                                    First we recommend you double-check that you are in good receiving
-                                    position in your cleans (just like your front squats). If you’re not
-                                    in good receiving position, you may benefit from spending time with
-                                    mobility work. Assuming your receiving position is OK, you’ll likely
-                                    get the greatest improvement practicing cleans/power cleans from the
-                                    blocks or the hang, either from the power position or from above the
-                                    knee. These will help you focus on receiving the bar more
-                                    efficiently. 
-                                </span>
-                            );
-                        }
-                        else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < -frontSquatAcceptableRange) {
-                            diagnosis = (
-                                <span>
-                                    Since your power clean is higher than ideal compared with your clean
-                                    & jerk, but your front squat is lower than ideal, it suggests you
-                                    have very limited strength reserve, Thus your clean & jerk is likely
-                                    limited by your strength. If your positioning is bad, this could also
-                                    be related to mobility. 
-                                </span>
-                            );
-
-                            prescription = (
-                                <span>
-                                    We recommend you work on making sure you are in a good receiving
-                                    position. If you’re not in good receiving position, you may benefit
-                                    from spending time with mobility work. If you are in good receiving
-                                    position, you should focus on getting your legs stronger so you have
-                                    more strength reserve to better make your cleans and jerks. This
-                                    should include squatting more and rising faster from the squat. 
-                                </span>
-                            );
+                                prescription = (
+                                    <span>
+                                        We recommend you work on making sure you are in a good receiving
+                                        position. If you’re not in good receiving position, you may benefit
+                                        from spending time with mobility work. If you are in good receiving
+                                        position, you should focus on getting your legs stronger so you have
+                                        more strength reserve to better make your cleans and jerks. This
+                                        should include squatting more and rising faster from the squat. 
+                                    </span>
+                                );
+                            }
                         }
                     }
 

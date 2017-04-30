@@ -3,7 +3,6 @@ import {AccessoryHeader} from './components/accessoryheader.js';
 import {AccessoryFooter} from './components/accessoryfooter.js'; 
 import {BaseLiftInput} from './components/baseliftinput.js'; 
 import {AccessoryLiftInput} from './components/accessoryliftinput.js'; 
-import {AccessoryLiftIdeal} from './components/accessoryliftideal.js'; 
 import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js'; 
 import {BaseResults} from './components/baseresults.js'; 
 import {AccessoryResults} from './components/accessoryresults.js';
@@ -93,8 +92,8 @@ class App extends Component {
             });
         });
 
-        // if(!this.state.scrolled)
-        //     setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
+        if(!this.state.scrolled)
+            setTimeout(()=>document.getElementById("analysis").scrollIntoView({behavior: "smooth"}), 0);
 
         this.setState({
             accessories: accessoriesState,
@@ -133,7 +132,7 @@ class App extends Component {
         let snatchRatioDisplays = _.map(_.keys(accessories.snatch), (accessory) => (
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio}
                     actualRatio={this.state.accessories.snatch[accessory].percent} displayName={accessories.snatch[accessory].display}
-                    baseValue={this.state.results.base.snatch} />
+                    accessoryValue={this.state.accessories.snatch[accessory].value} baseValue={this.state.results.base.snatch}/>
         ));
 
         // Create the cnj accessory inputs / displays
@@ -151,7 +150,7 @@ class App extends Component {
         let cnjRatioDisplays = _.map(_.keys(accessories.cnj), (accessory) => (
                 <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio}
                     actualRatio={this.state.accessories.cnj[accessory].percent} displayName={accessories.cnj[accessory].display}
-                    baseValue={this.state.results.base.cnj} />
+                    accessoryValue={this.state.accessories.cnj[accessory].value} baseValue={this.state.results.base.cnj} />
         ));
 
         return (
@@ -212,7 +211,7 @@ class App extends Component {
                          </div>
                      </div>
 
-                    <div className="row">
+                    <div className="row" id="analysis">
                          <div className="col-md-12">
                              <h4>See <strong>above &uarr;</strong>, and <strong>below &darr;</strong> for analysis</h4>
                          </div>
@@ -221,6 +220,10 @@ class App extends Component {
 
                     <div className="row" style={{'paddingTop': '50px'}}>
                         <div className="col-md-12"> </div>
+                    </div>
+
+                    <div className="row" hidden={!this.state.results.calculated}>
+                        <h3>3. Check out your results:</h3>
                     </div>
 
                     <div className="row" id="ratioDisplays">
