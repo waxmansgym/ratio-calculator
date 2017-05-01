@@ -68,6 +68,16 @@ class Notes extends React.Component {
                                 summarized in our 2017 article, <a href="http://www.waxmansgym.com/liftratios/">Those Magic Little Lift Ratios</a>.
                             </p>
 
+                            <h3>3. Reporting Bugs</h3>
+                            <p>
+                                Please send any issues to <a href="mailto:support@waxmansgym.com?Subject=Calculator">support@waxmansgym.com</a>.
+                            </p>
+                            <p>
+                                For the technically inclined, you can also submit bugs on our <a href="https://github.com/waxmansgym/ratio-calculator/issues" target="_blank">Github Issue Tracker</a>. 
+                            </p>
+
+                            <hr/>
+
                             <p className="small text-muted">
                                 You expressly acknowledge and agree that Waxman's Gym LLC and its
                                 agents, affiliates, and associates make no representations or
@@ -79,6 +89,7 @@ class Notes extends React.Component {
                                 times, your reliance on the information, advice, ideas, and
                                 suggestions on this page comes at your sole discretion and risk.
                             </p>
+
 
                         </div>
                     </Modal.Body>
