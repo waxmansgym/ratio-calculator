@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "custom-bootstrap": "file:custom-bootstrap",
     "donatello": "^1.0.0",
     "ftp-deploy": "^1.1.0",
     "jquery": "^3.2.0",
@@ -15,7 +16,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.3.2",
-    "custom-bootstrap": "file:custom-bootstrap"
+    "spawn-sync": "^1.0.15"
   },
   "scripts": {
     "start": "react-scripts start",
