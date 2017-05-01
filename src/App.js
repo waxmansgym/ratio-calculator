@@ -225,9 +225,9 @@ class App extends Component {
                          </div>
                      </div>
 
-                    <div className="row" id="analysis">
+                    <div className="row" id="analysis" hidden={!this.state.results.calculated}>
                          <div className="col-md-12">
-                             <h4>See <strong>above &uarr;</strong>, and <strong>below &darr;</strong> for analysis</h4>
+                             <h4>See <strong>below &darr;</strong> for analysis</h4>
                          </div>
                     </div>
 
