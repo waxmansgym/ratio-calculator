@@ -172,9 +172,9 @@ class App extends Component {
 
                 <div className="container">
 
-                    <div className="row">
+                    <div className="row visible-sm visible-xs">
                         <div className="col-md-12">
-                            <img alt="Waxman's Gym" src="img/wg_logo.png"/>
+                            <img alt="Waxman's Gym" src="http://www.waxmansgym.com/ratio_calculator/img/wg_logo.png"/>
                         </div>
                     </div>
 
@@ -281,7 +281,6 @@ class App extends Component {
                                 accessories={this.state.results.accessories.cnj} show={this.state.results.calculated}/>
                         </div>
                     </div>
-
                 </div>
            <script src="src/lib/js/bootstrap.min.js"></script>
           </div>
