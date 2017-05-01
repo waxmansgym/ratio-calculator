@@ -68,6 +68,18 @@ class Notes extends React.Component {
                                 summarized in our 2017 article, <a href="http://www.waxmansgym.com/liftratios/">Those Magic Little Lift Ratios</a>.
                             </p>
 
+                            <p className="small text-muted">
+                                You expressly acknowledge and agree that Waxman's Gym LLC and its
+                                agents, affiliates, and associates make no representations or
+                                warranties as to the suitability/safety of the information provided
+                                here since we have no idea who you are or what your deal is. Prior
+                                to participating in any program, activity, exercise discussed,
+                                recommended, or suggested on this site, you should seek the advice
+                                of your physician and/or other qualified professionals. At all
+                                times, your reliance on the information, advice, ideas, and
+                                suggestions on this page comes at your sole discretion and risk.
+                            </p>
+
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
