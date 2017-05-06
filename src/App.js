@@ -180,7 +180,7 @@ class App extends Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <h1>Waxman's Gym Lift Ratio Calculator <small>v1.0</small></h1>
+                            <h1>Waxman's Gym Lift Ratio Calculator <small>v1.0-beta</small></h1>
 
                             <Notes/>
 
