@@ -36,7 +36,8 @@ class AccessoryResults extends Component {
                 name: accessoryName,
                 actualRatio: actualRatio,
                 expectedRatio: accessory.ratio,
-                ratioDiff: actualRatio - accessory.ratio
+                ratioDiff: actualRatio - accessory.ratio,
+                value: Number(accessory.value)
             };
         });
 
@@ -64,11 +65,15 @@ class AccessoryResults extends Component {
             // Grab the front squat entry from the list of results as we use it all over the place
             let frontSquat = _.find(results, (r) => { return r.name === 'Front Squat'; });
 
+            let jerk = _.find(results, (r) => { return r.name === 'Jerk'; });
+            let clean = _.find(results, (r) => { return r.name === 'Clean'; });
+
             // The "acceptable" range for the front squat in %
             let frontSquatAcceptableRange = 5.0;
 
             let shortExplanation = null;
 
+            // Special case for when all of the lifts are within the ideal range.
             if(Math.abs(worst.ratioDiff) <= ranges.ideal) {
                 if(results.length === 1) {
                     diagnosis = (
@@ -99,11 +104,96 @@ class AccessoryResults extends Component {
                     );
                 }
             }
-            else {
+            else if(worst.name !== 'Jerk' && jerk !== undefined && clean !== undefined && jerk.value < clean.value) {
 
+                // Don't show the "how did we get this" info
+                showWork = false;
+
+                if(frontSquat === undefined) {
+                    // Jerk lower than clean, but another ratio shows greater disparity (and no front squat entered)
+                    diagnosis = (
+                        <span>
+                            <p> 
+                                While the greatest disparity in your ratios is your {worst.name} compared to your clean &amp; jerk, your jerk is currently lower than
+                                your clean. For purposes of improving your clean &amp; jerk, the jerk should be
+                                your highest priority.  
+                            </p>
+                            <p>
+                                Since you didn’t enter a Front Squat number, it’s hard for us to diagnose your jerk issues.
+                                If your Squat ratio is in the right range, your problem in the Jerk may be related to
+                                technique. If your Squat ratios is below ideal range, you may have a strength and/or
+                                energy production problem.
+                            </p>
+                        </span>
+                    );
+                    prescription = (
+                        <span>
+                            Please enter your front squat numbers and perform the analysis again.
+                        </span>
+                    );
+                }
+                else if(frontSquat.ratioDiff >= frontSquatAcceptableRange) {
+                    console.log('AYYYY', Math.abs(frontSquat.ratioDiff), frontSquatAcceptableRange)
+                    // Jerk lower than clean, another ratio shows greater disparity (and front squat ratio is
+                    // within range or higher than ideal)
+                    diagnosis = (
+                        <span>
+                            <p>
+                                While the greatest disparity in your ratios is your {worst.name} compared to
+                                your Clean &amp; Jerk, your Jerk is currently lower than your clean.  For purposes
+                                of improving your Clean &amp; Jerk, the jerk should be your highest priority.
+                            </p>
+                            <p>
+                                Since you don’t appear to be limited by strength in the Jerk (according to your front
+                                squat numbers), it is likely you have technical inefficiencies in your Jerk.
+                            </p>
+                        </span>
+                    );
+                    prescription = (
+                        <span>
+                            <p>
+                                While there are a number of common technical problems that could be hampering your
+                                Jerk, it’s hard to tell from ratios alone what aspect of your technique is the
+                                greatest limiter (e.g. poor position or balance, problems with magnitude and
+                                direction of energy production, or coordination). 
+                            </p>
+                            <p>
+                                We recommend you evaluate your own lifts on video, or seek out a knowledgeable
+                                coach to help you prioritize/fix your technical inefficiencies so you can better
+                                harness your strength for the Jerk. 
+                            </p>
+                        </span>
+                    );
+                }
+                else {
+                    // Jerk lower than clean, another ratio shows greater disparity (and front squat ratio is
+                    // within range or higher than ideal)
+                    diagnosis = (
+                        <span>
+                            <p>
+                                While the greatest disparity in your ratios is your {worst.name} compared to your Clean & Jerk,
+                                your Jerk is currently lower than your Clean. For purposes of improving your Clean & Jerk,
+                                the Jerk should be your highest priority. 
+                            </p>
+                            <p>
+                                Since your front squat is lower than ideal compared to your Clean & Jerk,  it appears
+                                your Jerk may be limited primarily by your strength.
+                            </p>
+                        </span>
+                    );
+                    prescription = (
+                        <span>
+                            You’ll likely benefit most in the Jerk by improving your squatting. This includes
+                            both squatting more and rising faster from the bottom of the Squat. Both
+                            improvements will give you more strength and energy for the Jerk.
+                        </span>
+                    );
+                }
+            }
+            else {
                 //////////////////////////////////////////////////////////////////////
-                // Clean too low
                 if(worst.name === 'Clean' && worst.ratioDiff < 0) {
+                    // Clean too low
                     diagnosis = (
                         <span>
                             According to your numbers, you clean less than you can clean & jerk.
@@ -138,9 +228,8 @@ class AccessoryResults extends Component {
                                 </p>
                             </span>);
                     }
-
-                    // Clean too high (and front squat ratio is lower than ideal)
                     else if(worst.ratioDiff > 0 && frontSquat.ratioDiff < 0) {
+                        // Clean too high (and front squat ratio is lower than ideal)
                         diagnosis = (
                             <span>
                                 Based on the numbers you entered, since your clean is greater than your clean & jerk,
@@ -323,7 +412,7 @@ class AccessoryResults extends Component {
                         }
                     }
                     else {
-                        // Jerk lower than expected (and front squat ratio is within range)
+                        // Jerk lower than expected (and front squat ratio is within range or above)
                         if(worst.ratioDiff < 0 && Math.abs(frontSquat.ratioDiff) < frontSquatAcceptableRange) {
                             diagnosis = (
                                 <span>
@@ -338,8 +427,10 @@ class AccessoryResults extends Component {
                                 <span>
                                     <p>
                                         While there are a number of common technical problems that could be
-                                        hampering your jerk, it’s hard to tell from these numbers alone what
-                                        aspect of your technique is the greatest limiter. 
+                                        hampering your jerk, it’s hard to tell from ratios alone what aspect
+                                        of your technique is the greatest limiter (e.g. poor position or
+                                        balance, problems with magnitude and direction of energy production,
+                                        or coordination). 
                                     </p>
                                     <p>
                                         We recommend you evaluate your own lifts on video, or seek out
@@ -352,7 +443,6 @@ class AccessoryResults extends Component {
 
                         // Jerk lower than expected (and front squat ratio is lower than ideal)
                         else if(worst.ratioDiff < 0 && frontSquat.ratioDiff < 0) {
-
                             diagnosis = (
                                 <span>
                                     Since your jerk is lower than ideal, and since your front squat is lower
