@@ -1,11 +1,32 @@
+/* Waxman's Gym Ratio Calculator Copyright (C) 2017 Waxman's Gym
 
-import {BaseResults, AccessoryResults, BaseLiftInput, AccessoryLiftInput, AccessoryRatioDisplay} from './components.js';
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+
+import {AccessoryHeader} from './components/accessoryheader.js'; 
+import {AccessoryFooter} from './components/accessoryfooter.js'; 
+import {BaseLiftInput} from './components/baseliftinput.js'; 
+import {AccessoryLiftInput} from './components/accessoryliftinput.js'; 
+import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js'; 
+import {BaseResults} from './components/baseresults.js'; 
+import {AccessoryResults} from './components/accessoryresults.js';
+import {Notes} from './components/notes.js';
 import {isNumber} from './helpers.js';
 import {accessories} from './data.js';
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
-import './App.css';
+
 var _ = require('lodash');
 
 class App extends Component {
@@ -32,6 +53,7 @@ class App extends Component {
         });
 
         this.state = {
+            scrolled: false,
             bases: {snatch: null, cnj: null},
             accessories: accessoryState,
             results: {
@@ -84,12 +106,14 @@ class App extends Component {
             });
         });
 
+        if(!this.state.scrolled)
+            setTimeout(()=>document.getElementById("analysis").scrollIntoView({behavior: "smooth"}), 0);
+
         this.setState({
             accessories: accessoriesState,
-            results: results
+            results: results,
+            scrolled: true
         });
-
-        setTimeout(()=>document.getElementById("baseResults").scrollIntoView(), 0);
     }
 
     handleAccessoryChange(event) {
@@ -109,35 +133,57 @@ class App extends Component {
 
         // Create the snatch accessory inputs / displays
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
-            <div className="row" key={"row_" + accessory}>
-                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
-                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio} actualRatio={this.state.accessories.snatch[accessory].percent}/>
-            </div>
+            <span key={"span_" + accessory}>
+                <div className="row" key={"row_" + accessory}>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
+                </div>
+                <div className="row" key={"row_" + accessory + "_extra"}>
+                    <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
+                </div>
+            </span>
+        ));
+
+        let snatchRatioDisplays = _.map(_.keys(accessories.snatch), (accessory) => (
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.snatch[accessory].ratio}
+                    actualRatio={this.state.accessories.snatch[accessory].percent} displayName={accessories.snatch[accessory].display}
+                    accessoryValue={this.state.accessories.snatch[accessory].value} baseValue={this.state.results.base.snatch}/>
         ));
 
         // Create the cnj accessory inputs / displays
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
-            <div className="row" key={"row_" + accessory}>
-                <AccessoryLiftInput key={accessory} name={accessory} onChange={this.handleAccessoryChange}/>
-                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio} actualRatio={this.state.accessories.cnj[accessory].percent}/>
-            </div>
+            <span key={"span_" + accessory}>
+                <div className="row" key={"row_" + accessory}>
+                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
+                </div>
+                <div className="row" key={"row_" + accessory + "_extra"}>
+                    <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
+                </div>
+            </span>
+        ));
+
+        let cnjRatioDisplays = _.map(_.keys(accessories.cnj), (accessory) => (
+                <AccessoryRatioDisplay key={'ratio_' + accessory} expectedRatio={accessories.cnj[accessory].ratio}
+                    actualRatio={this.state.accessories.cnj[accessory].percent} displayName={accessories.cnj[accessory].display}
+                    accessoryValue={this.state.accessories.cnj[accessory].value} baseValue={this.state.results.base.cnj} />
         ));
 
         return (
-            <div className="App">
+            <div className="App text-center">
 
                 <div className="container">
 
-                    <div className="row">
+                    <div className="row visible-sm visible-xs">
                         <div className="col-md-12">
-                            <img src="img/wg_logo.png"/>
+                            <img alt="Waxman's Gym" src="http://www.waxmansgym.com/ratio_calculator/img/wg_logo.png"/>
                         </div>
                     </div>
 
                     <div className="row">
                         <div className="col-md-12">
-                            <h1>Waxman's Gym Lift Ratio Calculator <small>v0.1</small></h1>
-                            <p>Over years of training athletes, we've found that lift ratios can serve as powerful tools for evaluating balance and guiding lifter development. By uncovering your biggest imbalances, you can better prioritize problems and more effectively direct your programming/training.</p>
+                            <h1>Waxman's Gym Lift Ratio Calculator <small>v1.0-beta</small></h1>
+
+                            <Notes/>
+
                         </div>
                     </div>
 
@@ -175,14 +221,41 @@ class App extends Component {
 
                     <div className="row">
                          <div className="col-md-12">
-                             <h3>3. Click the button to perform analysis:</h3>
-                             <h4>Then see below for results</h4>
                              <button type="button" className="btn btn-success btn-lg" onClick={this.handleSubmit}>Evaluate Me</button>
+                         </div>
+                     </div>
+
+                    <div className="row" id="analysis" hidden={!this.state.results.calculated}>
+                         <div className="col-md-12">
+                             <h4>See <strong>below &darr;</strong> for analysis</h4>
                          </div>
                     </div>
 
+
                     <div className="row" style={{'paddingTop': '50px'}}>
                         <div className="col-md-12"> </div>
+                    </div>
+
+                    <div className="row" hidden={!this.state.results.calculated}>
+                        <h3>3. Check out your results:</h3>
+                    </div>
+
+                    <div className="row" id="ratioDisplays">
+                        <div className="col-md-6" id="snatchRatioDisplays">
+                            <Panel bsStyle="danger" hidden={!this.state.results.calculated}>
+                                <AccessoryHeader/>
+                                {snatchRatioDisplays}
+                                <AccessoryFooter/>
+                            </Panel>
+                        </div>
+
+                        <div className="col-md-6" id="cnjRatioDisplays">
+                            <Panel bsStyle="danger" hidden={!this.state.results.calculated}>
+                                <AccessoryHeader/>
+                                {cnjRatioDisplays}
+                                <AccessoryFooter/>
+                            </Panel>
+                        </div>
                     </div>
 
                     <div className="row" id="baseResults">
@@ -208,11 +281,12 @@ class App extends Component {
                                 accessories={this.state.results.accessories.cnj} show={this.state.results.calculated}/>
                         </div>
                     </div>
-
                 </div>
+           <script src="src/lib/js/bootstrap.min.js"></script>
           </div>
       );
     }
 }
 
 export default App;
+// vim: set ft=javascript.jsx
