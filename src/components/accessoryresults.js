@@ -114,26 +114,25 @@ class AccessoryResults extends Component {
                     diagnosis = (
                         <span>
                             <p> 
-                                While the greatest disparity in your ratios is your {worst.name} compared to your clean &amp; jerk, your jerk is currently lower than
-                                your clean. For purposes of improving your clean &amp; jerk, the jerk should be
+                                While the greatest disparity in your ratios is your {worst.name} compared to your Clean &amp; Jerk, your Jerk is currently lower than
+                                your Clean. For purposes of improving your Clean &amp; Jerk, the Jerk should be
                                 your highest priority.  
                             </p>
                             <p>
-                                Since you didn’t enter a Front Squat number, it’s hard for us to diagnose your jerk issues.
-                                If your Squat ratio is in the right range, your problem in the Jerk may be related to
-                                technique. If your Squat ratios is below ideal range, you may have a strength and/or
+                                Since you didn’t enter a Front Squat number, it’s hard for us to diagnose your Jerk issues.
+                                If your Squat is in the right range, your problem in the Jerk may be related to
+                                technique. If your Squat is below ideal range, you may have a strength and/or
                                 energy production problem.
                             </p>
                         </span>
                     );
                     prescription = (
                         <span>
-                            Please enter your front squat numbers and perform the analysis again.
+                            Please enter your Front Squat numbers and perform the analysis again.
                         </span>
                     );
                 }
                 else if(frontSquat.ratioDiff >= frontSquatAcceptableRange) {
-                    console.log('AYYYY', Math.abs(frontSquat.ratioDiff), frontSquatAcceptableRange)
                     // Jerk lower than clean, another ratio shows greater disparity (and front squat ratio is
                     // within range or higher than ideal)
                     diagnosis = (
