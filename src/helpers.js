@@ -23,4 +23,17 @@ function isNumber(value) {
 
 let formatNumber = Math.round;
 
-export {formatNumber, isNumber};
+function urlParams() {
+	let params = {}
+	document.location.search.substr(1).split('&').forEach(pair => {
+		let sp = pair.split('=');
+		params[sp[0]] = sp[1];
+	});
+	return params;
+}
+
+function encodeName(name) {
+	return name.toLowerCase().replace(/ /g, '');
+}
+
+export {formatNumber, isNumber, urlParams, encodeName};

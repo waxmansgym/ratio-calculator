@@ -21,11 +21,14 @@ import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js';
 import {BaseResults} from './components/baseresults.js'; 
 import {AccessoryResults} from './components/accessoryresults.js';
 import {Notes} from './components/notes.js';
-import {isNumber} from './helpers.js';
+import {isNumber, urlParams, encodeName} from './helpers.js';
 import {accessories} from './data.js';
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
+
+import ClipboardButton from 'react-clipboard.js';
+
 
 var _ = require('lodash');
 
@@ -36,6 +39,11 @@ class App extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAccessoryChange = this.handleAccessoryChange.bind(this);
         this.handleBaseChange = this.handleBaseChange.bind(this);
+
+		let params = urlParams();
+
+		// Are any fields preloaded from the URL?
+		let preloaded = false;
 
         this.accessoryMap = {};
         let accessoryState = { snatch: {}, cnj: {} };
@@ -49,12 +57,29 @@ class App extends Component {
                     value: null,
                     percent: null
                 }
+				let accessoryEncodedName = encodeName(accessory);
+				if(_.has(params, accessoryEncodedName)) {
+					accessoryState[base][accessory]['value'] = params[accessoryEncodedName];
+					preloaded = true;
+				}
             })
         });
 
+		let snatchValue = null;
+		if(_.has(params, 'snatch')) {
+			snatchValue = params['snatch']
+			preloaded = true;
+		}
+
+		let cnjValue = null;
+		if(_.has(params, 'cnj')) {
+			cnjValue = params['cnj']
+			preloaded = true;
+		}
+
         this.state = {
             scrolled: false,
-            bases: {snatch: null, cnj: null},
+            bases: {snatch: snatchValue, cnj: cnjValue},
             accessories: accessoryState,
             results: {
                 calculated: false,
@@ -63,9 +88,17 @@ class App extends Component {
                     snatch: null,
                     cnj: null
                 }
-            }
+            },
+			preloaded: preloaded,
+			computed: false
         }
     }
+
+	componentDidMount() {
+		if(this.state.preloaded) {
+			this.handleSubmit();
+		}
+	}
 
     handleSubmit(event) {
         let accessoriesState = this.state.accessories;
@@ -112,7 +145,8 @@ class App extends Component {
         this.setState({
             accessories: accessoriesState,
             results: results,
-            scrolled: true
+            scrolled: true,
+			computed: true
         });
     }
 
@@ -135,7 +169,7 @@ class App extends Component {
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
             <span key={"span_" + accessory}>
                 <div className="row" key={"row_" + accessory}>
-                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
+                    <AccessoryLiftInput key={accessory} name={accessory} value={this.state.accessories['snatch'][accessory]['value']} displayName={accessory} onChange={this.handleAccessoryChange}/>
                 </div>
                 <div className="row" key={"row_" + accessory + "_extra"}>
                     <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
@@ -153,7 +187,7 @@ class App extends Component {
         let cnjAccessories = _.map(_.keys(accessories.cnj), (accessory) => (
             <span key={"span_" + accessory}>
                 <div className="row" key={"row_" + accessory}>
-                    <AccessoryLiftInput key={accessory} name={accessory} displayName={accessory} onChange={this.handleAccessoryChange}/>
+                    <AccessoryLiftInput key={accessory} name={accessory} value={this.state.accessories['cnj'][accessory]['value']} displayName={accessory} onChange={this.handleAccessoryChange}/>
                 </div>
                 <div className="row" key={"row_" + accessory + "_extra"}>
                     <div className="col-md-12"><hr className="visible-sm visible-xs"/><span className="hidden-sm hidden-xs">&nbsp;</span></div>
@@ -166,6 +200,45 @@ class App extends Component {
                     actualRatio={this.state.accessories.cnj[accessory].percent} displayName={accessories.cnj[accessory].display}
                     accessoryValue={this.state.accessories.cnj[accessory].value} baseValue={this.state.results.base.cnj} />
         ));
+
+		let shareButton = null;
+		if(this.state.computed) {
+			let params = {};
+			if(isNumber(this.state.bases.snatch)) {
+				params.snatch = this.state.bases.snatch;
+			}
+
+			if(isNumber(this.state.bases.cnj)) {
+				params.cnj = this.state.bases.cnj;
+			}
+
+			_.keys(this.state.accessories.cnj).forEach(accessory => {
+				let value = this.state.accessories.cnj[accessory]['value'];
+				if(isNumber(value)) { params[encodeName(accessory)] = value; }
+			});
+
+			_.keys(this.state.accessories.snatch).forEach(accessory => {
+				let value = this.state.accessories.snatch[accessory]['value'];
+				if(isNumber(value)) { params[encodeName(accessory)] = value; }
+			});
+
+			let urlParams = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+			let linkUrl = window.location.href.split('?')[0] + '?' + urlParams;
+
+			shareButton = (
+				<span>
+				<div className="row">
+					<div className="col-md-12">
+						<ClipboardButton className="btn" data-clipboard-text={linkUrl}>
+							Copy Results Link To Clipboard
+						</ClipboardButton>
+					</div>
+				</div>
+				</span>
+
+			);
+		}
+
 
         return (
             <div className="App text-center">
@@ -193,11 +266,11 @@ class App extends Component {
                             <div className="row">
                                 <div className="col-md-2"></div>
                                 <div className="col-md-3">
-                                    <BaseLiftInput name="Snatch" shortname="snatch" onChange={this.handleBaseChange}/>
+                                    <BaseLiftInput name="Snatch" value={this.state.bases.snatch} shortname="snatch" onChange={this.handleBaseChange}/>
                                 </div>
                                 <div className="col-md-2"></div>
                                 <div className="col-md-3">
-                                    <BaseLiftInput name="Clean & Jerk" shortname="cnj" onChange={this.handleBaseChange}/>
+                                    <BaseLiftInput name="Clean & Jerk" value={this.state.bases.cnj} shortname="cnj" onChange={this.handleBaseChange}/>
                                 </div>
                                 <div className="col-md-2"></div>
                             </div>
@@ -281,6 +354,11 @@ class App extends Component {
                                 accessories={this.state.results.accessories.cnj} show={this.state.results.calculated}/>
                         </div>
                     </div>
+
+					{shareButton}
+
+					<div className="row"><div className="col-md-12">&nbsp;</div></div>
+
                 </div>
            <script src="src/lib/js/bootstrap.min.js"></script>
           </div>

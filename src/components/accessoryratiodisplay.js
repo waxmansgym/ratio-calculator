@@ -55,8 +55,6 @@ class AccessoryRatioDisplay extends Component {
             </span>
         );
 
-        console.log(this.props.xxx)
-
         return (
             <div className="row" style={{paddingTop: '8px', paddingBottom: '8px'}}>
                 <div className="col-md-3 hidden-sm hidden-xs" style={{ transform: verticalAlign }}>

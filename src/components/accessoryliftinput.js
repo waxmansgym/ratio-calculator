@@ -14,11 +14,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 import React, { Component } from 'react';
+import {isNumber} from '../helpers.js';
 
 class AccessoryLiftInput extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+		let value = '';
+		if(isNumber(this.props.value)) {
+			value = this.props.value;
+		}
+        this.state = {value: value};
         this.handleChange = this.handleChange.bind(this);
     }
 
