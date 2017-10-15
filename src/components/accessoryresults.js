@@ -55,6 +55,7 @@ class AccessoryResults extends Component {
             let diagnosis = diagnoses[worst.name][whichWay];
             let prescription = prescriptions[worst.name][whichWay];
             let showWork = true;
+			let extraWork = null;
 
             // ######################################################################
             // TODO: As the rule tree becomes more complex, more and more logic made its way here.
@@ -107,7 +108,11 @@ class AccessoryResults extends Component {
             else if(worst.name !== 'Jerk' && jerk !== undefined && clean !== undefined && jerk.value < clean.value) {
 
                 // Don't show the "how did we get this" info
-                showWork = false;
+				extraWork = (
+					<p>
+						However, you also Clean more than you can Jerk.  No matter how well you balance your other
+						lifts/ratios, you'll need to improve your Jerk for a better Clean &amp; Jerk.
+					</p>)
 
                 if(frontSquat === undefined) {
                     // Jerk lower than clean, but another ratio shows greater disparity (and no front squat entered)
@@ -898,6 +903,7 @@ class AccessoryResults extends Component {
                     <span>
                         <h3>How did we get this?</h3>
                         {description}
+						{extraWork}
                     </span>
                 );
             }

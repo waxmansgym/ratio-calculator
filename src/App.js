@@ -23,11 +23,12 @@ import {AccessoryResults} from './components/accessoryresults.js';
 import {Notes} from './components/notes.js';
 import {isNumber, urlParams, encodeName} from './helpers.js';
 import {accessories} from './data.js';
+import $ from 'jquery'; 
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 
-import ClipboardButton from 'react-clipboard.js';
+// import ClipboardButton from 'react-clipboard.js';
 
 
 var _ = require('lodash');
@@ -39,6 +40,7 @@ class App extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAccessoryChange = this.handleAccessoryChange.bind(this);
         this.handleBaseChange = this.handleBaseChange.bind(this);
+		this.getLinkURL = this.getLinkURL.bind(this);
 
 		let params = urlParams();
 
@@ -90,7 +92,9 @@ class App extends Component {
                 }
             },
 			preloaded: preloaded,
-			computed: false
+			computed: false,
+			// linkURL: null,
+			shortLinkURL: null,
         }
     }
 
@@ -148,6 +152,34 @@ class App extends Component {
             scrolled: true,
 			computed: true
         });
+
+		let params = {};
+		if(isNumber(this.state.bases.snatch)) {
+			params.snatch = this.state.bases.snatch;
+		}
+
+		if(isNumber(this.state.bases.cnj)) {
+			params.cnj = this.state.bases.cnj;
+		}
+
+		_.keys(this.state.accessories.cnj).forEach(accessory => {
+			let value = this.state.accessories.cnj[accessory]['value'];
+			if(isNumber(value)) { params[encodeName(accessory)] = value; }
+		});
+
+		_.keys(this.state.accessories.snatch).forEach(accessory => {
+			let value = this.state.accessories.snatch[accessory]['value'];
+			if(isNumber(value)) { params[encodeName(accessory)] = value; }
+		});
+
+		// let urlParams = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+		// let linkURL = window.location.href.split('?')[0] + '?' + urlParams;
+
+		this.setState({
+			urlParams: params,
+			// linkURL: linkURL,
+			shortLinkURL: null
+		});
     }
 
     handleAccessoryChange(event) {
@@ -162,6 +194,26 @@ class App extends Component {
         basesState[event.name] = event.value;
         this.setState({bases: basesState}); 
     }
+
+	getLinkURL() {
+		// let url = encodeURI(this.state.linkURL).replace(/=/g, '-');
+		// console.log('Getting URL for', url);
+		let data = this.state.urlParams;
+		data['_base'] = window.location.href.split('?')[0].slice(0,-1);
+
+		$.ajax({
+			type: "POST",
+			url: "http://r-c-v.com:8000/",
+			data: data,
+			dataType: "jsonp",
+			contentType: "application/json; charset=utf-8",
+			xhrFields: {
+				withCredentials: true
+			},
+		}).then(function(data) {
+			this.setState({shortLinkURL: data.url});
+		}.bind(this));
+	}
 
     render() {
 
@@ -202,41 +254,20 @@ class App extends Component {
         ));
 
 		let shareButton = null;
+		let generateLinkButton = null;
 		if(this.state.computed) {
-			let params = {};
-			if(isNumber(this.state.bases.snatch)) {
-				params.snatch = this.state.bases.snatch;
-			}
 
-			if(isNumber(this.state.bases.cnj)) {
-				params.cnj = this.state.bases.cnj;
-			}
-
-			_.keys(this.state.accessories.cnj).forEach(accessory => {
-				let value = this.state.accessories.cnj[accessory]['value'];
-				if(isNumber(value)) { params[encodeName(accessory)] = value; }
-			});
-
-			_.keys(this.state.accessories.snatch).forEach(accessory => {
-				let value = this.state.accessories.snatch[accessory]['value'];
-				if(isNumber(value)) { params[encodeName(accessory)] = value; }
-			});
-
-			let urlParams = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-			let linkUrl = window.location.href.split('?')[0] + '?' + urlParams;
-
-			shareButton = (
-				<span>
-				<div className="row">
-					<div className="col-md-12">
-						<ClipboardButton className="btn" data-clipboard-text={linkUrl}>
-							Copy Results Link To Clipboard
-						</ClipboardButton>
-					</div>
-				</div>
-				</span>
-
+			generateLinkButton = (
+				<button type="button" className="btn btn-lg" onClick={this.getLinkURL}>Generate Link</button>
 			);
+
+			if(this.state.shortLinkURL !== null) {
+				shareButton = (
+					<span>
+					<input type="text" className="field left" readOnly value={this.state.shortLinkURL}/>
+					</span>
+				);
+			}
 		}
 
 
@@ -355,7 +386,12 @@ class App extends Component {
                         </div>
                     </div>
 
-					{shareButton}
+					<div className="row">
+						<div className="col-md-12">
+							{generateLinkButton}
+							{shareButton}
+						</div>
+					</div>
 
 					<div className="row"><div className="col-md-12">&nbsp;</div></div>
 
