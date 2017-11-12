@@ -196,23 +196,24 @@ class App extends Component {
     }
 
 	getLinkURL() {
-		// let url = encodeURI(this.state.linkURL).replace(/=/g, '-');
-		// console.log('Getting URL for', url);
 		let data = this.state.urlParams;
-		data['_base'] = window.location.href.split('?')[0].slice(0,-1);
+		let params = Object.entries(data).map(([key, val]) => `${key}=${val}`).join('&');
+		let linkURL = window.location.href.split('?')[0] + '?' + params;
 
 		$.ajax({
+			url: "http://waxmansgym.com/calcshrtn.php",
 			type: "POST",
-			url: "http://r-c-v.com:8000/",
-			data: data,
-			dataType: "jsonp",
-			contentType: "application/json; charset=utf-8",
-			xhrFields: {
-				withCredentials: true
+			data: JSON.stringify({
+				"destination" : linkURL,
+			}),
+			headers: {
+				"Content-Type": "application/json"
 			},
-		}).then(function(data) {
-			this.setState({shortLinkURL: data.url});
-		}.bind(this));
+			dataType: "json",
+			success: function (link) {
+				this.setState({shortLinkURL: link.shortLinkURL});
+			}.bind(this)
+		});
 	}
 
     render() {
