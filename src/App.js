@@ -41,6 +41,7 @@ class App extends Component {
         this.handleBaseChange = this.handleBaseChange.bind(this);
 		this.getLinkURL = this.getLinkURL.bind(this);
 		this.closeLinkModal = this.closeLinkModal.bind(this);
+		this.copyLink = this.copyLink.bind(this);
 
 		let params = urlParams();
 
@@ -94,7 +95,8 @@ class App extends Component {
 			preloaded: preloaded,
 			computed: false,
 			// linkURL: null,
-			shortLinkURL: null,
+			shortLinkURL: '',
+            copySuccessIcon: (<p>&nbsp;</p>)
         }
     }
 
@@ -178,7 +180,7 @@ class App extends Component {
 		this.setState({
 			urlParams: params,
 			// linkURL: linkURL,
-			shortLinkURL: null
+			shortLinkURL: ''
 		});
     }
 
@@ -205,7 +207,6 @@ class App extends Component {
         if(shortener_hostname === 'localhost') {
             shortener_hostname = 'waxmans.r-c-v.com';
         }
-        console.log('>>>', shortener_hostname);
         let shortener = shortener_hostname + '/calcshrtn.php';
 		$.ajax({
             url: 'http://' + shortener,
@@ -224,7 +225,18 @@ class App extends Component {
 	}
 
     closeLinkModal() {
-        this.setState({shortLinkURL: null});
+        this.setState({
+            shortLinkURL: '',
+            copySuccessIcon: (<p>&nbsp;</p>)
+        });
+    }
+
+    copyLink() {
+        var copyText = document.getElementById("shortLink");
+        copyText.select();
+        document.execCommand("Copy");
+        window.getSelection().removeAllRanges();
+        this.setState({copySuccessIcon: (<p>&#10003;</p>)});
     }
 
     render() {
@@ -267,26 +279,35 @@ class App extends Component {
 		let generateLinkButton = null;
 		if(this.state.computed) {
 			generateLinkButton = (
-                <button type="button" className="btn btn-success btn-lg" onClick={this.getLinkURL}>Generate Link</button>
+                <button type="button" className="btn btn-success btn-lg" onClick={this.getLinkURL}>SAVE / SHARE<br/>THIS ANALYSIS</button>
 			);
 		}
 
+        let shortLinkStyle = {
+            border: '0px',
+            backgroundColor: '#fee',
+            textAlign: 'center',
+            fontSize: '30px',
+            height: '40px',
+            fontWeight: 'bold',
+        };
 
         return (
-
 
             <div className="App text-center">
 
                 <div className="static-modal">
 
-                    <Modal show={this.state.shortLinkURL !== null} onHide={this.closeLinkModal}>
+                    <Modal show={this.state.shortLinkURL !== ''} onHide={this.closeLinkModal}>
                         <Modal.Body style={{'backgroundColor': '#fee'}}>
                             <div className="text-center">
                             <p>Here is a link to your current results.</p>
                             <p>Copy it to share or save for later.</p>
-                            <h2><strong>{this.state.shortLinkURL}</strong></h2>
-
-                            <p>&nbsp;</p>
+                            <input style={shortLinkStyle} id="shortLink" readOnly={true} value={this.state.shortLinkURL}/>
+                            <br/>
+                            <br/>
+                            <a style={{color: 'black', cursor: 'pointer'}} onClick={this.copyLink}>Click here to copy link to clipboard</a>
+                            {this.state.copySuccessIcon}
                             <Button bsSize="small" onClick={this.closeLinkModal}>Close</Button>
                         </div>
                         </Modal.Body>
