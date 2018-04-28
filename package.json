@@ -8,6 +8,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "clipboard": "^1.7.1",
+    "clipboard.js": "^1.0.1",
     "custom-bootstrap": "file:custom-bootstrap",
     "donatello": "^1.0.0",
     "ftp-deploy": "^1.1.0",
@@ -16,7 +17,7 @@
     "npm-run-all": "^4.0.2",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
-    "react-clipboard.js": "^1.1.2",
+    "react-clipboard.js": "^1.1.3",
     "react-dom": "^15.3.2",
     "spawn-sync": "^1.0.15"
   },

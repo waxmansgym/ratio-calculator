@@ -13,23 +13,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
-import {AccessoryHeader} from './components/accessoryheader.js'; 
-import {AccessoryFooter} from './components/accessoryfooter.js'; 
-import {BaseLiftInput} from './components/baseliftinput.js'; 
-import {AccessoryLiftInput} from './components/accessoryliftinput.js'; 
-import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js'; 
-import {BaseResults} from './components/baseresults.js'; 
+import {AccessoryHeader} from './components/accessoryheader.js';
+import {AccessoryFooter} from './components/accessoryfooter.js';
+import {BaseLiftInput} from './components/baseliftinput.js';
+import {AccessoryLiftInput} from './components/accessoryliftinput.js';
+import {AccessoryRatioDisplay} from './components/accessoryratiodisplay.js';
+import {BaseResults} from './components/baseresults.js';
 import {AccessoryResults} from './components/accessoryresults.js';
 import {Notes} from './components/notes.js';
 import {isNumber, urlParams, encodeName} from './helpers.js';
 import {accessories} from './data.js';
-import $ from 'jquery'; 
+import $ from 'jquery';
 
 import React, { Component } from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
-
-// import ClipboardButton from 'react-clipboard.js';
-
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
 
 var _ = require('lodash');
 
@@ -41,6 +40,7 @@ class App extends Component {
         this.handleAccessoryChange = this.handleAccessoryChange.bind(this);
         this.handleBaseChange = this.handleBaseChange.bind(this);
 		this.getLinkURL = this.getLinkURL.bind(this);
+		this.closeLinkModal = this.closeLinkModal.bind(this);
 
 		let params = urlParams();
 
@@ -117,7 +117,7 @@ class App extends Component {
                 snatch: {},
                 cnj: {}
             }
-            
+
         }
 
         // Loop over each base
@@ -192,16 +192,23 @@ class App extends Component {
     handleBaseChange(event) {
         let basesState = this.state.bases;
         basesState[event.name] = event.value;
-        this.setState({bases: basesState}); 
+        this.setState({bases: basesState});
     }
 
 	getLinkURL() {
 		let data = this.state.urlParams;
 		let params = Object.entries(data).map(([key, val]) => `${key}=${val}`).join('&');
-		let linkURL = window.location.href.split('?')[0] + '?' + params;
+		let linkURL = (window.location.href.split('?')[0] + '?' + params).replace('#', '');
 
+        this.setState({shortLinkURL: 'Creating link...'});
+        let shortener_hostname = document.location.hostname;
+        if(shortener_hostname === 'localhost') {
+            shortener_hostname = 'waxmans.r-c-v.com';
+        }
+        console.log('>>>', shortener_hostname);
+        let shortener = shortener_hostname + '/calcshrtn.php';
 		$.ajax({
-			url: "http://waxmansgym.com/calcshrtn.php",
+            url: 'http://' + shortener,
 			type: "POST",
 			data: JSON.stringify({
 				"destination" : linkURL,
@@ -216,8 +223,11 @@ class App extends Component {
 		});
 	}
 
-    render() {
+    closeLinkModal() {
+        this.setState({shortLinkURL: null});
+    }
 
+    render() {
         // Create the snatch accessory inputs / displays
         let snatchAccessories = _.map(_.keys(accessories.snatch), (accessory) => (
             <span key={"span_" + accessory}>
@@ -254,28 +264,37 @@ class App extends Component {
                     accessoryValue={this.state.accessories.cnj[accessory].value} baseValue={this.state.results.base.cnj} />
         ));
 
-		let shareButton = null;
 		let generateLinkButton = null;
 		if(this.state.computed) {
-
 			generateLinkButton = (
-				<button type="button" className="btn btn-lg" onClick={this.getLinkURL}>Generate Link</button>
+                <button type="button" className="btn btn-success btn-lg" onClick={this.getLinkURL}>Generate Link</button>
 			);
-
-			if(this.state.shortLinkURL !== null) {
-				shareButton = (
-					<span>
-					<input type="text" className="field left" readOnly value={this.state.shortLinkURL}/>
-					</span>
-				);
-			}
 		}
 
 
         return (
+
+
             <div className="App text-center">
 
+                <div className="static-modal">
+
+                    <Modal show={this.state.shortLinkURL !== null} onHide={this.closeLinkModal}>
+                        <Modal.Body style={{'backgroundColor': '#fee'}}>
+                            <div className="text-center">
+                            <p>Here is a link to your current results.</p>
+                            <p>Copy it to share or save for later.</p>
+                            <h2><strong>{this.state.shortLinkURL}</strong></h2>
+
+                            <p>&nbsp;</p>
+                            <Button bsSize="small" onClick={this.closeLinkModal}>Close</Button>
+                        </div>
+                        </Modal.Body>
+                    </Modal>
+                </div>
+
                 <div className="container">
+
 
                     <div className="row visible-sm visible-xs">
                         <div className="col-md-12">
@@ -372,7 +391,7 @@ class App extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <AccessoryResults
-                            baseName="Snatch" 
+                            baseName="Snatch"
                                 base={this.state.results.base.snatch}
                                 accessories={this.state.results.accessories.snatch} show={this.state.results.calculated}/>
                         </div>
@@ -381,7 +400,7 @@ class App extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <AccessoryResults
-                            baseName="Clean & Jerk" 
+                            baseName="Clean & Jerk"
                                 base={this.state.results.base.cnj}
                                 accessories={this.state.results.accessories.cnj} show={this.state.results.calculated}/>
                         </div>
@@ -390,11 +409,11 @@ class App extends Component {
 					<div className="row">
 						<div className="col-md-12">
 							{generateLinkButton}
-							{shareButton}
 						</div>
 					</div>
 
 					<div className="row"><div className="col-md-12">&nbsp;</div></div>
+
 
                 </div>
            <script src="src/lib/js/bootstrap.min.js"></script>
