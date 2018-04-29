@@ -30,6 +30,8 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 
+var clipboard = require('clipboard');
+
 var _ = require('lodash');
 
 class App extends Component {
@@ -41,6 +43,7 @@ class App extends Component {
         this.handleBaseChange = this.handleBaseChange.bind(this);
 		this.getLinkURL = this.getLinkURL.bind(this);
 		this.closeLinkModal = this.closeLinkModal.bind(this);
+		this.openLinkModal = this.openLinkModal.bind(this);
 		this.copyLink = this.copyLink.bind(this);
 
 		let params = urlParams();
@@ -104,6 +107,7 @@ class App extends Component {
 		if(this.state.preloaded) {
 			this.handleSubmit();
 		}
+
 	}
 
     handleSubmit(event) {
@@ -149,6 +153,7 @@ class App extends Component {
             setTimeout(()=>document.getElementById("analysis").scrollIntoView({behavior: "smooth"}), 0);
 
         this.setState({
+            hello: 'world',
             accessories: accessoriesState,
             results: results,
             scrolled: true,
@@ -231,13 +236,26 @@ class App extends Component {
         });
     }
 
+    openLinkModal() {
+        let c = new clipboard('#copyShortLinkURL', {
+            container: document.getElementById('linkModal'),
+            text: () => { return this.state.shortLinkURL; }
+        });
+
+        c.on('success', () => {
+            this.setState({copySuccessIcon: (<p>&#10003;</p>)});
+        });
+    }
+
     copyLink() {
         var copyText = document.getElementById("shortLink");
+        copyText.setSelectionRange(0, 999);
         copyText.select();
         document.execCommand("Copy");
         window.getSelection().removeAllRanges();
         this.setState({copySuccessIcon: (<p>&#10003;</p>)});
     }
+
 
     render() {
         // Create the snatch accessory inputs / displays
@@ -283,30 +301,20 @@ class App extends Component {
 			);
 		}
 
-        let shortLinkStyle = {
-            border: '0px',
-            backgroundColor: '#fee',
-            textAlign: 'center',
-            fontSize: '30px',
-            height: '40px',
-            fontWeight: 'bold',
-        };
-
         return (
 
             <div className="App text-center">
 
                 <div className="static-modal">
 
-                    <Modal show={this.state.shortLinkURL !== ''} onHide={this.closeLinkModal}>
+                    <Modal show={this.state.shortLinkURL !== ''} onHide={this.closeLinkModal} onShow={this.openLinkModal} id='linkModal'>
                         <Modal.Body style={{'backgroundColor': '#fee'}}>
                             <div className="text-center">
                             <p>Here is a link to your current results.</p>
                             <p>Copy it to share or save for later.</p>
-                            <input style={shortLinkStyle} id="shortLink" readOnly={true} value={this.state.shortLinkURL}/>
+                            <h3><strong>{this.state.shortLinkURL}</strong></h3>
+                            <a style={{color: 'black', cursor: 'pointer'}} id='copyShortLinkURL'>Click here to copy link to clipboard</a>
                             <br/>
-                            <br/>
-                            <a style={{color: 'black', cursor: 'pointer'}} onClick={this.copyLink}>Click here to copy link to clipboard</a>
                             {this.state.copySuccessIcon}
                             <Button bsSize="small" onClick={this.closeLinkModal}>Close</Button>
                         </div>
