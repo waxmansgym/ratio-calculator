@@ -212,9 +212,9 @@ class App extends Component {
         if(shortener_hostname === 'localhost') {
             shortener_hostname = 'waxmans.r-c-v.com';
         }
-        let shortener = shortener_hostname + '/calcshrtn.php';
+        let shortener = window.location.protocol + '//' + shortener_hostname + '/calcshrtn.php';
 		$.ajax({
-            url: 'http://' + shortener,
+            url: shortener,
 			type: "POST",
 			data: JSON.stringify({
 				"destination" : linkURL,
