@@ -15,3 +15,5 @@ deploy:
     bucket: $ARTIFACTS_BUCKET
     skip_cleanup: true
     region: us-east-1
+    local_dir: build
+
