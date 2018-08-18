@@ -18,7 +18,10 @@ This calculator is web application built in [React](https://facebook.github.io/r
 
 ## CI/CD
 
-- Builds are automatically created and deployed by Travis-CI to Amazon S3
-- Builds can be monitored here [https://travis-ci.org/waxmansgym/ratio-calculator](https://travis-ci.org/waxmansgym/ratio-calculator)
-- Builds can be previewed here: [http://ratio-calculator.s3-website-us-east-1.amazonaws.com/](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/)
-- Builds can be downloaded here: [http://ratio-calculator.s3-website-us-east-1.amazonaws.com/ratio-calculator.zip](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/ratio-calculator.zip)
+Builds are automatically created and deployed by **Travis-CI** to **Amazon S3**
+
+[:eyeglasses: **Monitor**](https://travis-ci.org/waxmansgym/ratio-calculator)
+|
+[:globe_with_meridians: **Preview**](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/)
+|
+[:inbox_tray: **Download**](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/ratio-calculator.zip)
