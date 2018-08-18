@@ -25,7 +25,7 @@
     "start": "react-scripts start",
     "start:custom-bootstrap": "(cd custom-bootstrap && npm start)",
     "start-all": "node_modules/npm-run-all/bin/run-p/index.js start start:*",
-    "build": "react-scripts build",
+    "build": "(cd custom-bootstrap && npm run build) && react-scripts build",
     "eject": "react-scripts eject",
     "deploy": "deploy.js",
     "install": "(cd custom-bootstrap && npm install)"
