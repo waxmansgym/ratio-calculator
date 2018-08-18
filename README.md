@@ -13,7 +13,7 @@ This calculator is web application built in [React](https://facebook.github.io/r
 - Start the development server by running `npm run start-all`. This will run both the React build toolchain as well as the custom-boostrap less toolchain in parallel.
 - Compile an optimized build with `npm run build`, and then upload the entire build directory to your web host.
 
-- The main app is in App.js, but most of the fun happens in the `AccessoryResults` class in `src/components/accessoryresults.js`.
+- The main app is in App.js, but most of the fun happens in the `AccessoryResults` class in `src/components/accessoryresults.js`, and `BaseResults` in `src/components/baseresults.js`.
 - The style definition is in the `custom-bootstrap` subclass, with all relevant overrides in `index.less`.
 
 ## CI/CD
