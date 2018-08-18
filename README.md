@@ -14,3 +14,9 @@ This calculator is web application built in [React](https://facebook.github.io/r
 - The main app is in App.js, but most of the fun happens in the `AccessoryResults` class in `src/components/accessoryresults.js`.
 - The style definition is in the `custom-bootstrap` subclass, with all relevant overrides in `index.less`.
 
+## CI/CD
+
+- Builds are automatically created and deployed by Travis-CI to Amazon S3
+- Builds can be monitored here [https://travis-ci.org/waxmansgym/ratio-calculator](https://travis-ci.org/waxmansgym/ratio-calculator)
+- Builds can be previewed here: [http://ratio-calculator.s3-website-us-east-1.amazonaws.com/](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/)
+- Builds can be downloaded here: [http://ratio-calculator.s3-website-us-east-1.amazonaws.com/ratio-calculator.zip](http://ratio-calculator.s3-website-us-east-1.amazonaws.com/ratio-calculator.zip)
