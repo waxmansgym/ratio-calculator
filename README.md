@@ -13,3 +13,4 @@ This calculator is web application built in [React](https://facebook.github.io/r
 
 - The main app is in App.js, but most of the fun happens in the `AccessoryResults` class in `src/components/accessoryresults.js`.
 - The style definition is in the `custom-bootstrap` subclass, with all relevant overrides in `index.less`.
+
