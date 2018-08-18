@@ -4,10 +4,10 @@ install:
 script:
     - npm run build
     - zip -r ratio-calculator.zip build/
-# addons:
-#     artifacts:
-#         paths:
-#             - ./ratio-calculator.zip
+addons:
+    artifacts:
+        paths:
+            - ./ratio-calculator.zip
 deploy:
     provider: s3
     access_key_id: $ARTIFACTS_KEY
