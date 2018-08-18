@@ -3,7 +3,8 @@ install:
     - npm install
 script:
     - npm run build
+    - zip -r ratio-calculator.zip build/
 addons:
     artifacts:
         paths:
-            - ./build
+            - ./ratio-calculator.zip
