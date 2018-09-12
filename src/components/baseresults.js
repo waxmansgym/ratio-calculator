@@ -79,7 +79,10 @@ class BaseResults extends Component {
                                 strength. Also have a look at the snatch-specific analysis
                                 below for potential insights.</p>
 
-<p>If you need a training program that targets your snatch, check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Snatch program</a>.</P>
+                            <p>If you need a training program that targets your snatch, check 
+                                out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable 
+                                Snatch program</a>.
+                            </p>
 
 
                         </span>);
@@ -130,7 +133,9 @@ class BaseResults extends Component {
                                     You may benefit most in the clean & jerk by improving your strength in the front squat. Also have a look at the clean-specific analysis below for more potential insights.
                                 
 
-<p>If you need a training program that targets your leg strength, including front squats,  check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Leg Strength program</a>.</p>
+                                <p>If you need a training program that targets your leg strength, including front squats,  
+                                check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Leg Strength program</a>.
+                                </p>
 </span>                           
  );
 
