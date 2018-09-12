@@ -79,7 +79,7 @@ class BaseResults extends Component {
                                 strength. Also have a look at the snatch-specific analysis
                                 below for potential insights.</P
 
-<p>If you need a training program that targets your snatch, check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Snatch program</a>.
+<p>If you need a training program that targets your snatch, check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Snatch program</a>.</P>
 
 
                         </span>);
