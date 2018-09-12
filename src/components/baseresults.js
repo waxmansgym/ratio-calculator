@@ -77,7 +77,7 @@ class BaseResults extends Component {
                                 out a knowledgeable coach, to help you prioritize/fix your
                                 technical inefficiencies so you can better harness your
                                 strength. Also have a look at the snatch-specific analysis
-                                below for potential insights.</P
+                                below for potential insights.</p>
 
 <p>If you need a training program that targets your snatch, check out our <a href="https://store.waxmansgym.com/collections/programming-and-downloads">downloadable Snatch program</a>.</P>
 
