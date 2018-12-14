@@ -79,7 +79,7 @@ class BaseResults extends Component {
                                 strength. Also have a look at the snatch-specific analysis
                                 below for potential insights.</p>
 
-                            <p><B>Downloadable training program(s) that may help:<B><BR> <a href="https://store.waxmansgym.com/collections/programming-and-downloads"> 
+                            <p><B>Downloadable training program(s) that may help:<B><BR/> <a href="https://store.waxmansgym.com/collections/programming-and-downloads"> 
                                 Snatch parts 1, 2, and 3</a>.
                             </p>
 
@@ -110,7 +110,7 @@ class BaseResults extends Component {
                                         prioritize/fix your technical inefficiencies so you can better harness your strength. Also look at the clean-specific analysis below for potential insights.
                                     </p>
                                     <p>
-                                     <B>Downloadable training program(s) that may help:<B><BR> <a href="https://store.waxmansgym.com/collections/programming-and-downloads">Clean & Jerk parts 1, 2, and 3</a>.   
+                                     <B>Downloadable training program(s) that may help:<B><BR/> <a href="https://store.waxmansgym.com/collections/programming-and-downloads">Clean & Jerk parts 1, 2, and 3</a>.   
                                     </p>
                                 </span>
                             );
@@ -132,7 +132,7 @@ class BaseResults extends Component {
                                     You may benefit most in the clean & jerk by improving your strength in the front squat. Also have a look at the clean-specific analysis below for more potential insights.
                                 
 
-                                <p><B>Downloadable training program(s) that may help:<B><BR> <a href="https://store.waxmansgym.com/collections/programming-and-downloads">Leg Strength program</a>.
+                                <p><B>Downloadable training program(s) that may help:<B><BR/> <a href="https://store.waxmansgym.com/collections/programming-and-downloads">Leg Strength program</a>.
                                 </p>
 </span>                           
  );
